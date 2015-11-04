@@ -3,34 +3,34 @@ common: &common
   repo_project_name: ABF
   anonymous_access: true
   preregistration: false
-  file_store_url: 'http://file-store.rosalinux.ru'
+  file_store_url: <%= ENV["FILE_STORE_URL"] %>
   distr_types: ['mdv', 'rhel', 'nau5']
   allowed_addresses:
-    - 127.0.0.100
+    - 127.0.0.1
   abf_worker:
-    publish_workers_count: 2
+    publish_workers_count: <%= ENV["ABF_WORKER_PUBLISH_WORKERS_COUNT"] %>
     log_server:
-      host: 127.0.0.1
-      port: 6379
+      host: <%= ENV["ABF_WORKER_LOG_SERVER_HOST"] %>
+      port: <%= ENV["ABF_WORKER_LOG_SERVER_PORT"] %>
   keys:
-    key_pair_secret_key: 'key_pair_secret_key'
-    node_instruction_secret_key: 'node_instruction_secret_key'
-    airbrake_api_key: 'airbrake_api_key'
-    secret_token: 'secret_token'
-    secret_key_base: 'secret_key_base'
+    key_pair_secret_key: <%= ENV["KEY_PAIR_SECRET_KEY"] %>
+    node_instruction_secret_key: <%= ENV["NODE_INSTRUCTION_SECRET_KEY"] %>
+    airbrake_api_key: <%= ENV["AIRBRAKE_API_KEY"] %>
+    secret_token: <%= ENV["SECRET_TOKEN"] %>
+    secret_key_base: <%= ENV["SECRET_KEY_BASE"] %>
     devise:
-      pepper: 'devise_pepper'
-      secret: 'devise_secret'
+      pepper: <%= ENV["DEVISE_PEPPER"] %>
+      secret: <%= ENV["DEVISE_SECRET"] %>
     github:
-      id: 'APP_ID'
-      secret: 'APP_SECRET'
+      id: <%= ENV["GITHUB_APP_ID"] %>
+      secret: <%= ENV["GITHUB_APP_SECRET"] %>
     google:
-      id: 'APP_ID'
-      secret: 'APP_SECRET'
+      id: <%= ENV["GOOGLE_APP_ID"] %>
+      secret: <%= ENV["GOOGLE_APP_SECRET"] %>
     facebook:
-      id: 'APP_ID'
-      secret: 'APP_SECRET'
-  downloads_url: 'http://abf-downloads.rosalinux.ru'
+      id: <%= ENV["FACEBOOK_APP_ID"] %>
+      secret: <%= ENV["FACEBOOK_APP_SECRET"] %>
+  downloads_url: <%= ENV["DOWNLOADS_URL"] %>
   wiki_formats:
     markdown:  "Markdown"
     textile:   "Textile"
@@ -40,20 +40,12 @@ common: &common
     # mediawiki: "MediaWiki"
   feedback:
     email:
-      - 'test@example.com'
-      - 'test1@example.com'
-    # or
-    # email: 'test@example.com'
-
-    # optional parameters
+      - <%= ENV["FEEDBACK_EMAIL"] %>
     cc:
-      - 'test2@example.com' # or like email
-    bcc:
-      - 'test3@example.com' # or like email
-    subject_prefixes: # or one line
-      - 'from_feedback'
-    subject_postfixes: # or one line
-      - 'sample_postfix'
+      - <%= ENV["FEEDBACK_CC"] %>
+    subject_prefixes:
+      - 'abf-users'
+      - 'feeback_form'
   shell_user: 'git'
 
 development:
@@ -68,14 +60,14 @@ development:
 
 production:
   <<: *common
-  root_path: /share
-  git_path: /mnt/gitstore
-  tmpfs_path: /dev/shm
-  do-not-reply-email: do-not-reply@abf.rosalinux.ru
-  mailer_https_url: false
+  root_path: <%= ENV["ROOT_PATH"] %>
+  git_path: <%= ENV["GIT_PATH"] %>
+  tmpfs_path: <%= ENV["TMPFS_PATH"] %>
+  do-not-reply-email: <%= ENV["DO_NOT_REPLY_EMAIL"] %>
+  mailer_https_url: <%= ENV["MAILER_HTTPS_URL"] %>
   github_services:
-    ip: 127.0.0.1
-    port: 1234
+    ip: <%= ENV["GITHUB_SERVICES_ID"] %>
+    port: <%= ENV["GITHUB_SERVICES_PORT"] %>
 
 test:
   <<: *common

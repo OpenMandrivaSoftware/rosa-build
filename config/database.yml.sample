@@ -1,12 +1,13 @@
 production:
   adapter: postgresql
   encoding: unicode
-  database: rosa_build
+  database: <%= ENV["DATABASE_NAME"] %>
   template: template0
-  pool: 5
-  username: rosa
-  password: rosa
-  host: localhost
+  host: <%= ENV["DATABASE_HOST"] %>
+  username: <%= ENV["DATABASE_USERNAME"] %>
+  password: <%= ENV["DATABASE_PASSWORD"] %>
+  pool: <%= ENV["DATABASE_POOL"] %>
+  timeout: <%= ENV["DATABASE_TIMEOUT"] %>
 
 test:
   adapter: postgresql
