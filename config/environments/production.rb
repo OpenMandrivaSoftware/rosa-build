@@ -52,7 +52,7 @@ Rails.application.configure do
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
-  config.cache_store = :redis_store, '<%= ENV["REDIS_URL"] %>', { expires_in: 10.minutes }
+  config.cache_store = (ENV["REDIS_URL"] + '/cache'), { expires_in: 10.minutes }
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = "http://assets.example.com"
@@ -63,7 +63,7 @@ Rails.application.configure do
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = { host: '<%= ENV["HOST_URL"] %>' }
+  config.action_mailer.default_url_options = { host: ENV["HOST_URL"] }
   config.delivery_method = :sendmail
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
