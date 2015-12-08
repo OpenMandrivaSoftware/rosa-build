@@ -369,8 +369,8 @@ Rails.application.routes.draw do
       patch '/sections' => 'projects#sections'
       delete '/remove_user' => 'projects#remove_user', as: :remove_user_project
       # constraints treeish: /[\w\-\.]+(\/[\w\-\.]+)?/ do
-      constraints project_name: /.+/ do
-        get '/' => 'project#project_page'
+      constraints treeish: /.+/ do
+        get '/' => 'projects#project_page'
       end
     end
   end
