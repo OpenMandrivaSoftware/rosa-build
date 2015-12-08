@@ -67,5 +67,6 @@ module Rosa
     config.log_redis = false
 
     config.angular_templates.ignore_prefix = 'angularjs/templates/'
+    config.web_console.whitelisted_ips = '192.168.0.0/16'
   end
 end
