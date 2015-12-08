@@ -23,11 +23,6 @@ class Projects::ProjectsController < Projects::BaseController
     end
   end
 
-  def project_page
-    authorize :project
-    console
-  end
-
   def new
     authorize :project
     @project = Project.new
