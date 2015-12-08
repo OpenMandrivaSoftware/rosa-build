@@ -8,7 +8,6 @@ class Projects::ProjectsController < Projects::BaseController
   def index
     authorize :project
     @projects = ProjectPolicy::Scope.new(current_user, Project).membered.search(params[:search])
-    console
     respond_to do |format|
       format.html {
         @groups = current_user.groups
