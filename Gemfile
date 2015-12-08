@@ -100,6 +100,7 @@ source 'https://rails-assets.org' do
 end
 
 gem 'rack-utf8_sanitizer'
+gem 'web-console', '~> 2.0'
 
 group :production do
   gem 'airbrake'

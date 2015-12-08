@@ -26,6 +26,7 @@ class Projects::ProjectsController < Projects::BaseController
   def new
     authorize :project
     @project = Project.new
+    console
   end
 
   def mass_import
