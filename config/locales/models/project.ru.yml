@@ -71,6 +71,9 @@ ru:
       create_repository: Создание репозитория
       move_files_to_folder: Переместите нужные файлы в проект или создайте их.
       existing_git_repo: Git репозиторий уже существует?
+      only_personal_error: Этот проект не принадлежит никакой основной архитектуре
+      no_github_repo_error: Этот проект не существует в %{organization} на 
+      github_link: Ссылка на Гитхабе
 
       diff_show_header: "%{files} с %{additions} и %{deletions}."
       about_subheader:  "О проекте"

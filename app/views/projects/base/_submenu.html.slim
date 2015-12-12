@@ -1,5 +1,7 @@
 - content_for :submenu do
   - act = action_name.to_sym; contr = controller_name.to_sym; treeish = @project.default_head(params[:treeish])
+  - github_success = @project.github_data != nil
+  - github_base_url = @project.github_data.html_url unless not github_success
   nav.navbar.navbar-default role='navigation'
     .container-fluid ng-cloak = true
       / Brand and toggle get grouped for better mobile display
@@ -17,38 +19,31 @@
       / Collect the nav links, forms, and other content for toggling
       #submenu-navbar-collapse.collapse.navbar-collapse
         ul.nav.navbar-nav.left-border
-          - if @project.parent
-            - is_alias = @project.alias_from_id.present?
-            - tooltip_title = t(".tooltips.#{is_alias ? 'alias' : 'fork' }", name: @project.parent.name_with_owner)
-            li data-toggle='tooltip' data-placement='bottom' title=tooltip_title
-              = link_to project_path(@project.parent), class: 'small' do
-                - if is_alias
-                  = fa_icon 'share-alt'
-                - else
-                  = fa_icon 'code-fork'
-                =< @project.parent.name_with_owner
-          li class=('active' if act.in?([:show, :edit, :branches, :tags]) && contr.in?([:trees, :blobs]) || contr == :commits)
-            a href=tree_path(@project, treeish)
+          li class=('active' if act == :index && contr == :project)
+            a href=("/"+@project.name_with_owner)
               i.fa.fa-files-o>
-              = t('project_menu.code')
+              = t("project_menu.project")
           - if @project.is_package
             li class=('active' if contr == :build_lists)
               a href=project_build_lists_path(@project)
                 i.fa.fa-cogs>
                 = t('project_menu.builds')
 
-          - if @project.has_issues
-            li class=('active' if contr == :issues && act == :index)
-              a href=project_issues_path(@project)
+          - if github_success and @project.github_data.has_issues
+            li
+              a href=(github_base_url + "/issues") target="_blank"
                 i.fa.fa-exclamation-circle>
-                = t('project_menu.tracker', count: @opened_issues_count)
-          li class=('active' if contr == :issues && act == :pull_requests)
-            a href=project_pull_requests_path(@project)
-              i.fa.fa-tasks>
-              = t('project_menu.pull_requests', count: @opened_pull_requests_count)
-          - if @project.has_wiki
-            li class=('active' if contr == :wiki)
-              = link_to t('project_menu.wiki'), project_wiki_index_path(@project)
+                = t('project_menu.tracker', count: @project.github_data.open_issues_count)
+          - if github_success
+            li
+              a href=(github_base_url + "/pulls") target="_blank"
+                i.fa.fa-tasks>
+                = t('project_menu.pull_requests')
+          - if github_success and @project.github_data.has_wiki
+            li
+              a href=(github_base_url + "/wiki") target="_blank"
+                i.fa.fa-book>
+                = t('project_menu.wiki')
           / li
           /   = link_to t('project_menu.readme'), '#' #pending
           - if policy(@project).update?

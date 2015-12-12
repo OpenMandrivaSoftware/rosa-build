@@ -25,7 +25,7 @@ ru:
     abf_blog_url: http://abf-blog.rosalinux.ru
     abf_ideas: Идеи для ABF
   project_menu:
-    code: Код
+    project: Проект
     files: Файлы
     commits: Коммиты
     branches: Ветки (%{count})
@@ -35,7 +35,7 @@ ru:
     wiki: Wiki
     readme: Readme
     settings: Настройки
-    pull_requests: Пул реквесты (%{count})
+    pull_requests: Пул реквесты
   activity_menu:
     activity_feed: Лента активности
     tracker: Трекер

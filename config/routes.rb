@@ -302,54 +302,11 @@ Rails.application.routes.draw do
     end
     scope '*name_with_owner', name_with_owner: Project::OWNER_AND_NAME_REGEXP do # project
       scope as: 'project' do
-        resources :wiki do
-          collection do
-            match '_history' => 'wiki#wiki_history', as: :history, via: :get
-            match '_access' => 'wiki#git', as: :git, via: :get
-            match '_revert/:sha1/:sha2' => 'wiki#revert_wiki', as: :revert, via: [:get, :post]
-            match '_compare' => 'wiki#compare_wiki', as: :compare, via: :post
-            #match '_compare/:versions' => 'wiki#compare_wiki', versions: /.*/, as: :compare_versions, via: :get
-            match '_compare/:versions' => 'wiki#compare_wiki', versions: /([a-f0-9\^]{6,40})(\.\.\.[a-f0-9\^]{6,40})/, as: :compare_versions, via: :get
-            post :preview
-            get :search
-            get :pages
-          end
-          member do
-            get :history
-            get :edit
-            match 'revert/:sha1/:sha2' => 'wiki#revert', as: :revert_page, via: [:get, :post]
-            match ':ref' => 'wiki#show', as: :versioned, via: :get
-
-            post :compare
-            #match 'compare/*versions' => 'wiki#compare', as: :compare_versions, via: :get
-            match 'compare/:versions' => 'wiki#compare', versions: /([a-f0-9\^]{6,40})(\.\.\.[a-f0-9\^]{6,40})/, as: :compare_versions, via: :get
-          end
-        end
-        resources :issues, except: [:destroy, :edit] do
-          resources :comments, only: [:edit, :create, :update, :destroy]
-          post '/subscribe'     => "subscribes#create", as: :subscribe
-          delete '/unsubscribe' => "subscribes#destroy", as: :unsubscribe
-          collection do
-            post :create_label
-            get :search_collaborators
-          end
-        end
-
-        get  'pull_requests'           => 'issues#pull_requests', as: :pull_requests
-        get  'labels'                  => 'issues#labels',        as: :labels
-        post 'labels/:label_id'        => 'issues#destroy_label', as: :issues_delete_label
-        post 'labels/:label_id/update' => 'issues#update_label',  as: :issues_update_label
-
         resources :build_lists, only: [:index, :new, :create] do
           get :list, on: :collection
         end
         resources :collaborators do
           get :find, on: :collection
-        end
-        resources :hooks, except: :show
-        resources :pull_requests, except: [:index, :destroy] do
-          get :autocomplete_to_project, on: :collection
-          put :merge, on: :member
         end
         post '/preview' => 'projects#preview', as: 'md_preview'
         post 'refs_list' => 'projects#refs_list', as: 'refs_list'
@@ -362,14 +319,16 @@ Rails.application.routes.draw do
       patch '/' => 'projects#update'
       delete '/' => 'projects#destroy'
       # Member
-      post '/fork'  => 'projects#fork',  as: :fork_project
-      post '/alias' => 'projects#alias', as: :alias_project
-      get '/possible_forks' => 'projects#possible_forks', as: :possible_forks_project
-      get '/sections' => 'projects#sections', as: :sections_project
-      patch '/sections' => 'projects#sections'
       delete '/remove_user' => 'projects#remove_user', as: :remove_user_project
 
-      get '/' => 'project/project#index'
+      get '/' => 'project/project#index', as: :project
+      get '/tree' => 'project/project#index', as: :tree
+      get '/tree2' => 'project/project#index', as: :project_issues
+      get '/tree3' => 'project/project#index', as: :project_pull_requests
+      get '/tree4' => 'project/project#index', as: :archive
+      get '/tree5' => 'project/project#index', as: :commits
+      get '/tree6' => 'project/project#index', as: :branch
+      get '/tree7' => 'project/project#index', as: :tags
     end
   end
 

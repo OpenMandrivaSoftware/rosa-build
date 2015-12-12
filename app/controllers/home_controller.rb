@@ -36,53 +36,6 @@ class HomeController < ApplicationController
     activity(true)
   end
 
-  def issues
-    @created_issues  = current_user.issues
-    @assigned_issues = Issue.where(assignee_id: current_user.id)
-    @all_issues = ProjectPolicy::Scope.new(current_user, Issue).membered.uniq.joins(:project)
-
-    @created_issues, @assigned_issues, @all_issues =
-      if action_name == 'issues'
-        [@created_issues.without_pull_requests,
-         @assigned_issues.without_pull_requests,
-         @all_issues.without_pull_requests]
-      else
-        [@created_issues.joins(:pull_request),
-         @assigned_issues.joins(:pull_request),
-         @all_issues.joins(:pull_request)]
-      end
-
-    case params[:filter]
-    when 'created'
-      @issues = @created_issues
-    when 'assigned'
-      @issues = @assigned_issues
-    else
-      params[:filter] = 'all' # default
-      @issues = @all_issues
-    end
-    @filter = params[:filter]
-    @opened_issues, @closed_issues = @issues.not_closed_or_merged, @issues.closed_or_merged
-
-    @status = params[:status] == 'closed' ? :closed : :open
-    @issues = @issues.send( (@status == :closed) ? :closed_or_merged : :not_closed_or_merged )
-
-    @sort       = params[:sort] == 'updated' ? :updated : :created
-    @direction  = params[:direction] == 'asc' ? :asc : :desc
-    @issues = @issues.order("issues.#{@sort}_at #{@direction}")
-                     .includes(:assignee, :user, :pull_request).uniq
-                     .paginate page: current_page
-
-    respond_to do |format|
-      format.html { render 'activity' }
-      format.json { render 'issues' }
-    end
-  end
-
-  def pull_requests
-    issues
-  end
-
   def get_owners_list
     if params[:term].present?
       users   =  User.opened.search(params[:term]).first(5)

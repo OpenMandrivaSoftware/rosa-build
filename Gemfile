@@ -102,6 +102,10 @@ end
 gem 'rack-utf8_sanitizer'
 gem 'web-console', '~> 2.0'
 
+#github api
+gem 'github_api'
+gem 'faraday-http-cache'
+
 group :production do
   gem 'airbrake'
   #gem 'bluepill', '~> 0.0.60', require: false

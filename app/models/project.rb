@@ -19,22 +19,13 @@ class Project < ActiveRecord::Base
   belongs_to :owner, polymorphic: true, counter_cache: :own_projects_count
   belongs_to :maintainer, class_name: 'User'
 
-  belongs_to :alias_from, class_name: 'Project'
-  has_many   :aliases,    class_name: 'Project', foreign_key: 'alias_from_id'
-
-  has_many :issues,         dependent: :destroy
-  has_many :pull_requests,  dependent: :destroy, foreign_key: 'to_project_id'
-  has_many :labels,         dependent: :destroy
   has_many :build_scripts,  dependent: :destroy
 
-  has_many :project_imports, dependent: :destroy
   has_many :project_to_repositories, dependent: :destroy
   has_many :repositories, through: :project_to_repositories
-  has_many :project_tags, dependent: :destroy
   has_many :project_statistics, dependent: :destroy
 
   has_many :build_lists, dependent: :destroy
-  has_many :hooks, dependent: :destroy
 
   has_many :relations, as: :target, dependent: :destroy
   has_many :collaborators, through: :relations, source: :actor, source_type: 'User'
@@ -69,11 +60,21 @@ class Project < ActiveRecord::Base
   before_create :set_maintainer
   after_save :attach_to_personal_repository
   after_update -> { update_path_to_project(name_was) }, if: :name_changed?
+  after_find :fetch_github_repo_data
 
-  attr_accessor :url, :srpms_list, :mass_import, :add_to_repository_id
+  attr_accessor :url, :srpms_list, :mass_import, :add_to_repository_id, :github_data
 
   def init_mass_import
     Project.perform_later :low, :run_mass_import, url, srpms_list, visibility, owner, add_to_repository_id
+  end
+
+  def fetch_github_repo_data
+    org = github_organization || APP_CONFIG["github_organization"]
+    begin
+      @github_data = Github.repos.get user: org, repo: name
+    rescue
+      @github_data = nil
+    end
   end
 
   def name_with_owner
@@ -104,6 +105,12 @@ class Project < ActiveRecord::Base
     @platforms ||= repositories.map(&:platform).uniq
   end
 
+  def in_main_platform?
+    platforms.map do |platform|
+      platform.platform_type
+    end.include?('main')
+  end
+  
   def admins
     admins = self.collaborators.where("relations.role = 'admin'")
     grs = self.groups.where("relations.role = 'admin'")
@@ -164,20 +171,6 @@ class Project < ActiveRecord::Base
       bl.external_nodes                 = mass_build.external_nodes
     end
     build_list.save
-  end
-
-  def fork(new_owner, new_name: nil, is_alias: false)
-    new_name = new_name.presence || name
-    dup.tap do |c|
-      c.name          = new_name
-      c.parent_id     = id
-      c.alias_from_id = is_alias ? (alias_from_id || id) : nil
-      c.owner         = new_owner
-      c.updated_at    = nil; c.created_at = nil # :id = nil
-      # Hack to call protected method :)
-      c.send :set_maintainer
-      c.save
-    end
   end
 
   def get_project_tag_sha1(tag, format)

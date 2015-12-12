@@ -25,7 +25,7 @@ en:
     abf_blog_url: http://abf-blog.rosalinux.ru
     abf_ideas: ABF Ideas
   project_menu:
-    code: Code
+    project: Project
     files: Files
     commits: Commits
     branches: Branches (%{count})
@@ -35,7 +35,7 @@ en:
     wiki: Wiki
     readme: Readme
     settings: Settings
-    pull_requests: Pull Requests (%{count})
+    pull_requests: Pull Requests
   activity_menu:
     activity_feed: Activity Feed
     tracker: Tracker

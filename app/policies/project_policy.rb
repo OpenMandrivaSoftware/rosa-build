@@ -77,6 +77,7 @@ class ProjectPolicy < ApplicationPolicy
   def permitted_attributes
     %i(
       add_to_repository_id
+      github_organization
       architecture_dependent
       autostart_status
       default_branch

@@ -70,6 +70,9 @@ en:
       create_repository: Create Repository
       move_files_to_folder: Move files you need to the project or create them.
       existing_git_repo: Git repo already exist?
+      only_personal_error: This project doesn't belong to any main architecture
+      no_github_repo_error: This project doesn't exist in %{organization} on github
+      github_link: Link on Github
 
       git_help:
         cloning: Cloning the repository
