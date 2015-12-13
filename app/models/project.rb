@@ -60,20 +60,19 @@ class Project < ActiveRecord::Base
   before_create :set_maintainer
   after_save :attach_to_personal_repository
   after_update -> { update_path_to_project(name_was) }, if: :name_changed?
-  after_find :fetch_github_repo_data
 
-  attr_accessor :url, :srpms_list, :mass_import, :add_to_repository_id, :github_data
+  attr_accessor :url, :srpms_list, :mass_import, :add_to_repository_id
 
   def init_mass_import
     Project.perform_later :low, :run_mass_import, url, srpms_list, visibility, owner, add_to_repository_id
   end
 
-  def fetch_github_repo_data
+  def github_data
     org = github_organization || APP_CONFIG["github_organization"]
     begin
-      @github_data = Github.repos.get user: org, repo: name
+      Github.repos.get user: org, repo: name
     rescue
-      @github_data = nil
+      nil
     end
   end
 

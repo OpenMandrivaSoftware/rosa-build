@@ -14,7 +14,6 @@ class Projects::BuildListsController < Projects::BaseController
   def index
     authorize :build_list
     params[:filter].each{|k,v| params[:filter].delete(k) if v.blank? } if params[:filter]
-    @project.fetch_github_repo_data unless not @project
 
     respond_to do |format|
       format.html
@@ -43,7 +42,6 @@ class Projects::BuildListsController < Projects::BaseController
 
   def new
     authorize @build_list = @project.build_lists.build
-    @project.fetch_github_repo_data unless not @project
     if params[:show] == 'inline' && params[:build_list_id].present?
       render json: new_build_list_data(@build_list, @project, params), layout: false
     else
