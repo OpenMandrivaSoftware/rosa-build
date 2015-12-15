@@ -18,7 +18,7 @@ module Project::GithubApi
   end
 
   def github_get_organization
-    return APP_CONFIG['github_organization'] if github_organization.empty?
-    github_organization
+    return github_organization if github_organization.presence
+    APP_CONFIG['github_organization']
   end
 end
