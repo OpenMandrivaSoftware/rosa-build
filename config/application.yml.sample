@@ -5,6 +5,7 @@ common: &common
   preregistration: false
   file_store_url: <%= ENV["FILE_STORE_URL"] %>
   distr_types: ['mdv', 'rhel', 'nau5']
+  github_organization: 'OpenMandrivaAssociation'
   allowed_addresses:
     - 127.0.0.1
   abf_worker:
