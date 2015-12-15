@@ -271,10 +271,10 @@ module BuildListsHelper
     branches_kind = I18n.t('layout.git.repositories.branches')
     tags_kind     = I18n.t('layout.git.repositories.tags')
     res = []
-    project.repo.branches.each do |br|
+    project.github_branches.each do |br|
       res << { name: br.name, kind: branches_kind }
     end
-    project.repo.tags.each do |t|
+    project.github_tags.each do |t|
       res << { name: t.name, kind: tags_kind }
     end
     res.sort_by { |e| e[:name] }

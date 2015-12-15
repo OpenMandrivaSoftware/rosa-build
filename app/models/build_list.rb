@@ -87,12 +87,6 @@ class BuildList < ActiveRecord::Base
   before_validation :prepare_extra_build_lists,   on: :create
   before_validation :prepare_extra_params,        on: :create
   before_validation :prepare_auto_publish_status, on: :create
-  after_validation -> {
-    errors.each do |x, y|
-      puts x
-      puts y
-    end
-  }
 
   LIVE_TIME     = 4.week  # for unpublished
   MAX_LIVE_TIME = 3.month # for published

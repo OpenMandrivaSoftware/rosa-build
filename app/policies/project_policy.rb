@@ -14,6 +14,8 @@ class ProjectPolicy < ApplicationPolicy
     return true if record.owner.is_a?(Group) && user_group_ids.include?(record.owner_id)
     local_reader?
   end
+
+  alias_method :commit?,                     :show?
   alias_method :read?,                      :show?
   alias_method :archive?,                   :show?
   alias_method :get_id?,                    :show?

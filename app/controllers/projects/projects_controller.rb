@@ -7,7 +7,6 @@ class Projects::ProjectsController < Projects::BaseController
 
   def index
     authorize :project
-    Project.fetch_github_data_on_find = false
     @projects = ProjectPolicy::Scope.new(current_user, Project).membered.search(params[:search])
     respond_to do |format|
       format.html {

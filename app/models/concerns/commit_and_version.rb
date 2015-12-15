@@ -4,7 +4,7 @@ module CommitAndVersion
   included do
 
     validate -> {
-      if project && (commit_hash.blank? || project.repo.commit(commit_hash).blank?)
+      if project && (commit_hash.blank? || (not project.github_get_commit(commit_hash)))
         errors.add :commit_hash, I18n.t('flash.build_list.wrong_commit_hash', commit_hash: commit_hash)
       end
     }
@@ -17,7 +17,21 @@ module CommitAndVersion
 
   def set_commit_and_version
     if project && project_version.present? && commit_hash.blank?
-      self.commit_hash = project.repo.commits(project_version).try(:first).try(:id)
+      res = ""
+      project.github_branches.each do |br|
+        if br.name == project_version
+          res = br.commit.sha
+        end
+      end
+      if res.empty?
+        project.github_tags.each do |br|
+          if br.name == project_version
+            res = br.commit.sha
+          end
+        end
+      end
+      self.commit_hash = res
+      #self.commit_hash = project.repo.commits(project_version).try(:first).try(:id)
     elsif project_version.blank? && commit_hash.present?
       self.project_version = commit_hash
     end

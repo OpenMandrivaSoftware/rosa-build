@@ -9,6 +9,7 @@ class Project < ActiveRecord::Base
   include EventLoggable
   include Project::DefaultBranch
   include Project::Finders
+  include Project::GithubApi
 
   VISIBILITIES = ['open', 'hidden']
   MAX_OWN_PROJECTS = 32000
@@ -67,15 +68,6 @@ class Project < ActiveRecord::Base
     Project.perform_later :low, :run_mass_import, url, srpms_list, visibility, owner, add_to_repository_id
   end
 
-  def github_data
-    org = github_organization || APP_CONFIG["github_organization"]
-    begin
-      Github.repos.get user: org, repo: name
-    rescue
-      nil
-    end
-  end
-
   def name_with_owner
     "#{owner_uname || owner.uname}/#{name}"
   end
@@ -129,9 +121,10 @@ class Project < ActiveRecord::Base
   end
 
   def git_project_address auth_user
-    opts = default_url_options
-    opts.merge!({user: auth_user.authentication_token, password: ''}) unless self.public?
-    Rails.application.routes.url_helpers.project_url(self.name_with_owner, opts) + '.git'
+    github_data.git_url
+    #opts = default_url_options
+    #opts.merge!({user: auth_user.authentication_token, password: ''}) unless self.public?
+    #Rails.application.routes.url_helpers.project_url(self.name_with_owner, opts) + '.git'
     #path #share by NFS
   end
 

@@ -322,6 +322,8 @@ Rails.application.routes.draw do
       delete '/remove_user' => 'projects#remove_user', as: :remove_user_project
 
       get '/' => 'project/project#index', as: :project
+      get '/commit/:sha' => 'project/project#commit', as: :commit
+
       get '/tree' => 'project/project#index', as: :tree
       get '/tree2' => 'project/project#index', as: :project_issues
       get '/tree3' => 'project/project#index', as: :project_pull_requests
