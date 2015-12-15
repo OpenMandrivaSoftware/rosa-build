@@ -1,4 +1,4 @@
 =render 'submenu'
 .col-xs-12.col-md-10.col-md-offset-1
   .row
-    .alert.alert-danger.text-center=t('layout.projects.no_github_repo_error', organization:@project.github_data || APP_CONFIG['github_organization'])
+    .alert.alert-danger.text-center=t('layout.projects.no_github_repo_error', organization:@project.github_get_organization)
