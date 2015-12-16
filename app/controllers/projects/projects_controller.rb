@@ -33,6 +33,11 @@ class Projects::ProjectsController < Projects::BaseController
     @project = Project.new(mass_import: true)
   end
 
+  def mass_create
+    authorize :project
+    @project = Project.new(mass_create: true)
+  end
+
   def run_mass_import
     @project = Project.new project_params
     @project.owner = choose_owner
@@ -45,6 +50,21 @@ class Projects::ProjectsController < Projects::BaseController
       redirect_to projects_path
     else
       render :mass_import
+    end
+  end
+
+  def run_mass_create
+    @project = Project.new project_params
+    @project.owner = choose_owner
+    authorize @project
+    @project.valid?
+    @project.errors.messages.slice! :url
+    if @project.errors.messages.blank? # We need only url validation
+      @project.init_mass_create
+      flash[:notice] = t('flash.project.mass_create_added_to_queue')
+      redirect_to projects_path
+    else
+      render :mass_create
     end
   end
 

@@ -298,6 +298,8 @@ Rails.application.routes.draw do
       collection do
         post  :run_mass_import
         get   :mass_import
+        post  :run_mass_create
+        get   :mass_create
       end
     end
     scope '*name_with_owner', name_with_owner: Project::OWNER_AND_NAME_REGEXP do # project

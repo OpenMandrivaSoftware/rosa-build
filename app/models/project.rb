@@ -10,6 +10,7 @@ class Project < ActiveRecord::Base
   include Project::DefaultBranch
   include Project::Finders
   include Project::GithubApi
+  include Project::MassCreate
 
   VISIBILITIES = ['open', 'hidden']
   MAX_OWN_PROJECTS = 32000
@@ -41,8 +42,8 @@ class Project < ActiveRecord::Base
                              message: I18n.t("activerecord.errors.project.uname") },
                    length: { maximum: 100 }
   validates :maintainer, presence: true, unless: :new_record?
-  validates :url, presence: true, format: { with: /\Ahttps?:\/\/[\S]+\z/ }, if: :mass_import
-  validates :add_to_repository_id, presence: true, if: :mass_import
+  validates :url, presence: true, format: { with: /\Ahttps?:\/\/[\S]+\z/ }, if: :mass_import or :mass_create
+  validates :add_to_repository_id, presence: true, if: :mass_import or :mass_create
   validates :visibility, presence: true, inclusion: { in: VISIBILITIES }
   validate { errors.add(:base, :can_have_less_or_equal, count: MAX_OWN_PROJECTS) if owner.projects.size >= MAX_OWN_PROJECTS }
   # throws validation error message from ProjectToRepository model into Project model
@@ -62,10 +63,14 @@ class Project < ActiveRecord::Base
   after_save :attach_to_personal_repository
   after_update -> { update_path_to_project(name_was) }, if: :name_changed?
 
-  attr_accessor :url, :srpms_list, :mass_import, :add_to_repository_id
+  attr_accessor :url, :srpms_list, :mass_import, :add_to_repository_id, :mass_create
 
   def init_mass_import
     Project.perform_later :low, :run_mass_import, url, srpms_list, visibility, owner, add_to_repository_id
+  end
+
+  def init_mass_create
+    Project.perform_later :low, :run_mass_create, url, visibility, owner, add_to_repository_id
   end
 
   def name_with_owner

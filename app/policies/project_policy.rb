@@ -56,12 +56,16 @@ class ProjectPolicy < ApplicationPolicy
     is_admin? || user.platforms.main.find{ |p| local_admin?(p) }.present?
   end
 
+  alias_method :mass_create?,                :mass_import?
+
   def run_mass_import?
     return true if is_admin?
     return false unless owner_policy.write?
     repo = Repository.find(record.add_to_repository_id)
     repo.platform.main? && PlatformPolicy.new(user, repo.platform).add_project?
   end
+
+  alias_method :run_mass_create?,           :run_mass_import?
 
   # for grack
   def write?

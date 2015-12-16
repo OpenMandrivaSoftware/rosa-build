@@ -20,6 +20,7 @@ ru:
         owner_name: Владелец проекта
       build_schedule: Расписание сборок
       mass_import: Массовый импорт
+      mass_create: Массовое создание
       branches: Ветки
       delete_branch: Удалить ветку
       restore_branch: Восстановить ветку
@@ -109,6 +110,7 @@ ru:
   flash:
     project:
       mass_import_added_to_queue: Массовый импорт добавлен в очередь
+      mass_create_added_to_queue: Массовый создание добавлено в очередь
       saved: Проект успешно сохранен
       save_error: Не удалось сохранить проект
       save_warning_ssh_key: Владельцу проекта необходимо указать в профиле свой SSH ключ

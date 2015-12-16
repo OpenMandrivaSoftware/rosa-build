@@ -6,6 +6,8 @@
       %p= link_to t('layout.projects.new'), new_project_path, class: 'btn btn-primary'
       - if policy(:project).mass_import?
         %p= link_to t('layout.projects.mass_import'), mass_import_projects_path, class: 'btn btn-primary'
+      - if policy(:project).mass_create?
+        %p= link_to t('layout.projects.mass_create'), mass_create_projects_path, class: 'btn btn-primary'
   %hr.offset10
     %h3=t('layout.relations.filters')
     %ul.nav.nav-pills.nav-stacked
