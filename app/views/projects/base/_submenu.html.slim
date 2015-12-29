@@ -1,5 +1,5 @@
 - content_for :submenu do
-  - act = action_name.to_sym; contr = controller_name.to_sym; treeish = @project.default_head(params[:treeish])
+  - act = action_name.to_sym; contr = controller_name.to_sym;
   - github_success = @project.github_data != nil
   - github_base_url = @project.github_data.html_url unless not github_success
   nav.navbar.navbar-default role='navigation'

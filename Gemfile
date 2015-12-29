@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 gem 'rails'
 
@@ -95,12 +95,11 @@ gem 'sitemap_generator'
 
 gem 'codemirror-rails', '~> 4.5'
 
-source 'https://rails-assets.org' do
+source 'http://rails-assets.org' do
   gem 'rails-assets-notifyjs'
 end
 
 gem 'rack-utf8_sanitizer'
-gem 'web-console', '~> 2.0'
 
 #github api
 gem 'github_api'

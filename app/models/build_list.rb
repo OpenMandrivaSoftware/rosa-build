@@ -562,12 +562,11 @@ class BuildList < ActiveRecord::Base
       include_repos_hash["container_#{bl.id}"] = insert_token_to_path(path, bl.save_to_platform)
     end
 
-    git_project_address = project.git_project_address user
-    # git_project_address.gsub!(/^http:\/\/(0\.0\.0\.0|localhost)\:[\d]+/, 'https://abf.rosalinux.ru') unless Rails.env.production?
-
+    git_project_address = project.git_project_address
 
     cmd_params = {
-      'GIT_PROJECT_ADDRESS'           => git_project_address,
+      'PACKAGE'                       => project.name,
+      'GIT_REPO'                      => git_project_address,
       'COMMIT_HASH'                   => commit_hash,
       'USE_EXTRA_TESTS'               => use_extra_tests?,
       'SAVE_BUILDROOT'                => save_buildroot?,
@@ -584,7 +583,7 @@ class BuildList < ActiveRecord::Base
       sha1 = build_for_platform.cached_chroot(arch.name)
       cmd_params.merge!('CACHED_CHROOT_SHA1' => sha1) if sha1.present?
     end
-    cmd_params = cmd_params.map{ |k, v| "#{k}='#{v}'" }.join(' ')
+    #cmd_params = cmd_params.map{ |k, v| "#{k}='#{v}'" }.join(' ')
 
     {
       id:            id,

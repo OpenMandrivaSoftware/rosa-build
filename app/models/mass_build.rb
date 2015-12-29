@@ -86,6 +86,7 @@ class MassBuild < ActiveRecord::Base
     return unless start
     # later with resque
     arches_list     = arch_names ? Arch.where(name: arch_names.split(', ')) : Arch.all
+
     projects_list.lines.each do |name|
       next if name.blank?
       name.chomp!; name.strip!

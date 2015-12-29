@@ -31,7 +31,6 @@ module CommitAndVersion
         end
       end
       self.commit_hash = res
-      #self.commit_hash = project.repo.commits(project_version).try(:first).try(:id)
     elsif project_version.blank? && commit_hash.present?
       self.project_version = commit_hash
     end

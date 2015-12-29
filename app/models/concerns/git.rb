@@ -34,13 +34,13 @@ module Git
     repo.tags.map(&:name) + repo.branches.map(&:name)
   end
 
-  def find_blob_and_raw_of_spec_file(project_version)
-    blob = repo.tree(project_version).contents.find{ |n| n.is_a?(Grit::Blob) && n.name =~ /.spec$/ }
-    return unless blob
+  #def find_blob_and_raw_of_spec_file(project_version)
+  #  blob = repo.tree(project_version).contents.find{ |n| n.is_a?(Grit::Blob) && n.name =~ /.spec$/ }
+  #  return unless blob
 
-    raw = Grit::GitRuby::Repository.new(repo.path).get_raw_object_by_sha1(blob.id)
-    [blob, raw]
-  end
+  #  raw = Grit::GitRuby::Repository.new(repo.path).get_raw_object_by_sha1(blob.id)
+  #  [blob, raw]
+  #end
 
   def create_branch(new_ref, from_ref, user)
     return false if new_ref.blank? || from_ref.blank? || !(from_commit = repo.commit(from_ref))

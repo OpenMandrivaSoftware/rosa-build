@@ -61,7 +61,6 @@ class Project < ActiveRecord::Base
   before_save -> { self.owner_uname = owner.uname if owner_uname.blank? || owner_id_changed? || owner_type_changed? }
   before_create :set_maintainer
   after_save :attach_to_personal_repository
-  after_update -> { update_path_to_project(name_was) }, if: :name_changed?
 
   attr_accessor :url, :srpms_list, :mass_import, :add_to_repository_id, :mass_create
 
@@ -101,12 +100,6 @@ class Project < ActiveRecord::Base
     @platforms ||= repositories.map(&:platform).uniq
   end
 
-  def in_main_platform?
-    platforms.map do |platform|
-      platform.platform_type
-    end.include?('main')
-  end
-  
   def admins
     admins = self.collaborators.where("relations.role = 'admin'")
     grs = self.groups.where("relations.role = 'admin'")
@@ -125,12 +118,8 @@ class Project < ActiveRecord::Base
     owner == user
   end
 
-  def git_project_address auth_user
-    github_data.git_url
-    #opts = default_url_options
-    #opts.merge!({user: auth_user.authentication_token, password: ''}) unless self.public?
-    #Rails.application.routes.url_helpers.project_url(self.name_with_owner, opts) + '.git'
-    #path #share by NFS
+  def git_project_address
+    "git://github.com/" + github_get_organization + "/" + name + ".git"
   end
 
   def build_for(mass_build, repository_id, arch =  Arch.find_by(name: 'i586'), priority = 0, increase_rt = false)
@@ -168,30 +157,6 @@ class Project < ActiveRecord::Base
       bl.external_nodes                 = mass_build.external_nodes
     end
     build_list.save
-  end
-
-  def get_project_tag_sha1(tag, format)
-    format_id = ProjectTag::FORMATS["#{tag_file_format(format)}"]
-    project_tag = project_tags.where(tag_name: tag.name, format_id: format_id).first
-
-    return project_tag.sha1 if project_tag && project_tag.commit_id == tag.commit.id && FileStoreService::File.new(sha1: project_tag.sha1).exist?
-
-    archive = archive_by_treeish_and_format tag.name, format
-    sha1    = FileStoreService::File.new(data: archive).save
-    return nil if sha1.blank?
-
-    if project_tag
-      project_tag.destroy_files_from_file_store(project_tag.sha1)
-      project_tag.update_attributes(sha1: sha1)
-    else
-      project_tags.create(
-        tag_name:  tag.name,
-        format_id: format_id,
-        commit_id: tag.commit.id,
-        sha1:      sha1
-      )
-    end
-    return sha1
   end
 
   def archive_by_treeish_and_format(treeish, format)
@@ -318,26 +283,5 @@ class Project < ActiveRecord::Base
       self.maintainer_id = (owner_type == 'User') ? self.owner_id : self.owner.owner_id
     end
   end
-
-  def update_path_to_project(old_name)
-    new_name, new_path = name, path
-    self.name = old_name
-    old_path  = path
-    self.name = new_name
-    FileUtils.mv old_path, new_path, force: true if Dir.exists?(old_path)
-
-    pull_requests_old_path = File.join(APP_CONFIG['git_path'], 'pull_requests', owner.uname, old_name)
-    if Dir.exists?(pull_requests_old_path)
-      FileUtils.mv  pull_requests_old_path,
-                    File.join(APP_CONFIG['git_path'], 'pull_requests', owner.uname, new_name),
-                    force: true
-    end
-
-    PullRequest.where(from_project_id: id).update_all(from_project_name: new_name)
-
-    PullRequest.where(from_project_id: id).each{ |p| p.update_relations(old_name) }
-    pull_requests.where('from_project_id != to_project_id').each(&:update_relations)
-  end
-  later :update_path_to_project, queue: :middle
 
 end
