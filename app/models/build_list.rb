@@ -618,7 +618,7 @@ class BuildList < ActiveRecord::Base
   end
 
   def self.next_build_from_queue(set, arch_ids, platform_ids)
-    kind_id = Redis.current.spop(set)
+    kind_id = Redis.current.spop(set).to_i
     key     =
       case set
       when USER_BUILDS_SET
@@ -630,7 +630,7 @@ class BuildList < ActiveRecord::Base
     task = Resque.pop(key) if key
 
     if task || Redis.current.llen("resque:queue:#{key}") > 0
-      Redis.current.sadd(set, kind_id)
+      Redis.current.sadd(set, kind_id.to_s)
     end
 
     build_list = BuildList.where(id: task['args'][0]['id']).first if task
