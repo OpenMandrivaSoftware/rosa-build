@@ -129,6 +129,10 @@ row[ ng-controller='BuildListController'
           td= @build_list.arch.name
 
         tr
+          td= t('activerecord.attributes.build_list.hostname')
+          td= @build_list.hostname
+
+        tr
           td= t('activerecord.attributes.build_list.updated_at')
           td
             | {{build_list.updated_at_utc}}

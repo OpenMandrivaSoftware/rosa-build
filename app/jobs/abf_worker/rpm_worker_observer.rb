@@ -30,6 +30,15 @@ module AbfWorker
         return
       end
 
+      if options['hostname']
+        subject.update_attribute(:hostname, options['hostname'])
+      end
+
+      if options['commit_hash']
+        item.update_attribute(:version, options['commit_hash'])
+        subject.update_attribute(:commit_hash, options['commit_hash'])
+      end
+
       rerunning_tests = subject.rerunning_tests?
 
       case status
@@ -69,7 +78,7 @@ module AbfWorker
 
     def find_or_create_item
       subject.items.first || subject.items.create({
-        version: subject.commit_hash,
+        version: '',
         name: subject.project.name,
         status: BuildList::BUILD_STARTED,
         level: 0

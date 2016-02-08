@@ -21,6 +21,7 @@ en:
         arch_id: Architecture
         arch_short: Arch
         arch: Architecture
+        hostname: Hostname
         new_core: New core
         is_circle: Recurrent build
         updated_at: Notified at

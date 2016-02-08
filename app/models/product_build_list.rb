@@ -1,5 +1,4 @@
 class ProductBuildList < ActiveRecord::Base
-  include CommitAndVersion
   include TimeLiving
   include FileStoreClean
   include UrlHelper
@@ -12,18 +11,14 @@ class ProductBuildList < ActiveRecord::Base
 
   belongs_to :product
   belongs_to :project
-  belongs_to :arch
   belongs_to :user
 
-  # see: Issue #6
-  before_validation -> { self.arch_id = Arch.find_by(name: 'x86_64').id }, on: :create
   # field "not_delete" can be changed only if build has been completed
   before_validation -> { self.not_delete = false unless build_completed?; true }
 
   validates :product, :product_id,
             :project, :project_id,
             :main_script,
-            :arch,    :arch_id,
             presence: true
   validates :main_script, :params, length: { maximum: 255 }
 

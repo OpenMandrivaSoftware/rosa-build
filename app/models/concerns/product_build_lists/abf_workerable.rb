@@ -42,8 +42,7 @@ module ProductBuildLists::AbfWorkerable
       main_script:  main_script,
       platform: {
         type: product.platform.distrib_type,
-        name: product.platform.name,
-        arch: arch.name
+        name: product.platform.name
       },
       user: {uname: user.try(:uname), email: user.try(:email)}
     }
@@ -53,15 +52,7 @@ module ProductBuildLists::AbfWorkerable
   #
   # Returns the String.
   def abf_worker_srcpath
-    file_name = "#{project.name}-#{commit_hash}"
-    opts      = default_url_options
-    opts.merge!({user: user.authentication_token, password: ''}) if user.present?
-    url_helpers.archive_url(
-      project.name_with_owner,
-      file_name,
-      'tar.gz',
-      opts
-    )
+    "https://github.com/" + project.github_get_organization + "/" + project.name + "/archive/" + project_version + ".tar.gz"
   end
 
   # Private: Get params for ABF worker task.
@@ -71,8 +62,7 @@ module ProductBuildLists::AbfWorkerable
     p = {
       'BUILD_ID'        => id,
       'PROJECT'         => project.name_with_owner,
-      'PROJECT_VERSION' => project_version,
-      'COMMIT_HASH'     => commit_hash,
+      'PROJECT_VERSION' => project_version
     }
     if product.platform.hidden?
       token = product.platform.tokens.by_active.where(description: CACHED_CHROOT_TOKEN_DESCRIPTION).first

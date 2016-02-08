@@ -57,6 +57,7 @@ class Platforms::ProductBuildListsController < Platforms::BaseController
       flash[:notice] = t('flash.product.build_started')
       redirect_to [@platform, @product]
     else
+      puts pbl.errors.messages
       flash[:error] = t('flash.product.build_error')
       @product_build_list = pbl
       render action: :new

@@ -567,7 +567,7 @@ class BuildList < ActiveRecord::Base
     cmd_params = {
       'PACKAGE'                       => project.name,
       'GIT_REPO'                      => git_project_address,
-      'COMMIT_HASH'                   => commit_hash,
+      'PROJECT_VERSION'               => project_version,
       'USE_EXTRA_TESTS'               => use_extra_tests?,
       'SAVE_BUILDROOT'                => save_buildroot?,
       'EXTRA_CFG_OPTIONS'             => extra_params['cfg_options'],

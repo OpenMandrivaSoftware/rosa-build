@@ -502,7 +502,7 @@ GEM
       sexp_processor (~> 4.1)
     rufus-scheduler (2.0.24)
       tzinfo (>= 0.3.22)
-    rugged (0.21.4)
+    rugged (0.21.0)
     russian (0.6.0)
       i18n (>= 0.5.0)
     rvm-capistrano (1.5.6)

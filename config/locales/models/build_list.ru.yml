@@ -20,6 +20,7 @@ ru:
         project: Проект
         arch_id: Архитектура
         arch: Архитектура
+        hostname: Хост
         arch_short: Архит-ра
         new_core: Новое ядро
         is_circle: Циклическая сборка
