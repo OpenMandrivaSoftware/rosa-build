@@ -325,14 +325,7 @@ Rails.application.routes.draw do
 
       get '/' => 'project/project#index', as: :project
       get '/commit/:sha' => 'project/project#commit', as: :commit
-
-      get '/tree' => 'project/project#index', as: :tree
-      get '/tree2' => 'project/project#index', as: :project_issues
-      get '/tree3' => 'project/project#index', as: :project_pull_requests
-      get '/tree4' => 'project/project#index', as: :archive
-      get '/tree5' => 'project/project#index', as: :commits
-      get '/tree6' => 'project/project#index', as: :branch
-      get '/tree7' => 'project/project#index', as: :tags
+      get '/diff/:diff' => 'project/project#diff', as: :diff, format: false, diff: /.*/
     end
   end
 

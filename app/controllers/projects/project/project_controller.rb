@@ -4,6 +4,10 @@ class Projects::Project::ProjectController < Projects::Project::BaseController
   end
 
   def commit
-    redirect_to @project.github_data.html_url + "/commit/" + params[:sha]
+    redirect_to 'https://github.com/' + @project.github_get_organization + '/' + @project.name + '/commit/' + params[:sha]
+  end
+
+  def diff
+	redirect_to 'https://github.com/' + @project.github_get_organization + '/' + @project.name + '/commit/' + params[:diff]
   end
 end
