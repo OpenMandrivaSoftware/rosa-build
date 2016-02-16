@@ -8,6 +8,6 @@ class Projects::Project::ProjectController < Projects::Project::BaseController
   end
 
   def diff
-	redirect_to 'https://github.com/' + @project.github_get_organization + '/' + @project.name + '/commit/' + params[:diff]
+	redirect_to 'https://github.com/' + @project.github_get_organization + '/' + @project.name + '/compare/' + params[:diff]
   end
 end
