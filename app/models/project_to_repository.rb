@@ -31,7 +31,7 @@ class ProjectToRepository < ActiveRecord::Base
   end
 
   def one_project_in_platform_repositories
-    if Project.joins(repositories: :platform).where('platforms.id = ?', repository.platform_id).by_name(project.name).exists?
+    if Project.joins(repositories: :platform).where('platforms.id = ?', repository.platform_id).where(:name => project.name).exists?
       errors.add(:base, I18n.t('activerecord.errors.project_to_repository.project'))
     end
   end
