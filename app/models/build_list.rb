@@ -178,7 +178,7 @@ class BuildList < ActiveRecord::Base
   serialize :extra_build_lists,   Array
   serialize :extra_params,        Hash
 
-  after_create  :place_build
+  after_commit  :place_build, on: :create
   after_destroy :remove_container
 
   state_machine :status, initial: :waiting_for_response do

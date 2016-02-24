@@ -11,7 +11,7 @@ module ProductBuildLists::AbfWorkerable
   included do
     delegate :url_helpers, to: 'Rails.application.routes'
 
-    after_create :add_job_to_abf_worker_queue
+    after_commit :add_job_to_abf_worker_queue, on: :create
   end
 
 
