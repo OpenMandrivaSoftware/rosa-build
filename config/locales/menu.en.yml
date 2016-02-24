@@ -11,19 +11,13 @@ en:
     advisories: Advisories
     statistics: Statistics
   bottom_menu:
-    copyright: ROSA Lab © %{year}
+    copyright: OMV © %{year}
     about: About the company
-    about_url: http://www.rosalab.com/about
+    about_url: https://www.openmandriva.org/About?lang=en
     contacts: Contacts
-    contacts_url: http://www.rosalab.com/about/contacts
+    contacts_url: https://www.openmandriva.org/Join-contribute?lang=en
     tos: Terms Of Service
-    tos_url: http://www.rosalab.com/about
     support: Support
-    developer_api: Developer API
-    developer_api_url: http://abf-doc.rosalinux.ru
-    abf_blog: ABF Blog
-    abf_blog_url: http://abf-blog.rosalinux.ru
-    abf_ideas: ABF Ideas
   project_menu:
     project: Project
     files: Files
