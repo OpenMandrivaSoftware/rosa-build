@@ -30,7 +30,7 @@ var BuildList = function(atts, dictionary) {
   if (self.project) {
     self.project.name_with_owner = self.project.owner + '/' + self.project.name;
     if (self.last_published_commit_hash) {
-      self.version_link_text  = self.last_published_commit_hash + '...' + self.commit_hash;
+      self.version_link_text  = self.last_published_commit_hash + '...' + (self.commit_hash || self.project_version) );
       self.version_link_url   = Routes.diff_path(self.project.name_with_owner, self.version_link_text);
     } else {
       self.version_link_text  = self.commit_hash || self.project_version;
