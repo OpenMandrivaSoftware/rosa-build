@@ -225,5 +225,5 @@ en:
       frozen_platform: In case of a repository for package storage with frozen platform allowed only bugfix and security updates
       wrong_include_repos: Include repos have to belongs to build for platform
       wrong_commit_hash: "Unable find commit '%{commit_hash}' in project"
-      not_all_build_lists_success: 'Project has been builded successfully not for all default arches'
+      not_all_build_lists_success: 'Project has been built successfully not for all default arches'
       dependent_projects_job_added_to_queue: Task for creation of build lists has been added to queue.
