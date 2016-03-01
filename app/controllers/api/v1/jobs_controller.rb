@@ -8,17 +8,17 @@ class Api::V1::JobsController < Api::V1::BaseController
   skip_after_action :verify_authorized
 
   def shift
-    @build_list = BuildList.next_build(arch_ids, platform_ids) if current_user.system?
-    if @build_list
-      set_builder
-    else
-      build_lists = BuildList.scoped_to_arch(arch_ids).
-        for_status([BuildList::BUILD_PENDING, BuildList::RERUN_TESTS]).
-        for_platform(platform_ids).
-        oldest.order(:created_at)
+    uid = BuildList.scoped_to_arch(arch_ids).
+      for_status([BuildList::BUILD_PENDING, BuildList::RERUN_TESTS]).
+      for_platform(platform_ids).pluck('DISTINCT user_id').sample
+
+    if uid
+      build_lists = BuildList.for_status([BuildList::BUILD_PENDING, BuildList::RERUN_TESTS]).
+        where(user_id: uid).oldest.order(:created_at)
 
       ActiveRecord::Base.transaction do
         if current_user.system?
+          @build_list = build_lists.external_nodes("").first
           @build_list ||= build_lists.external_nodes(:everything).first
         else
           @build_list   = build_lists.external_nodes(:owned).for_user(current_user).first

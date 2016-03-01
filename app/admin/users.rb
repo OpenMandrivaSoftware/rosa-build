@@ -7,6 +7,8 @@ ActiveAdmin.register User do
   filter :role, as: :select, collection: User::EXTENDED_ROLES
   filter :created_at
 
+  permit_params :name, :email, :uname, :role, :password, :password_confirmation
+
   controller do
     def update(options={}, &block)
       user_params = params[:user]

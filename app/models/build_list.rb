@@ -183,9 +183,9 @@ class BuildList < ActiveRecord::Base
 
   state_machine :status, initial: :waiting_for_response do
 
-    after_transition(on: [:place_build, :rerun_tests]) do |build_list, transition|
-      build_list.add_job_to_abf_worker_queue if build_list.external_nodes.blank?
-    end
+    #after_transition(on: [:place_build, :rerun_tests]) do |build_list, transition|
+      #build_list.add_job_to_abf_worker_queue if build_list.external_nodes.blank?
+    #end
 
     after_transition on: :published,
       do: %i(set_version_and_tag actualize_packages)
