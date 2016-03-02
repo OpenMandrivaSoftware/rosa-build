@@ -19,7 +19,7 @@ class Api::V1::JobsController < Api::V1::BaseController
 
       ActiveRecord::Base.transaction do
         if current_user.system?
-          @build_list = build_lists.external_nodes("").first
+          @build_list = build_lists.where(external_nodes: ["", nil]).first
           @build_list ||= build_lists.external_nodes(:everything).first
         else
           @build_list   = build_lists.external_nodes(:owned).for_user(current_user).first
