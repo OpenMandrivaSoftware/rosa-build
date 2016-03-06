@@ -44,6 +44,7 @@ ru:
   platform_menu:
     settings: Настройки
   admins_menu_header: ЦУ
+  repoclosure: Repoclosure
   admins_menu:
     users: Пользователи
     register_requests: Инвайты

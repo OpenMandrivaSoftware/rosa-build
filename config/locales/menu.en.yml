@@ -44,6 +44,7 @@ en:
   platform_menu:
     settings: Settings
   admins_menu_header: Admin
+  repoclosure: Repoclosure
   admins_menu:
     users: Users
     register_requests: Invites

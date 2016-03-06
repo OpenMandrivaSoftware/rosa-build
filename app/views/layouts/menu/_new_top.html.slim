@@ -19,9 +19,15 @@ nav.navbar.navbar-inverse.top_menu role = "navigation"
                 i.fa.visible-sm-inline-block.fa-2x class=top_menu_icon(base)
                 span.hidden-sm
                   =< title
+        li
+          a href="http://repoclosure.openmandriva.org"
+            i.fa.hidden-sm                         class="fa-bicycle"
+            i.fa.visible-sm-inline-block.fa-2x     class="fa-bicycle"
+            span.hidden-sm
+              =< t('repoclosure')
         - if current_user.try(:admin?)
           li class=top_menu_class('admin')
-            a href=admin_users_path
+            a href=admin_users_path target="_blank"
               i.fa.fa-lock.hidden-sm
               i.fa.fa-lock.visible-sm-inline-block.fa-2x
               span.hidden-sm
