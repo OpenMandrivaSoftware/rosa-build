@@ -100,6 +100,7 @@ source 'http://rails-assets.org' do
 end
 
 gem 'rack-utf8_sanitizer'
+gem 'redis-semaphore'
 
 #github api
 gem 'github_api'

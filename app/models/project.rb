@@ -1,3 +1,5 @@
+require 'base64'
+
 class Project < ActiveRecord::Base
   has_ancestry orphan_strategy: :adopt # we replace a 'path' method in the Git module
 
@@ -122,7 +124,7 @@ class Project < ActiveRecord::Base
     "git://github.com/" + github_get_organization + "/" + name + ".git"
   end
 
-  def build_for(mass_build, repository_id, arch =  Arch.find_by(name: 'i586'), priority = 0, increase_rt = false)
+  def build_for(mass_build, repository_id, project_version, arch =  Arch.find_by(name: 'i586'), priority = 0)
     build_for_platform  = mass_build.build_for_platform
     save_to_platform    = mass_build.save_to_platform
     user                = mass_build.user
@@ -131,10 +133,6 @@ class Project < ActiveRecord::Base
     # If project platform repository is main, only main will be connect
     main_rep_id = build_for_platform.repositories.main.first.try(:id)
     include_repos = ([main_rep_id] << (save_to_platform.main? ? repository_id : nil)).compact.uniq
-
-    project_version = project_version_for save_to_platform, build_for_platform
-
-    increase_release_tag(project_version, user, "MassBuild##{mass_build.id}: Increase release tag") if increase_rt
 
     build_list = build_lists.build do |bl|
       bl.save_to_platform               = save_to_platform
@@ -233,18 +231,14 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def increase_release_tag(project_version, user, message)
-    blob, raw = find_blob_and_raw_of_spec_file(project_version)
-    return unless blob
-
-    content = self.class.replace_release_tag raw.content
-    return if content == raw.content
-
-    update_file(blob.name, content.gsub("\r", ''),
-      message: message,
-      actor: user,
-      head: project_version
-    )
+  def increase_release_tag(project_version, message)
+    file = Github_blobs_api.get github_get_organization, name, '/' + name + '.spec', ref: project_version rescue return 1
+    decoded_content = Base64.decode64(file.content)
+    new_content = Project.replace_release_tag decoded_content
+    return 1 if new_content == decoded_content
+    Github_blobs_api.update github_get_organization, name, '/' + name + '.spec', path: '/' + name + '.spec',\
+                            message: message, content: new_content, sha: file.sha rescue return 2
+    return 2
   end
 
   protected
