@@ -9,4 +9,4 @@ Github.configure do |c|
 end
 
 #for updating repo contents
-Github_blobs_api = Github::Client::Repos::Contents.new basic_auth: ENV['GITHUB_REPO_BOT_LOGIN'] + ":" + ENV['GITHUB_REPO_BOT_PASSWORD']
+Github_blobs_api = Github::Client::Repos::Contents.new basic_auth: ENV['GITHUB_REPO_BOT_LOGIN'] ":" + ENV['GITHUB_REPO_BOT_PASSWORD']
