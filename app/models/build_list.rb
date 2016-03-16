@@ -394,7 +394,7 @@ class BuildList < ActiveRecord::Base
       source_packages.each do |nsp|
         sp = last_bl.source_packages.find{ |sp| nsp.name == sp.name }
         return true unless sp
-        comparison = nsp.rpmvercmp(sp)
+        comparison = nsp.rpmEVRcmp(sp)
         return true if comparison == 1
         return comparison == 0 && ( !save_to_platform.released? || save_to_platform.distrib_type == 'rhel' )
       end

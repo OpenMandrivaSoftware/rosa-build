@@ -33,8 +33,8 @@ class BuildList::Package < ActiveRecord::Base
   # @param [BuildList::Package] other
   # @return [Number] -1 if +other+ is greater than, 0 if +other+ is equal to,
   #   and +1 if other is less than version.
-  def rpmvercmp(other)
-    RPM::C.rpmvercmp to_vre_epoch_zero, other.to_vre_epoch_zero
+  def rpmEVRcmp(other)
+    RPM::C.rpmEVRcmp to_vre_epoch_zero, other.to_vre_epoch_zero
   end
 
   def self.by_repository(repository, &block)
