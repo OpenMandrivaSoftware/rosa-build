@@ -5,8 +5,6 @@ h4
     i.fa.fa-lock.text-danger>
   a href=project_path(project)
     = project.name_with_owner
-p
-  = project.description
 .help-block
   => t('.updated')
   = time_ago_in_words(project.updated_at)
