@@ -39,10 +39,3 @@ run_extra_mass_builds:
   class: 'RunExtraMassBuildsJob'
   queue: low
   description: 'Run mass builds with relations'
-
-restart_nodes:
-  every:
-    - '5m'
-  class: 'RestartNodesJob'
-  queue: low
-  description: 'Restarts unavailable nodes'
