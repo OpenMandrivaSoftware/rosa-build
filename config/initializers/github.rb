@@ -3,9 +3,6 @@
 Github.configure do |c|
   c.basic_auth = ENV["GITHUB_LOGIN"] + ":" + ENV["GITHUB_PASSWORD"]
   c.auto_pagination = true
-  c.stack = Proc.new do |builder|
-    builder.use Faraday::HttpCache, store: Rails.cache, logger: Rails.logger
-  end
 end
 
 #for updating repo contents
