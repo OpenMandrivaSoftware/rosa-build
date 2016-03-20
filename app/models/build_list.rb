@@ -627,10 +627,8 @@ class BuildList < ActiveRecord::Base
     @valid_branch_for_publish ||= begin
       save_to_platform.personal?                                                ||
       save_to_repository.publish_builds_only_from_branch.blank?                 ||
-      ( project_version == save_to_repository.publish_builds_only_from_branch ) ||
-      project.repo.git.native(:branch, {}, '--contains', commit_hash).
-        gsub(/\*/, '').split(/\n/).map(&:strip).
-        include?(save_to_repository.publish_builds_only_from_branch)
+      ( project_version == save_to_repository.publish_builds_only_from_branch )
+      # TODO: Check branch name for commit hash if all else fails
     end
   end
 
