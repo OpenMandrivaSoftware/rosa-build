@@ -8,7 +8,6 @@ en:
     projects: Projects
     build_lists: Task monitoring
     groups: Groups
-    advisories: Advisories
     statistics: Statistics
   bottom_menu:
     copyright: OMV © %{year}

@@ -7,11 +7,6 @@ gem 'pg'
 gem 'schema_plus'
 ########
 gem 'devise'
-gem 'omniauth'
-gem 'omniauth-facebook'
-gem 'omniauth-google-oauth2'
-gem 'omniauth-github'
-# gem 'omniauth-openid', '~> 1.0.1'
 gem 'pundit'
 
 gem 'ancestry'
@@ -26,23 +21,9 @@ gem 'highline', '~> 1.6.20'
 gem 'state_machines-activerecord'
 gem 'redis-rails'
 
-gem 'grack', git: 'git://github.com/rosa-abf/grack.git', require: 'git_http'
-gem 'grit', git: 'git://github.com/rosa-abf/grit.git', tag: '2.6.17'
 gem 'charlock_holmes'
-gem 'github-linguist', '3.1.5', require: 'linguist'
-gem 'diff-display'
-
-# Wiki
-gem 'gollum-lib', '~> 3.0'
-gem 'redcarpet', '~> 3.3'
-gem 'creole'
-gem 'rdiscount'
-# gem 'org-ruby'
-gem 'RedCloth'
-gem 'wikicloth'
 
 gem 'newrelic_rpm'
-gem 'whenever', require: false
 
 gem 'jbuilder'
 gem 'rails3-jquery-autocomplete'
@@ -65,7 +46,6 @@ gem 'ohm-expire', '~> 0.1.3'
 gem 'ffi'
 
 gem 'attr_encrypted'
-gem 'gemoji'
 
 # AngularJS related stuff
 gem 'underscore-rails'
@@ -85,15 +65,12 @@ gem 'sass-rails'
 gem 'coffee-rails'
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'
-gem 'zeroclipboard-rails'
 
 gem 'compass-rails'
 gem 'uglifier'
 gem 'therubyracer', platforms: [:mri, :rbx]
 gem 'therubyrhino', platforms: :jruby
 gem 'sitemap_generator'
-
-gem 'codemirror-rails', '~> 4.5'
 
 source 'http://rails-assets.org' do
   gem 'rails-assets-notifyjs'
@@ -108,7 +85,6 @@ gem 'faraday-http-cache'
 
 group :production do
   gem 'airbrake'
-  #gem 'bluepill', '~> 0.0.60', require: false
   gem 'puma'
 end
 
@@ -127,7 +103,6 @@ group :development do
   gem 'binding_of_caller'
   gem 'meta_request'
   gem 'localeapp'
-  gem 'skype'
   #gem 'ruby-dbus' if RUBY_PLATFORM =~ /linux/i # Error at deploy
   gem 'rack-mini-profiler', require: false
 end

@@ -19,10 +19,6 @@
       / Collect the nav links, forms, and other content for toggling
       #submenu-navbar-collapse.collapse.navbar-collapse
         ul.nav.navbar-nav.left-border
-          li class=('active' if act == :index && contr == :project)
-            a href=("/"+@project.name_with_owner)
-              i.fa.fa-files-o>
-              = t("project_menu.project")
           - if @project.is_package
             li class=('active' if contr == :build_lists)
               a href=project_build_lists_path(@project)
@@ -44,8 +40,6 @@
               a href=(github_base_url + "/wiki") target="_blank"
                 i.fa.fa-book>
                 = t('project_menu.wiki')
-          / li
-          /   = link_to t('project_menu.readme'), '#' #pending
           - if policy(@project).update?
             li class=('active' if act.in?(%i[edit update sections]) && contr == :projects)
               a href=edit_project_path(@project)

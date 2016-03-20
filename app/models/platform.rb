@@ -41,9 +41,6 @@ class Platform < ActiveRecord::Base
   has_many :actors, as: :target, class_name: 'Relation', dependent: :destroy
   has_many :members, through: :actors, source: :actor, source_type: 'User'
 
-
-  has_and_belongs_to_many :advisories
-
   has_many :packages, class_name: "BuildList::Package", dependent: :destroy
 
   has_many :mass_builds, foreign_key: :save_to_platform_id

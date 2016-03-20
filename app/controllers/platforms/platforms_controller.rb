@@ -2,7 +2,7 @@ class Platforms::PlatformsController < Platforms::BaseController
   include FileStoreHelper
 
   before_action :authenticate_user!
-  skip_before_action :authenticate_user!, only: [:advisories, :members, :show] if APP_CONFIG['anonymous_access']
+  skip_before_action :authenticate_user!, only: [:members, :show] if APP_CONFIG['anonymous_access']
 
   def index
     authorize :platform
@@ -148,11 +148,6 @@ class Platforms::PlatformsController < Platforms::BaseController
       flash[:error] = t('flash.platform.members.error_in_adding', name: member.uname)
     end
     redirect_to members_platform_url(@platform)
-  end
-
-  def advisories
-    authorize @platform
-    @advisories = @platform.advisories.paginate(page: params[:page])
   end
 
   def clear

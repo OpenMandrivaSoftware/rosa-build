@@ -23,7 +23,6 @@ class BuildList::Filter
         else
           BuildListPolicy::Scope.new(@user, build_lists).everything
         end
-      build_lists = build_lists.scoped_to_new_core(@options[:new_core] == '0' ? nil : true) if @options[:new_core].present?
       if @options[:mass_build_id]
         build_lists = build_lists.by_mass_build(@options[:mass_build_id] == '-1' ? nil : @options[:mass_build_id])
       end
@@ -65,8 +64,7 @@ class BuildList::Filter
         project_version:       nil,
         id:                    nil,
         project_name:          nil,
-        mass_build_id:         nil,
-        new_core:              nil
+        mass_build_id:         nil
     }))
 
     @options[:ownership] = @options[:ownership].presence || (@project || !@user ? 'everything' : 'owned')
@@ -84,7 +82,6 @@ class BuildList::Filter
     @options[:id]                    = @options[:id].presence
     @options[:project_name]          = @options[:project_name].presence
     @options[:mass_build_id]         = @options[:mass_build_id].presence
-    @options[:new_core]              = @options[:new_core].presence
   end
 
   def build_date_from_params(field_name, params)

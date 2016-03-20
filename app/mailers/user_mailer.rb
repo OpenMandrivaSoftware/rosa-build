@@ -1,56 +1,10 @@
 class UserMailer < ActionMailer::Base
   add_template_helper ActivityFeedsHelper
-  add_template_helper CommitHelper
 
   default from: "\"#{APP_CONFIG['project_name']}\" <#{APP_CONFIG['do-not-reply-email']}>"
   default_url_options.merge!(protocol: 'https') if APP_CONFIG['mailer_https_url']
 
   include Resque::Mailer # send email async
-
-  def new_user_notification(user)
-    @user = user
-    mail(
-      to:           email_with_name(user, user.email),
-      subject:      I18n.t("notifications.subjects.new_user_notification",
-      project_name: APP_CONFIG['project_name'])
-    ) do |format|
-      format.html
-    end
-  end
-
-  def new_comment_notification(comment, user_id)
-    @user, @comment = User.find(user_id), comment
-    subject = @comment.issue_comment? ? subject_for_issue(@comment.commentable) :
-      I18n.t('notifications.subjects.new_commit_comment_notification')
-    mail(
-      to:      email_with_name(@user, @user.email),
-      subject: subject,
-      from:    email_with_name(comment.user)
-    ) do |format|
-      format.html
-    end
-  end
-
-  def new_issue_notification(issue_id, user_id)
-    @user, @issue = User.find(user_id), Issue.find(issue_id)
-    mail(
-      to:      email_with_name(@user, @user.email),
-      subject: subject_for_issue(@issue, true),
-      from:    email_with_name(@issue.user)
-    ) do |format|
-      format.html
-    end
-  end
-
-  def issue_assign_notification(issue, user)
-    @issue = issue
-    mail(
-      to:      email_with_name(user, user.email),
-      subject: subject_for_issue(@issue)
-    ) do |format|
-      format.html
-    end
-  end
 
   def build_list_notification(build_list, user)
     set_locale user
@@ -81,37 +35,6 @@ class UserMailer < ActionMailer::Base
       from:    email_with_name(platform.owner)
     ) do |format|
       format.html
-    end
-  end
-
-  def invite_approve_notification(register_request)
-    set_locale register_request
-    @register_request = register_request
-    mail(
-      to:      register_request.email,
-      subject: I18n.t("notifications.subjects.invite_approve_notification")
-    ) do |format|
-      format.html
-    end
-  end
-
-  def git_delete_branch_notification(user, options)
-    set_locale user
-    mail(
-      to:      user.email,
-      subject: I18n.t('notifications.subjects.update_code', project_name: "#{options[:project_owner]}/#{options[:project_name]}")
-    ) do |format|
-      format.html { render 'git_delete_branch_notification', locals: options }
-    end
-  end
-
-  def git_new_push_notification(user, options)
-    set_locale user
-    mail(
-      to:      user.email,
-      subject: I18n.t('notifications.subjects.update_code', project_name: "#{options[:project_owner]}/#{options[:project_name]}")
-    ) do |format|
-      format.html { render 'git_new_push_notification', locals: options }
     end
   end
 

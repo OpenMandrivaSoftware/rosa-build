@@ -4,7 +4,6 @@ class User < Avatar
 
   include PersonalRepository
   include ActsLikeMember
-  include Feed::User
   include EventLoggable
   include TokenAuthenticatable
 
@@ -14,9 +13,8 @@ class User < Avatar
   LANGUAGES = LANGUAGES_FOR_SELECT.map(&:last)
   NAME_REGEXP = /[a-z0-9_]+/
 
-  devise :database_authenticatable, :registerable, :omniauthable,
-         :recoverable, :rememberable, :validatable, :lockable, :confirmable
-  devise :omniauthable, omniauth_providers: [:facebook, :google_oauth2, :github]
+  devise :database_authenticatable, :registerable, :recoverable, 
+         :rememberable, :validatable, :lockable, :confirmable
 
   has_one :notifier,       class_name: 'SettingsNotifier',  dependent: :destroy #:notifier
   has_one :builds_setting, class_name: 'UserBuildsSetting', dependent: :destroy
@@ -25,8 +23,6 @@ class User < Avatar
 
   has_many :authentications, dependent: :destroy
   has_many :build_lists, dependent: :destroy
-  has_many :subscribes, foreign_key: :user_id, dependent: :destroy
-  has_many :comments, dependent: :destroy
 
   has_many :relations, as: :actor, dependent: :destroy
   has_many :targets, as: :actor, class_name: 'Relation', dependent: :destroy
@@ -39,11 +35,8 @@ class User < Avatar
   has_many :own_projects, as: :owner, class_name: 'Project', dependent: :destroy
   has_many :own_groups,   foreign_key: :owner_id, class_name: 'Group', dependent: :destroy
   has_many :own_platforms, as: :owner, class_name: 'Platform', dependent: :destroy
-  has_many :issues
-  has_many :assigned_issues, foreign_key: :assignee_id, class_name: 'Issue', dependent: :nullify
 
   has_many :key_pairs
-  has_many :ssh_keys, dependent: :destroy
 
   validates :uname, presence: true,
             uniqueness: { case_sensitive: false },
@@ -131,14 +124,6 @@ class User < Avatar
   #   result
   # end
 
-  def commentor?(commentable)
-    comments.exists?(commentable_type: commentable.class.name, commentable_id: commentable.id.hex)
-  end
-
-  def committer?(commit)
-    email.downcase == commit.committer.email.downcase
-  end
-
   def owner_of? object
     if object.respond_to? :owner
       object.owner_id == self.id or self.group_ids.include? object.owner_id
@@ -153,18 +138,6 @@ class User < Avatar
     return nil if roles.count == 0
     %w(admin writer reader).each {|role| return role if roles.include?(role)}
     raise "unknown user #{self.uname} roles #{roles}"
-  end
-
-  def check_assigned_issues target
-    if target.is_a? Project
-      assigned_issues.where(project_id: target.id).update_all(assignee_id: nil)
-    else
-      project_ids = ProjectPolicy::Scope.new(self, Project).membered.uniq.pluck(:id)
-
-      issues = assigned_issues
-      issues = issues.where('project_id not in (?)', project_ids) if project_ids.present?
-      issues.update_all(assignee_id: nil)
-    end
   end
 
   protected

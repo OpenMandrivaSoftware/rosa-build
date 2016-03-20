@@ -8,7 +8,6 @@ ru:
     projects: Проекты
     build_lists: Мониторинг задач
     groups: Группы
-    advisories: Бюллетени
     statistics: Статистика
   bottom_menu:
     copyright: OMV © %{year}

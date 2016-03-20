@@ -1,7 +1,6 @@
 - act = controller.action_name.to_sym
 div ng-controller = 'ProjectFromController' ng-cloak = 'true'
   = f.input :name
-  = f.input :description, as: :text
   = f.input :github_organization
 
   - if [:new, :create].include? act

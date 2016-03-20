@@ -18,7 +18,5 @@
         = f.input :remember_me, as: :boolean, checked: true
       .pull-right
         = f.button :submit, t('layout.devise.shared_links.sign_in')
-  .panel-footer
-    == render 'devise/shared/providers'
 
 = link_to t('layout.devise.shared_links.forgot_password'), new_password_path(resource_name)

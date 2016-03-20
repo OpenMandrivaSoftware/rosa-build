@@ -19,7 +19,6 @@
           tr
             th
             th= t 'activerecord.attributes.project.name'
-            th= t 'activerecord.attributes.project.description'
             th
             th= t 'layout.projects.role'
             th= t 'layout.projects.remove_user'
@@ -29,7 +28,6 @@
               i.fa ng-class = 'item.visibility_class'
             td
               a[ ng-href = '{{item.link}}' ] {{item.name_with_owner}}
-            td[] {{item.description}}
             td
               i.fa.roffset5 ng-class = 'item.participant_class'
             td[] {{item.user_role_name}}

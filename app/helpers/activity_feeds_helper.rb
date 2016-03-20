@@ -1,8 +1,4 @@
 module ActivityFeedsHelper
-  def render_activity_feed(activity_feed)
-    render activity_feed.partial, activity_feed.data.merge(activity_feed: activity_feed)
-  end
-
   def get_feed_title_from_content(content)
     # removes html tags and haml generator indentation whitespaces and new line chars:
     feed_title = strip_tags(content).gsub(/(^\s+|\n|  )/, ' ')

@@ -70,7 +70,7 @@ module AbfWorkerService
       status = testing ? BuildList::BUILD_PUBLISHED_INTO_TESTING : BuildList::BUILD_PUBLISHED
       Arch.pluck(:id).each do |arch_id|
         bl = BuildList.where(project_id: project_id).
-          where(new_core: true, status: status).
+          where(status: status).
           where(save_to_repository_id: repository_id).
           where(build_for_platform_id: platform_id).
           where(arch_id: arch_id).

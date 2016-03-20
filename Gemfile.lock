@@ -26,27 +26,10 @@ GIT
       ransack (~> 1.3)
       sass-rails
 
-GIT
-  remote: git://github.com/rosa-abf/grack.git
-  revision: 020be3fef3fb308b9d214252522aa5945bf6584a
-  specs:
-    grack (0.2.0)
-
-GIT
-  remote: git://github.com/rosa-abf/grit.git
-  revision: b733f0ceefb44b18a9dec8f509ba5493dab59e4e
-  tag: 2.6.17
-  specs:
-    grit (2.5.0)
-      diff-lcs (~> 1.1)
-      mime-types (~> 1.15)
-      posix-spawn (~> 0.3.6)
-
 GEM
   remote: http://rubygems.org/
   remote: http://rails-assets.org/
   specs:
-    RedCloth (4.2.9)
     actionmailer (4.2.2)
       actionpack (= 4.2.2)
       actionview (= 4.2.2)
@@ -127,7 +110,6 @@ GEM
       net-ssh-gateway (>= 1.1.0)
     capistrano_colors (0.5.5)
     charlock_holmes (0.7.3)
-    chronic (0.10.2)
     chunky_png (1.3.4)
     climate_control (0.0.3)
       activesupport (>= 3.0)
@@ -161,7 +143,6 @@ GEM
       sprockets (< 2.13)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
-    creole (0.5.0)
     daemons (1.2.2)
     debug_inspector (0.0.2)
     descendants_tracker (0.0.4)
@@ -173,16 +154,13 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
-    diff-display (0.0.1)
     diff-lcs (1.2.5)
     domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
     encryptor (1.3.0)
     erubis (2.7.0)
-    escape_utils (1.0.1)
     eventmachine (1.0.5)
     execjs (2.5.2)
-    expression_parser (0.9.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.5.0)
@@ -200,15 +178,6 @@ GEM
     formtastic_i18n (0.4.1)
     friendly_id (5.1.0)
       activerecord (>= 4.0.0)
-    gemoji (2.1.0)
-    github-linguist (3.1.5)
-      charlock_holmes (~> 0.7.3)
-      escape_utils (~> 1.0.1)
-      mime-types (~> 1.19)
-      pygments.rb (~> 0.6.0)
-      rugged (~> 0.21.0)
-    github-markup (1.1.2)
-      posix-spawn (~> 0.3.8)
     github_api (0.13.0)
       addressable (~> 2.3)
       descendants_tracker (~> 0.0.4)
@@ -217,21 +186,9 @@ GEM
       multi_json (>= 1.7.5, < 2.0)
       nokogiri (~> 1.6.6)
       oauth2
-    gitlab-grit (2.6.12)
-      charlock_holmes (~> 0.6)
-      diff-lcs (~> 1.1)
-      mime-types (~> 1.15)
-      posix-spawn (~> 0.3)
     gli (2.13.1)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
-    gollum-lib (3.0.0)
-      github-markup (~> 1.1.0)
-      gitlab-grit (~> 2.6.5)
-      nokogiri (~> 1.6.1)
-      rouge (~> 1.3.3)
-      sanitize (~> 2.1.0)
-      stringex (~> 2.5.1)
     haml (4.0.6)
       tilt
     haml-rails (0.9.0)
@@ -252,7 +209,6 @@ GEM
       haml (~> 4.0.0)
       nokogiri (~> 1.6.0)
       ruby_parser (~> 3.5)
-    htmlentities (4.3.3)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
     i18n (0.7.0)
@@ -349,20 +305,6 @@ GEM
       scrivener (~> 0.0.3)
     ohm-expire (0.1.3.2)
       ohm (>= 0.1.5)
-    omniauth (1.2.2)
-      hashie (>= 1.2, < 4)
-      rack (~> 1.0)
-    omniauth-facebook (2.0.1)
-      omniauth-oauth2 (~> 1.2)
-    omniauth-github (1.1.2)
-      omniauth (~> 1.0)
-      omniauth-oauth2 (~> 1.1)
-    omniauth-google-oauth2 (0.2.6)
-      omniauth (> 1.0)
-      omniauth-oauth2 (~> 1.1)
-    omniauth-oauth2 (1.3.0)
-      oauth2 (~> 1.0)
-      omniauth (~> 1.2)
     orm_adapter (0.5.0)
     paperclip (4.3.0)
       activemodel (>= 3.2.0)
@@ -373,14 +315,10 @@ GEM
     pg (0.18.2)
     polyamorous (1.2.0)
       activerecord (>= 3.0)
-    posix-spawn (0.3.11)
     puma (2.11.3)
       rack (>= 1.1, < 2.0)
     pundit (1.0.1)
       activesupport (>= 3.0.0)
-    pygments.rb (0.6.3)
-      posix-spawn (~> 0.3.6)
-      yajl-ruby (~> 1.2.0)
     rack (1.6.2)
     rack-contrib (1.2.0)
       rack (>= 0.9.1)
@@ -433,8 +371,6 @@ GEM
     rb-fsevent (0.9.5)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
-    rdiscount (2.1.8)
-    redcarpet (3.3.2)
     redis (3.0.7)
     redis-actionpack (4.0.0)
       actionpack (~> 4)
@@ -478,7 +414,6 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
-    rouge (1.3.4)
     rr (1.1.2)
     rspec-core (3.2.3)
       rspec-support (~> 3.2.0)
@@ -504,14 +439,11 @@ GEM
       sexp_processor (~> 4.1)
     rufus-scheduler (2.0.24)
       tzinfo (>= 0.3.22)
-    rugged (0.21.0)
     russian (0.6.0)
       i18n (>= 0.5.0)
     rvm-capistrano (1.5.6)
       capistrano (~> 2.15.4)
     safe_yaml (1.0.4)
-    sanitize (2.1.0)
-      nokogiri (>= 1.4.4)
     sass (3.4.14)
     sass-rails (5.0.1)
       railties (>= 4.0.0, < 5.0)
@@ -593,8 +525,6 @@ GEM
     skinny (0.2.3)
       eventmachine (~> 1.0.0)
       thin (~> 1.5.0)
-    skype (0.2.8)
-      tmp_cache
     slim (3.0.6)
       temple (~> 0.7.3)
       tilt (>= 1.3.3, < 2.1)
@@ -616,7 +546,6 @@ GEM
     state_machines-activerecord (0.2.0)
       activerecord (~> 4.1)
       state_machines-activemodel (~> 0.1.0)
-    stringex (2.5.2)
     temple (0.7.5)
     test_after_commit (0.4.1)
       activerecord (>= 3.2)
@@ -634,9 +563,6 @@ GEM
       activesupport
       i18n
     timecop (0.7.4)
-    tmp_cache (0.1.1)
-    twitter-text (1.12.0)
-      unf (~> 0.1.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.1)
@@ -654,25 +580,13 @@ GEM
     webmock (1.21.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
-    whenever (0.9.4)
-      chronic (>= 0.6.3)
-    wikicloth (0.8.3)
-      builder
-      expression_parser
-      htmlentities
-      nokogiri
-      twitter-text
     will_paginate (3.0.7)
     ya2yaml (0.31)
-    yajl-ruby (1.2.1)
-    zeroclipboard-rails (0.1.0)
-      railties (>= 3.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  RedCloth
   activeadmin!
   airbrake
   ancestry
@@ -691,20 +605,13 @@ DEPENDENCIES
   codemirror-rails (~> 4.5)
   coffee-rails
   compass-rails
-  creole
   devise
-  diff-display
   factory_girl_rails
   faraday-http-cache
   ffi
   font-awesome-rails
   friendly_id
-  gemoji
-  github-linguist (= 3.1.5)
   github_api
-  gollum-lib (~> 3.0)
-  grack!
-  grit!
   haml-rails
   highline (~> 1.6.20)
   hirb
@@ -723,10 +630,6 @@ DEPENDENCIES
   ngmin-rails
   ohm (~> 1.3.2)
   ohm-expire (~> 0.1.3)
-  omniauth
-  omniauth-facebook
-  omniauth-github
-  omniauth-google-oauth2
   paperclip
   perform_later!
   pg
@@ -740,8 +643,6 @@ DEPENDENCIES
   rails3-generators
   rails3-jquery-autocomplete
   rake
-  rdiscount
-  redcarpet (~> 3.3)
   redis-rails
   redis-semaphore
   resque
@@ -761,7 +662,6 @@ DEPENDENCIES
   shoulda-matchers
   simple_form (= 3.1.0.rc2)
   sitemap_generator
-  skype
   slim
   soundmanager-rails
   sprockets
@@ -774,10 +674,7 @@ DEPENDENCIES
   uglifier
   underscore-rails
   webmock
-  whenever
-  wikicloth
   will_paginate
-  zeroclipboard-rails
 
 BUNDLED WITH
    1.11.2

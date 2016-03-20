@@ -9,6 +9,3 @@
   = link_to t("layout.devise.shared_links.confirm_again"), new_confirmation_path(resource_name), class: "text_button_padding link_button"
 - if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks'
   = link_to t("layout.devise.shared_links.unlock"), new_unlock_path(resource_name), class: "text_button_padding link_button"
--# if devise_mapping.omniauthable?
-  - resource_class.omniauth_providers.each do |provider|
-    = link_to t("layout.devise.shared_links.sign_in_through", provider: provider.to_s.classify), omniauth_authorize_path(resource_name, provider), class: "text_button_padding link_button"

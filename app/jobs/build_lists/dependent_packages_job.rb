@@ -31,7 +31,6 @@ module BuildLists
           bl.include_repos       |= [save_to_repository.id]
           %i(
             build_for_platform_id
-            update_type
             save_to_platform_id
             extra_build_lists
             extra_params

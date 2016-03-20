@@ -47,15 +47,12 @@ module ApplicationHelper
       'fa-cogs'
     when :groups
       'fa-users'
-    when :advisories
-      'fa-newspaper-o'
     when :statistics
       'fa-area-chart'
     end
   end
 
   def title_object(object)
-    return object.advisory_id if object.class == Advisory
     name = object.class == Group ? object.uname : object.name
     object_name = t "activerecord.models.#{object.class.name.downcase}"
     case object.class.name

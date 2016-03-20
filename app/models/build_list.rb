@@ -17,21 +17,11 @@ class BuildList < ActiveRecord::Base
   belongs_to :user
   belongs_to :builder,    class_name: 'User'
   belongs_to :publisher,  class_name: 'User'
-  belongs_to :advisory
   belongs_to :mass_build, counter_cache: true
   has_many :items, class_name: '::BuildList::Item', dependent: :destroy
   has_many :packages, class_name: '::BuildList::Package', dependent: :destroy
   has_many :source_packages, -> { where(package_type: 'source') }, class_name: '::BuildList::Package'
 
-  UPDATE_TYPES = [
-    UPDATE_TYPE_BUGFIX      = 'bugfix',
-    UPDATE_TYPE_SECURITY    = 'security',
-    UPDATE_TYPE_ENHANCEMENT = 'enhancement',
-    UPDATE_TYPE_RECOMMENDED = 'recommended',
-    UPDATE_TYPE_NEWPACKAGE  = 'newpackage'
-  ]
-
-  RELEASE_UPDATE_TYPES = [UPDATE_TYPE_BUGFIX, UPDATE_TYPE_SECURITY]
   EXTRA_PARAMS = %w[cfg_options cfg_urpm_options build_src_rpm build_rpm]
 
   AUTO_PUBLISH_STATUSES = [
@@ -51,10 +41,6 @@ class BuildList < ActiveRecord::Base
 
   validates_numericality_of :priority, greater_than_or_equal_to: 0
   validates :auto_publish_status, inclusion: { in: AUTO_PUBLISH_STATUSES }
-  validates :update_type, inclusion: UPDATE_TYPES,
-            unless: Proc.new { |b| b.advisory.present? }
-  validates :update_type, inclusion: { in: RELEASE_UPDATE_TYPES, message: I18n.t('flash.build_list.frozen_platform') },
-            if: Proc.new { |b| b.advisory.present? }
   validate -> {
     if save_to_platform.try(:main?) && save_to_platform_id != build_for_platform_id
       errors.add(:build_for_platform, I18n.t('flash.build_list.wrong_platform'))
@@ -507,25 +493,9 @@ class BuildList < ActiveRecord::Base
     #[WAITING_FOR_RESPONSE, BUILD_PENDING, BUILD_STARTED].include?(status)
   end
 
-  def associate_and_create_advisory(params)
-    build_advisory(params){ |a| a.update_type = update_type }
-    advisory.attach_build_list(self)
-  end
-
-  def can_attach_to_advisory?
-    !save_to_repository.publish_without_qa &&
-      save_to_platform.main? &&
-      save_to_platform.released &&
-      build_published?
-  end
-
   def log(load_lines=nil)
-    if new_core?
-      worker_log = abf_worker_log
-      Pygments.highlight(worker_log, lexer: 'sh') rescue worker_log
-    else
-      I18n.t('layout.build_lists.log.not_available')
-    end
+    worker_log = abf_worker_log
+    Pygments.highlight(worker_log, lexer: 'sh') rescue worker_log
   end
 
   def last_published(testing = false)
@@ -694,7 +664,6 @@ class BuildList < ActiveRecord::Base
     unless mass_build_id
       users = [user, publisher].compact.uniq.select{ |u| u.notifier.can_notify? && u.notifier.new_build? }
 
-      # find associated users
       users |= project.all_members(:notifier).select do |u|
         u.notifier.can_notify? && u.notifier.new_associated_build?
       end if project

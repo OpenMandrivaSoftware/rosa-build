@@ -20,19 +20,16 @@ Rails.application.routes.draw do
   end
 
   devise_scope :user do
-    get '/users/auth/:provider' => 'users/omniauth_callbacks#passthru'
     get 'users/sign_up' => 'users/registrations#new',    as: :new_user_registration
     post 'users'        => 'users/registrations#create', as: :user_registration
   end
 
   devise_for :users, controllers: {
-    omniauth_callbacks: 'users/omniauth_callbacks',
     confirmations:      'users/confirmations'
   }, skip: [:registrations]
 
   namespace :api do
     namespace :v1, constraints: { format: 'json' }, defaults: { format: 'json' } do
-      resources :advisories, only: [:index, :show, :create, :update]
       resources :search, only: [:index]
       resources :build_lists, only: [:index, :create, :show] do
         member {
@@ -85,14 +82,6 @@ Rails.application.routes.draw do
           put    :update_member
         }
         resources :build_lists, only: :index
-        resources :issues, only: [:index, :create, :show, :update]
-        resources :pull_requests, only: [:index, :create, :show, :update] do
-          member {
-            get :commits
-            get :files
-            put :merge
-          }
-        end
       end
       resources :users, only: [:show]
       get 'user' => 'users#show_current_user'
@@ -100,8 +89,6 @@ Rails.application.routes.draw do
         member {
           get :notifiers
           put :notifiers
-          get '/issues' => 'issues#user_index'
-          get '/pull_requests' => 'pull_requests#user_index'
         }
       end
       resources :groups, only: [:index, :show, :update, :create, :destroy] do
@@ -110,8 +97,6 @@ Rails.application.routes.draw do
           put :add_member
           delete :remove_member
           put :update_member
-          get '/issues' => 'issues#group_index'
-          get '/pull_requests' => 'pull_requests#group_index'
         }
       end
       resources :products, only: [:show, :update, :create, :destroy] do
@@ -131,9 +116,6 @@ Rails.application.routes.draw do
         end
       end
 
-      #resources :ssh_keys, only: [:index, :create, :destroy]
-      get 'issues' => 'issues#all_index'
-      get 'pull_requests' => 'pull_requests#all_index'
     end
   end
 
@@ -141,13 +123,9 @@ Rails.application.routes.draw do
 
   get  '/forbidden'        => 'pages#forbidden',      as: 'forbidden'
   get  '/terms-of-service' => 'pages#tos',            as: 'tos'
-  get  '/tour/:id'         => 'pages#tour_inside',    as: 'tour_inside', id: /projects|sources|builds/
-  #match '/invite.html'     => redirect('/register_requests/new')
 
   get '/activity_feeds.:format' => 'home#activity',     as: 'atom_activity_feeds', format: /atom/
   get '/own_activity'           => 'home#own_activity', as: 'own_activity'
-  get '/issues'                 => 'home#issues'
-  get '/pull_requests'          => 'home#pull_requests'
   get '/get_owners_list'        => 'home#get_owners_list'
   get '/get_project_names_list' => 'home#get_project_names_list'
 
@@ -156,14 +134,13 @@ Rails.application.routes.draw do
       root to: 'home#activity'
     end
     unauthenticated do
-      root to: 'home#root', as: :authenticated_root
+      root to: 'statistics#index', as: :unauthenticated_root
+      #devise_scope :user do
+      #  root to: 'devise/sessions#new', as: :unauthenticated_root
+      #end
     end
   else
     root to: 'home#activity'
-  end
-
-  resources :advisories, only: [:index, :show, :search] do
-    get :search, on: :collection
   end
 
   scope module: 'platforms' do
@@ -177,7 +154,6 @@ Rails.application.routes.draw do
         post   :change_visibility
         post   :add_member
         post   :make_clone
-        get    :advisories
       end
 
       resources :contents, only: %i(index) do
@@ -239,9 +215,6 @@ Rails.application.routes.draw do
   end
 
   scope module: 'users' do
-    get '/settings/ssh_keys'            => 'ssh_keys#index', as: :ssh_keys
-    post '/settings/ssh_keys'           => 'ssh_keys#create'
-    delete '/settings/ssh_keys/:id' => 'ssh_keys#destroy', as: :ssh_key
 
     resources :settings, only: [] do
       collection do
@@ -256,7 +229,6 @@ Rails.application.routes.draw do
         put :reset_auth_token
       end
     end
-    #resources :register_requests, only: [:new, :create], format: /ru|en/ #view support only two languages
 
     get '/allowed'  => 'users#allowed'
     get '/check'    => 'users#check'
@@ -288,7 +260,6 @@ Rails.application.routes.draw do
         patch :publish
         put :reject_publish
         put :publish_into_testing
-        put :update_type
         get :dependent_projects
         post :dependent_projects
       end
@@ -307,11 +278,6 @@ Rails.application.routes.draw do
         resources :build_lists, only: [:index, :new, :create] do
           get :list, on: :collection
         end
-        resources :collaborators do
-          get :find, on: :collection
-        end
-        post '/preview' => 'projects#preview', as: 'md_preview'
-        post 'refs_list' => 'projects#refs_list', as: 'refs_list'
         put 'schedule' => 'projects#schedule'
       end
 
@@ -323,9 +289,9 @@ Rails.application.routes.draw do
       # Member
       delete '/remove_user' => 'projects#remove_user', as: :remove_user_project
 
-      get '/' => 'project/project#index', as: :project
-      get '/commit/:sha' => 'project/project#commit', as: :commit
-      get '/diff/:diff' => 'project/project#diff', as: :diff, format: false, diff: /.*/
+      get '/' => "projects#bl_redirect", as: :project
+      get '/commit/:sha' => 'projects#commit', as: :commit
+      get '/diff/:diff' => 'projects#diff', as: :diff, format: false, diff: /.*/
     end
   end
 

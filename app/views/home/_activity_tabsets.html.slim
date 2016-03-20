@@ -1,7 +1,4 @@
 div ng-hide= 'actCtrl.processing'
-  tabset
-    - (collection = t 'feed_menu').each do |base, title|
-      tab heading= title active= (@filter == base) select= "actCtrl.changeActivityFilter('#{base}')"
   / The time line
   .row.offset10
     .col-md-12.col-sm-12

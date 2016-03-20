@@ -1,4 +1,4 @@
-class AbfWorkerStatusPresenter < ApplicationPresenter
+class AbfWorkerStatusPresenter
 
   def initialize
   end

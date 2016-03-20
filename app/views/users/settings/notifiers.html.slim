@@ -20,19 +20,6 @@
 
           .col-sm-offset-3.col-sm-9
             h4
-              = t('layout.settings.notifiers.code_header')
-          - [:update_code, :new_comment_commit_owner, :new_comment_commit_repo_owner, :new_comment_commit_commentor].each do |field|
-            = f.input field, as: :boolean
-
-        .col-md-6
-          .col-sm-offset-3.col-sm-9
-            h4
-              = t('layout.settings.notifiers.tracker_header')
-          - [:new_comment, :new_comment_reply, :new_issue, :issue_assign].each do |field|
-            = f.input field, as: :boolean
-
-          .col-sm-offset-3.col-sm-9
-            h4
               = t('layout.settings.notifiers.build_list_header')
           - [:new_build, :new_associated_build].each do |field|
             = f.input field, as: :boolean

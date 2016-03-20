@@ -1,5 +1,5 @@
 json.projects @projects do |project|
-  json.(project, :name, :description)
+  json.(project, :name)
   json.path           project_path(project)
   json.public         project.public?
   json.updated_at     project.updated_at

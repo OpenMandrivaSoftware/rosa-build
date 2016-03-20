@@ -1,4 +1,4 @@
-%w(abf.rosalinux.ru abf.io).each do |domain|
+%w(abf.openmandriva.org).each do |domain|
 
   SitemapGenerator::Sitemap.create(
     default_host:   "https://#{domain}",

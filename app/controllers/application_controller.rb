@@ -37,8 +37,6 @@ class ApplicationController < ActionController::Base
     redirect_to forbidden_url, alert: t("flash.exception_message")
   end
 
-  rescue_from Grit::NoSuchPathError, with: :not_found
-
 
   def render_404
     render_error 404

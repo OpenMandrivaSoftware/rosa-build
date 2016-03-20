@@ -1,6 +1,6 @@
 json.build_list do
   json.(@build_list, :id, :container_status, :status, :duration)
-  json.(@build_list, :update_type, :priority, :new_core)
+  json.(@build_list, :priority)
   json.(@build_list, :auto_publish_status, :package_version, :commit_hash, :last_published_commit_hash, :auto_create_container, :use_cached_chroot, :use_extra_tests)
   json.build_log_url log_build_list_path(@build_list)
 
@@ -62,15 +62,6 @@ json.build_list do
 
   json.extra_params @build_list.extra_params
 
-  if @build_list.advisory
-    json.advisory do
-      json.name @build_list.advisory.advisory_id
-      json.(@build_list.advisory, :description)
-    end 
-  else
-    json.advisory nil
-  end
-
   if @build_list.mass_build
     json.mass_build do
       json.(@build_list.mass_build, :id, :name)
@@ -83,7 +74,7 @@ json.build_list do
     json.file_name result['file_name']
     json.size result['size']
     json.url "#{APP_CONFIG['file_store_url']}/api/v1/file_stores/#{result['sha1']}"
-  end if @build_list.new_core?
+  end
 
   json.packages @build_list.packages do |package|
     json.partial! 'api/v1/maintainers/package', package: package

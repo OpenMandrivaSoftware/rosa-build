@@ -30,9 +30,6 @@
           - if policy(@platform.products.build).show?
             li class=('active' if contr == :products)
               = link_to t("layout.products.list_header"), platform_products_path(@platform)
-          - if policy(@platform.advisories.build).show?
-            li class=('active' if contr == :platforms && act == :advisories)
-              = link_to t("layout.advisories.list_header"), advisories_platform_path(@platform)
           - if policy(@platform).update?
             li class=('active' if act == :edit && contr == :platforms)
               = link_to t("platform_menu.settings"), edit_platform_path(@platform)

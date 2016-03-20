@@ -136,29 +136,6 @@ class Projects::ProjectsController < Projects::BaseController
     redirect_to @project.owner
   end
 
-  def fork(is_alias = false)
-    owner = (Group.find params[:group] if params[:group].present?) || current_user
-    authorize owner, :write?
-    if forked = @project.fork(owner, new_name: params[:fork_name], is_alias: is_alias) and forked.valid?
-      redirect_to forked, notice: t("flash.project.forked")
-    else
-      flash[:warning] = t("flash.project.fork_error")
-      flash[:error] = forked.errors.full_messages.join("\n")
-      redirect_to @project
-    end
-  end
-
-  def alias
-    authorize @project
-    fork(true)
-  end
-
-  def possible_forks
-    authorize @project
-    render partial: 'projects/git/base/forks', layout: false,
-      locals: { owner: current_user, name: (params[:name].presence || @project.name) }
-  end
-
   def sections
     authorize @project, :update?
     if request.patch?
@@ -193,20 +170,16 @@ class Projects::ProjectsController < Projects::BaseController
     render json: items
   end
 
-  def preview
-    authorize @project
-    respond_to do |format|
-      format.json {}
-      format.html {render inline: view_context.markdown(params[:text]), layout: false}
-    end
+  def commit
+    redirect_to 'https://github.com/' + @project.github_get_organization + '/' + @project.name + '/commit/' + params[:sha]
   end
 
-  def refs_list
-    authorize @project
-    refs = @project.repo.branches_and_tags.map(&:name)
-    @selected   = params[:selected] if refs.include?(params[:selected])
-    @selected ||= @project.resolve_default_branch
-    render layout: false
+  def diff
+    redirect_to 'https://github.com/' + @project.github_get_organization + '/' + @project.name + '/compare/' + params[:diff]
+  end
+
+  def bl_redirect
+    redirect_to controller: "build_lists", action: "index"
   end
 
   protected

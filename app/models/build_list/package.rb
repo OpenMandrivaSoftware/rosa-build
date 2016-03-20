@@ -12,7 +12,7 @@ class BuildList::Package < ActiveRecord::Base
             :package_type, :name, :release, :version,
             presence: true
   validates :package_type, inclusion: PACKAGE_TYPES
-  validates :sha1, presence: true, if: Proc.new { |p| p.build_list.new_core? }
+  validates :sha1, presence: true
 
   default_scope { order("lower(#{table_name}.name) ASC, length(#{table_name}.name) ASC") }
 

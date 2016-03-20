@@ -93,28 +93,6 @@ class Projects::BuildListsController < Projects::BaseController
   end
 
   def publish
-    @build_list.update_type = params[:build_list][:update_type] if params[:build_list][:update_type].present?
-
-    if params[:attach_advisory].present? and params[:attach_advisory] != 'no' and !@build_list.advisory
-
-      unless @build_list.update_type.in? BuildList::RELEASE_UPDATE_TYPES
-        redirect_to :back, notice: t('layout.build_lists.publish_fail') and return
-      end
-
-      if params[:attach_advisory] == 'new'
-        # create new advisory
-        unless @build_list.associate_and_create_advisory(advisory_params)
-          redirect_to :back, notice: t('layout.build_lists.publish_fail') and return
-        end
-      else
-        # attach existing advisory
-        a = Advisory.find_by(advisory_id: params[:attach_advisory])
-        unless (a && a.attach_build_list(@build_list))
-          redirect_to :back, notice: t('layout.build_lists.publish_fail') and return
-        end
-      end
-    end
-
     @build_list.publisher = current_user
     do_and_back(:publish, 'publish_')
   end
@@ -187,29 +165,10 @@ class Projects::BuildListsController < Projects::BaseController
     render partial: 'build_lists_ajax', layout: false
   end
 
-  def update_type
-    respond_to do |format|
-      format.html { render nothing: true }
-      format.json do
-        @build_list.update_type = params[:update_type]
-        if @build_list.save
-          render json: 'success', status: :ok
-        else
-          render json: { message: @build_list.errors.full_messages.join('. ') },
-                 status: :unprocessable_entity
-        end
-      end
-    end
-  end
-
   protected
 
   def build_list_params
     subject_params(BuildList)
-  end
-
-  def advisory_params
-    permit_params(%i(build_list advisory), *policy(Advisory).permitted_attributes)
   end
 
   # Private: before_action hook which loads BuidList.

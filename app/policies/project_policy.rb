@@ -87,9 +87,6 @@ class ProjectPolicy < ApplicationPolicy
       architecture_dependent
       autostart_status
       default_branch
-      description
-      has_issues
-      has_wiki
       is_package
       maintainer_id
       mass_import

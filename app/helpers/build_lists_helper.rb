@@ -82,18 +82,7 @@ module BuildListsHelper
     end
   end
 
-  def build_list_classified_update_types
-    advisoriable    = BuildList::RELEASE_UPDATE_TYPES.map do |el|
-      [el, {class: 'advisoriable'}]
-    end
-    nonadvisoriable = (BuildList::UPDATE_TYPES - BuildList::RELEASE_UPDATE_TYPES).map do |el|
-      [el, {class: 'nonadvisoriable'}]
-    end
-
-    return advisoriable + nonadvisoriable
-  end
-
-   def build_list_item_version_link(item, str_version = false)
+  def build_list_item_version_link(item, str_version = false)
     hash_size=5
     if item.version =~ /^[\da-z]+$/ && item.name == item.build_list.project.name
       bl = item.build_list
@@ -330,5 +319,13 @@ module BuildListsHelper
     checked = params[:build_list].try(:[], :auto_create_container)
     checked = build_list.auto_create_container if checked.nil?
     checked
+  end
+
+  def short_hash_id(id)
+    id[0..19]
+  end
+
+  def shortest_hash_id(id, size=10)
+    id[0..size-1]
   end
 end

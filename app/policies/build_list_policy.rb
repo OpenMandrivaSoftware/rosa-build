@@ -26,13 +26,11 @@ class BuildListPolicy < ApplicationPolicy
   end
 
   def publish_into_testing?
-    return false unless record.new_core?
     return false unless record.can_publish_into_testing?
     create? || ( record.save_to_platform.main? && publish? )
   end
 
   def publish?
-    return false unless record.new_core?
     return false unless record.can_publish?
     if record.build_published?
       local_admin?(record.save_to_platform) || record.save_to_repository.members.exists?(id: user.id)
@@ -41,10 +39,8 @@ class BuildListPolicy < ApplicationPolicy
       ProjectPolicy.new(user, record.project).write? : local_admin?(record.save_to_platform)
     end
   end
-  alias_method :update_type?, :publish?
 
   def create_container?
-    return false unless record.new_core?
     ProjectPolicy.new(user, record.project).write? || local_admin?(record.save_to_platform)
   end
 
@@ -75,7 +71,6 @@ class BuildListPolicy < ApplicationPolicy
       save_buildroot
       save_to_platform_id
       save_to_repository_id
-      update_type
       use_cached_chroot
       use_extra_tests
     )

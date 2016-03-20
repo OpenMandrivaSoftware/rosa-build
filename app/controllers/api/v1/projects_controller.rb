@@ -18,10 +18,6 @@ class Api::V1::ProjectsController < Api::V1::BaseController
   def show
   end
 
-  def refs_list
-    @refs = @project.repo.branches + @project.repo.tags.select{ |t| t.commit }
-  end
-
   def update
     update_subject @project
   end

@@ -52,8 +52,6 @@ module FacebookHelper
         @group
       when Users::BaseController
         @user
-      when Projects::Git::BaseController
-        @project
       else
         instance_variable_get "@#{controller_name.singularize}"
       end
