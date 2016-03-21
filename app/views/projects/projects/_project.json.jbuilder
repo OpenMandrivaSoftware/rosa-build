@@ -2,7 +2,6 @@ json.project do |proj|
   proj.visibility  project.visibility.to_s
 
   proj.name        project.name_with_owner
-  proj.description project.description
   proj.link        project_path(project)
 
   proj.role        t("layout.collaborators.role_names.#{current_user.best_role project}").force_encoding(Encoding::UTF_8)

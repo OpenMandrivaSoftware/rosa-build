@@ -56,8 +56,6 @@ table.table.table-striped ng-show='!processing'
           i.fa.fa-lock.text-danger> ng-if='!project.public'
           a ng-href='{{project.path}}'
             | {{project.name}}
-        p
-          | {{project.description}}
         .help-block title = '{{project.updated_at_utc}}'
           => t('.updated')
           | {{project.updated_at | amDateFormat:'YYYY-MM-DD HH:mm'}} (
