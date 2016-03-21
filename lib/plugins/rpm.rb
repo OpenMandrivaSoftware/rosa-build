@@ -13,7 +13,7 @@ module RPM
       )
     end
 
-    #attach_function 'rpmEVRcmp', [:string, :string], :int
+    attach_function 'rpmEVRcmp', [:string, :string], :int
 
   end
 end
