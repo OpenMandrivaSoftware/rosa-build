@@ -313,10 +313,14 @@ GEM
     pg (0.18.2)
     polyamorous (1.2.0)
       activerecord (>= 3.0)
+    posix-spawn (0.3.11)
     puma (2.11.3)
       rack (>= 1.1, < 2.0)
     pundit (1.0.1)
       activesupport (>= 3.0.0)
+    pygments.rb (0.6.3)
+      posix-spawn (~> 0.3.6)
+      yajl-ruby (~> 1.2.0)
     rack (1.6.2)
     rack-contrib (1.2.0)
       rack (>= 0.9.1)
@@ -580,6 +584,7 @@ GEM
       crack (>= 0.3.2)
     will_paginate (3.0.7)
     ya2yaml (0.31)
+    yajl-ruby (1.2.1)
 
 PLATFORMS
   ruby
@@ -632,6 +637,7 @@ DEPENDENCIES
   pg
   puma
   pundit
+  pygments.rb
   rack-mini-profiler
   rack-throttle (~> 0.3.0)
   rack-utf8_sanitizer

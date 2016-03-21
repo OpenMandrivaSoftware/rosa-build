@@ -1,1 +1,0 @@
-QUEUE=low,publish_observer,rpm_worker_observer,iso_worker_observer,fork_import,hook,clone_build,middle,notification,publish_observer,rpm_worker_observer,iso_worker_observer,fork_import,hook,clone_build,middle,notification rake resque:work

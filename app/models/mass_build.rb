@@ -109,22 +109,22 @@ class MassBuild < ActiveRecord::Base
           return if self.reload.stop_build
           # Ensures that user has rights to create a build_list
           next unless ProjectPolicy.new(user, project).write?
+          if increase_rt
+            if ratelimit_remaining <= 1
+              ratelimit_remaining = Github_blobs_api.ratelimit_remaining
+              #if that's still less that or equal 1
+              if ratelimit_remaining <= 1
+                #just to make sure it really resets wait additional 5 seconds
+                ratelimit_reset_wait = Github_blobs_api.ratelimit_reset - Time.now.to_i + 5
+                sleep ratelimit_reset_wait
+                ratelimit_remaining = Github_blobs_api.ratelimit_remaining
+              end
+            end
+            count = project.increase_release_tag(project_version, "MassBuild##{id}: Increase release tag")
+            ratelimit_remaining -= count
+          end
           arches_list.each do |arch|
             rep_id = (project.repository_ids & save_to_platform.repository_ids).first
-            if increase_rt
-              if ratelimit_remaining <= 1
-                ratelimit_remaining = Github_blobs_api.ratelimit_remaining
-                #if that's still less that or equal 1
-                if ratelimit_remaining <= 1
-                  #just to make sure it really resets wait additional 5 seconds
-                  ratelimit_reset_wait = Github_blobs_api.ratelimit_reset - Time.now.to_i + 5
-                  sleep ratelimit_reset_wait
-                  ratelimit_remaining = Github_blobs_api.ratelimit_remaining
-                end
-              end
-              count = project.increase_release_tag(project_version, "MassBuild##{id}: Increase release tag")
-              ratelimit_remaining -= count
-            end
             project.build_for(self, rep_id, project_version, arch, 0)
           end
         rescue RuntimeError, Exception => e
