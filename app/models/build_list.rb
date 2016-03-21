@@ -559,50 +559,6 @@ class BuildList < ActiveRecord::Base
     )
   end
 
-  def self.next_build(arch_ids, platform_ids)
-    build_list   = next_build_from_queue(USER_BUILDS_SET, arch_ids, platform_ids)
-    build_list ||= next_build_from_queue(MASS_BUILDS_SET, arch_ids, platform_ids)
-
-    build_list.delayed_add_job_to_abf_worker_queue if build_list
-    build_list
-  end
-
-  def self.next_build_from_queue(set, arch_ids, platform_ids)
-    kind_id = Redis.current.spop(set).to_i
-    key     =
-      case set
-      when USER_BUILDS_SET
-        "user_build_#{kind_id}_rpm_worker_default"
-      when MASS_BUILDS_SET
-        "mass_build_#{kind_id}_rpm_worker"
-      end if kind_id
-
-    task = Resque.pop(key) if key
-
-    if task || Redis.current.llen("resque:queue:#{key}") > 0
-      Redis.current.sadd(set, kind_id.to_s)
-    end
-
-    build_list = BuildList.where(id: task['args'][0]['id']).first if task
-    return unless build_list
-
-    if platform_ids.present? && platform_ids.exclude?(build_list.build_for_platform_id)
-      build_list.restart_job
-      return
-    end
-    if arch_ids.present? && arch_ids.exclude?(build_list.arch_id)
-      build_list.restart_job
-      return
-    end
-
-    build_list
-  end
-
-  def delayed_add_job_to_abf_worker_queue(*args)
-    restart_job if valid? && status == BUILD_PENDING
-  end
-  later :delayed_add_job_to_abf_worker_queue, delay: 60, queue: :middle
-
   def valid_branch_for_publish?
     @valid_branch_for_publish ||= begin
       save_to_platform.personal?                                                ||

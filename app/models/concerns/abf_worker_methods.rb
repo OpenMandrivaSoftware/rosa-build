@@ -22,18 +22,11 @@ module AbfWorkerMethods
   end
 
   def add_job_to_abf_worker_queue
-    update_build_sets
     Resque.push(
       worker_queue_with_priority,
       'class' => worker_queue_class,
       'args' => [abf_worker_args]
     )
-  end
-
-  def restart_job
-    update_build_sets
-    Redis.current.rpush "resque:queue:#{worker_queue_with_priority}",
-      Resque.encode({'class' => worker_queue_class, 'args' => [abf_worker_args]})
   end
 
   def cancel_job
@@ -74,18 +67,6 @@ module AbfWorkerMethods
   end
 
   private
-
-
-  def update_build_sets
-    return unless is_a?(BuildList)
-
-    key = mass_build_id ? MASS_BUILDS_SET : USER_BUILDS_SET
-    Redis.current.pipelined do
-      Redis.current.sadd key, mass_build_id || user_id
-      Redis.current.sadd 'resque:queues', worker_queue_with_priority
-    end
-  end
-
 
   def send_stop_signal
     Redis.current.setex(
