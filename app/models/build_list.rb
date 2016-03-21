@@ -370,27 +370,6 @@ class BuildList < ActiveRecord::Base
     build_started? || build_pending?
   end
 
-  # Comparison between versions of current and last published build_list
-  # @return [Boolean]
-  # - false if no new packages
-  # - false if version of packages is less than version of pubished packages.
-  # - true if version of packages is equal to version of pubished packages (only if platform is not released or platform is RHEL).
-  # - true if version of packages is greater than version of pubished packages.
-  def has_new_packages?
-    if last_bl = last_published.joins(:source_packages).where(build_list_packages: {actual: true}).last
-      source_packages.each do |nsp|
-        sp = last_bl.source_packages.find{ |sp| nsp.name == sp.name }
-        return true unless sp
-        comparison = nsp.rpmEVRcmp(sp)
-        return true if comparison == 1
-        return comparison == 0 && ( !save_to_platform.released? || save_to_platform.distrib_type == 'rhel' )
-      end
-    else
-      return true # no published packages
-    end
-    return false # no new packages
-  end
-
   def auto_publish?
     auto_publish_status == AUTO_PUBLISH_STATUS_DEFAULT
   end
@@ -405,7 +384,7 @@ class BuildList < ActiveRecord::Base
   end
 
   def can_auto_publish?
-    auto_publish? && can_publish? && has_new_packages? && can_publish_into_repository?
+    auto_publish? && can_publish? && can_publish_into_repository?
   end
 
   def can_publish?
