@@ -39,3 +39,9 @@ clear_builder_on_stale_buildlists:
   class: 'BuildLists::ClearBuilderOnStaleBuildListsJob'
   queue: low
   description: 'Clear builder on build lists which are still pending'
+
+remove_outdated_items:
+  cron: '0 3 * * *'
+  class: 'RemoveOutdatedItemsJob'
+  queue: low
+  description: 'Removes outdated mass builds, product buid lists and build lists'
