@@ -12,13 +12,6 @@ build_lists_publish_task_manager:
   queue: middle
   description: 'Creates tasks for publishing'
 
-build_lists_queues_monitoring:
-  every:
-    - '1m'
-  class: 'BuildLists::QueuesMonitoringJob'
-  queue: middle
-  description: 'Monitoring for "user/mass-build" queues'
-
 clean_api_defender_statistics:
   every:
     - '1d'
@@ -39,3 +32,10 @@ run_extra_mass_builds:
   class: 'RunExtraMassBuildsJob'
   queue: low
   description: 'Run mass builds with relations'
+
+clear_builder_on_stale_buildlists:
+  every:
+    - '2m'
+  class: 'BuildLists::ClearBuilderOnStaleBuildListsJob'
+  queue: low
+  description: 'Clear builder on build lists which are still pending'

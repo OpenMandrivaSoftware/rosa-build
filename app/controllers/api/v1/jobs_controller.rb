@@ -8,27 +8,28 @@ class Api::V1::JobsController < Api::V1::BaseController
   skip_after_action :verify_authorized
 
   def shift
+    job_shift_sem = Redis::Semaphore.new(:job_shift_lock)
+    job_shift_sem.lock
     uid = BuildList.scoped_to_arch(arch_ids).
       for_status([BuildList::BUILD_PENDING, BuildList::RERUN_TESTS]).
-      for_platform(platform_ids).pluck('DISTINCT user_id').sample
+      for_platform(platform_ids).where(builder: nil).pluck('DISTINCT user_id').sample
 
     if uid
       build_lists = BuildList.scoped_to_arch(arch_ids).
         for_status([BuildList::BUILD_PENDING, BuildList::RERUN_TESTS]).
-        for_platform(platform_ids).where(user_id: uid).oldest.order(:created_at)
+        for_platform(platform_ids).where(user_id: uid).where(builder: nil).oldest.order(:created_at)
 
-      ActiveRecord::Base.transaction do
-        if current_user.system?
-          @build_list = build_lists.where(external_nodes: ["", nil]).first
-          @build_list ||= build_lists.external_nodes(:everything).first
-        else
-          @build_list   = build_lists.external_nodes(:owned).for_user(current_user).first
-          @build_list ||= BuildListPolicy::Scope.new(current_user, build_lists).owned.
-            external_nodes(:everything).readonly(false).first
-        end
-        set_builder
+      if current_user.system?
+        @build_list = build_lists.where(external_nodes: ["", nil]).first
+        @build_list ||= build_lists.external_nodes(:everything).first
+      else
+        @build_list   = build_lists.external_nodes(:owned).for_user(current_user).first
+        @build_list ||= BuildListPolicy::Scope.new(current_user, build_lists).owned.
+          external_nodes(:everything).readonly(false).first
       end
+      set_builder
     end
+    job_shift_sem.unlock
 
     job = {
       worker_queue: @build_list.worker_queue_with_priority(false),
