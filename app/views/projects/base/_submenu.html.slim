@@ -19,6 +19,11 @@
       / Collect the nav links, forms, and other content for toggling
       #submenu-navbar-collapse.collapse.navbar-collapse
         ul.nav.navbar-nav.left-border
+          - if github_success
+            li
+              a href=github_base_url target="_blank"
+                i.fa.fa-github>
+                = t('project_menu.github')
           - if @project.is_package
             li class=('active' if contr == :build_lists)
               a href=project_build_lists_path(@project)

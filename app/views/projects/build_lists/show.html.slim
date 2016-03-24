@@ -112,7 +112,7 @@ row[ ng-controller='BuildListController'
           td= t('activerecord.attributes.build_list.hostname')
           td= @build_list.hostname
 
-        tr ng-show = 'build_list.fail_reason'
+        tr.bg-danger ng-show = 'build_list.fail_reason'
           td= t('activerecord.attributes.build_list.fail_reason')
           td
             | {{build_list.fail_reason}}
