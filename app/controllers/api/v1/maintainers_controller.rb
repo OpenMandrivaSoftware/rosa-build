@@ -1,4 +1,5 @@
 class Api::V1::MaintainersController < Api::V1::BaseController
+  skip_before_action :check_auth if APP_CONFIG['anonymous_access']
   before_action :authenticate_user! unless APP_CONFIG['anonymous_access']
 
   def index

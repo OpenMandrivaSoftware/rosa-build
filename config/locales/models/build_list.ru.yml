@@ -21,6 +21,7 @@ ru:
         arch_id: Архитектура
         arch: Архитектура
         hostname: Хост
+        fail_reason: Причина провала сборки
         arch_short: Архит-ра
         new_core: Новое ядро
         is_circle: Циклическая сборка

@@ -34,6 +34,10 @@ module AbfWorker
         subject.update_attribute(:hostname, options['hostname'])
       end
 
+      if options['fail_reason']
+        subject.update_attribute(:fail_reason, options['fail_reason'])
+      end
+
       if options['commit_hash']
         item.update_attribute(:version, options['commit_hash'])
         subject.update_attribute(:commit_hash, options['commit_hash'])

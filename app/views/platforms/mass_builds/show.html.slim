@@ -126,7 +126,6 @@
           = link_to_list @platform, @mass_build, 'tests_failed_builds_list'
           | &nbsp;
           = link_to_list @platform, @mass_build, 'success_builds_list'
-
     .buttons_block
       - if policy(@mass_build).publish?
         - unless @mass_build.auto_publish_status == BuildList::AUTO_PUBLISH_STATUS_DEFAULT
@@ -153,3 +152,8 @@
         = link_to t('layout.mass_builds.recreate'),
           new_platform_mass_build_path(@platform, mass_build_id: @mass_build.id),
           class: 'btn btn-primary'
+      - if policy(@mass_build).show_fail_reason? && @mass_build.build_error_count > 0
+        hr
+        = link_to t('layout.mass_builds.show_fail_reason_link'),
+          show_fail_reason_platform_mass_build_path,
+          class: 'btn btn-info'

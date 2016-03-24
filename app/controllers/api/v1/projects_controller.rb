@@ -1,7 +1,8 @@
 class Api::V1::ProjectsController < Api::V1::BaseController
 
   before_action :authenticate_user!
-  skip_before_action :authenticate_user!, only: [:get_id, :show, :refs_list] if APP_CONFIG['anonymous_access']
+  skip_before_action :check_auth, only: [:get_id, :show] if APP_CONFIG['anonymous_access']
+  skip_before_action :authenticate_user!, only: [:get_id, :show] if APP_CONFIG['anonymous_access']
 
   before_action :load_project, except: [:index, :create, :get_id]
 
@@ -53,23 +54,6 @@ class Api::V1::ProjectsController < Api::V1::BaseController
 
   def update_member
     update_member_in_subject @project
-  end
-
-  def fork(is_alias = false)
-    owner = (Group.find params[:group_id] if params[:group_id].present?) || current_user
-    authorize @project, :show?
-    authorize owner, :write? if owner.is_a?(Group)
-
-    if forked = @project.fork(owner, new_name: params[:fork_name], is_alias: is_alias) and forked.valid?
-      render_json_response forked, 'Project has been forked successfully'
-    else
-      render_validation_error forked, 'Project has not been forked'
-    end
-  end
-
-  def alias
-    authorize @project
-    fork(true)
   end
 
   private

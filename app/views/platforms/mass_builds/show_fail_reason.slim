@@ -1,0 +1,35 @@
+= render 'submenu'
+
+.col-xs-12.col-md-10.col-md-offset-1
+  .row
+    h3
+      = t('layout.mass_builds.show_fail_reason.title')
+    = link_to t('layout.mass_builds.show_fail_reason.return'), platform_mass_build_path
+  .row
+    -if !@items.empty?
+      table.table.table-condensed
+        thead
+          tr
+            th
+              = t("activerecord.attributes.build_list.id")
+            th
+              = t("activerecord.attributes.build_list.project")
+            th
+              = t("activerecord.attributes.build_list.arch")
+            th
+              = t("activerecord.attributes.build_list.fail_reason")
+        tbody
+          - @items.each do |item|
+            tr
+              td
+                = link_to item[0], build_list_path(item[0])
+              td
+                = link_to item[1], project_path(item[1])
+              td
+                = item[2]
+              td
+                = item[3]
+    -else
+      = t('layout.mass_builds.show_fail_reason.no_failed_builds')
+  .row
+    =will_paginate @build_lists

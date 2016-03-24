@@ -22,6 +22,7 @@ en:
         arch_short: Arch
         arch: Architecture
         hostname: Hostname
+        fail_reason: Fail reason
         new_core: New core
         is_circle: Recurrent build
         updated_at: Notified at

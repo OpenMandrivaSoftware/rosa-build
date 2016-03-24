@@ -21,6 +21,8 @@ json.build_list do
     json.can_publish_in_future can_publish_in_future?(@build_list)
     json.can_publish_into_repository @build_list.can_publish_into_repository?
 
+    json.fail_reason @build_list.fail_reason if @build_list.fail_reason.present?
+
     json.container_path container_url if @build_list.container_published?
 
     json.publisher do
