@@ -16,14 +16,6 @@ class Api::V1::BaseController < ApplicationController
   protected
 
   def check_auth
-    authenticate_or_request_with_http_basic do |token,pw|
-      if user = User.find_by_authentication_token(token)
-        sign_in user, false
-      end
-    end
-  end
-
-  def check_auth_pw_or_token
     authenticate_or_request_with_http_basic do |username,pw|
       if user = User.auth_by_token_or_login_pass(username, pw)
         sign_in user, false

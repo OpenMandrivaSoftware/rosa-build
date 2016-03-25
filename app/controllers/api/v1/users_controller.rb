@@ -1,8 +1,6 @@
 class Api::V1::UsersController < Api::V1::BaseController
 
   before_action :authenticate_user!
-  before_action :check_auth_pw_or_token, only: :show_current_user
-  skip_before_action :check_auth, only: :show_current_user
   skip_before_action :check_auth, only: [:show] if APP_CONFIG['anonymous_access']
   skip_before_action :authenticate_user!, only: [:show] if APP_CONFIG['anonymous_access']
   before_action :load_user, only: %i(show)
