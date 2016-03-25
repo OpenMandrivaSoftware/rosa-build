@@ -23,6 +23,14 @@ class Api::V1::BaseController < ApplicationController
     end
   end
 
+  def check_auth_pw_or_token
+    authenticate_or_request_with_http_basic do |username,pw|
+      if user = User.auth_by_token_or_login_pass(username, pw)
+        sign_in user, false
+      end
+    end
+  end
+
   def set_csv_file_headers(file_name)
     headers['Content-Type'] = 'text/csv'
     headers['Content-disposition'] = "attachment; filename=\"#{file_name}.csv\""
