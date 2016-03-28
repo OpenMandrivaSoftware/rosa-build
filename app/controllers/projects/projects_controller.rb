@@ -3,6 +3,7 @@ class Projects::ProjectsController < Projects::BaseController
   include ProjectsHelper
 
   before_action :authenticate_user!
+  skip_before_action :authenticate_user!, only: [:commit, :diff]
   before_action :who_owns, only: [:new, :create, :mass_import, :run_mass_import]
 
   def index

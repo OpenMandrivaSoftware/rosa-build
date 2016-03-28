@@ -18,7 +18,7 @@ class Api::V1::BaseController < ApplicationController
   def check_auth
     authenticate_or_request_with_http_basic do |username,pw|
       if user = User.auth_by_token_or_login_pass(username, pw)
-        sign_in user, false
+        sign_in user, store: false
       end
     end
   end

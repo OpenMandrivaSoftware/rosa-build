@@ -68,6 +68,7 @@ class BuildListPolicy < ApplicationPolicy
       include_testing_subrepository
       project_id
       project_version
+      native_build
       save_buildroot
       save_to_platform_id
       save_to_repository_id

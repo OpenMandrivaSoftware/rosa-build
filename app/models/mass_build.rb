@@ -97,7 +97,6 @@ class MassBuild < ActiveRecord::Base
     if increase_rt
       inc_rt_sem = Redis::Semaphore.new(:increase_release_tag_lock)
       inc_rt_sem.lock
-      ratelimit_remaining = Github_blobs_api.ratelimit_remaining
     end
 
     projects_list.lines.each do |name|
@@ -110,18 +109,11 @@ class MassBuild < ActiveRecord::Base
           # Ensures that user has rights to create a build_list
           next unless ProjectPolicy.new(user, project).write?
           if increase_rt
-            if ratelimit_remaining <= 1
-              ratelimit_remaining = Github_blobs_api.ratelimit_remaining
-              #if that's still less that or equal 1
-              if ratelimit_remaining <= 1
-                #just to make sure it really resets wait additional 5 seconds
-                ratelimit_reset_wait = Github_blobs_api.ratelimit_reset - Time.now.to_i + 5
-                sleep ratelimit_reset_wait
-                ratelimit_remaining = Github_blobs_api.ratelimit_remaining
-              end
+            ratelimit = Github_blobs_api.ratelimit
+            if ratelimit.remaining <= 1
+              sleep ratelimit.resets_in
             end
-            count = project.increase_release_tag(project_version, "MassBuild##{id}: Increase release tag")
-            ratelimit_remaining -= count
+            project.increase_release_tag(project_version, "MassBuild##{id}: Increase release tag")
           end
           arches_list.each do |arch|
             rep_id = (project.repository_ids & save_to_platform.repository_ids).first

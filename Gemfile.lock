@@ -143,8 +143,6 @@ GEM
       safe_yaml (~> 1.0.0)
     daemons (1.2.2)
     debug_inspector (0.0.2)
-    descendants_tracker (0.0.4)
-      thread_safe (~> 0.3, >= 0.3.1)
     devise (3.5.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -176,14 +174,6 @@ GEM
     formtastic_i18n (0.4.1)
     friendly_id (5.1.0)
       activerecord (>= 4.0.0)
-    github_api (0.13.0)
-      addressable (~> 2.3)
-      descendants_tracker (~> 0.0.4)
-      faraday (~> 0.8, < 0.10)
-      hashie (>= 3.4)
-      multi_json (>= 1.7.5, < 2.0)
-      nokogiri (~> 1.6.6)
-      oauth2
     gli (2.13.1)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
@@ -198,7 +188,6 @@ GEM
     has_scope (0.6.0)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
-    hashie (3.4.2)
     highline (1.6.21)
     hike (1.2.3)
     hirb (0.7.3)
@@ -230,7 +219,6 @@ GEM
       railties (>= 3.2)
       sprockets-rails
     json (1.8.3)
-    jwt (1.5.0)
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -273,7 +261,6 @@ GEM
       railties (>= 3.1)
     mono_logger (1.1.0)
     multi_json (1.11.1)
-    multi_xml (0.5.5)
     multipart-post (2.0.0)
     nest (1.1.2)
       redis
@@ -291,12 +278,8 @@ GEM
       rails (>= 3.1)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
-    oauth2 (1.0.0)
-      faraday (>= 0.8, < 0.10)
-      jwt (~> 1.0)
-      multi_json (~> 1.3)
-      multi_xml (~> 0.5)
-      rack (~> 1.2)
+    octokit (4.3.0)
+      sawyer (~> 0.7.0, >= 0.5.3)
     ohm (1.3.2)
       nest (~> 1.0)
       redis
@@ -453,6 +436,9 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (~> 1.1)
+    sawyer (0.7.0)
+      addressable (>= 2.3.5, < 2.5)
+      faraday (~> 0.8, < 0.10)
     schema_auto_foreign_keys (0.1.0)
       schema_plus_foreign_keys (~> 0.1)
       schema_plus_indexes (~> 0.2)
@@ -613,7 +599,6 @@ DEPENDENCIES
   ffi
   font-awesome-rails
   friendly_id
-  github_api
   haml-rails
   highline (~> 1.6.20)
   hirb
@@ -630,6 +615,7 @@ DEPENDENCIES
   newrelic_rpm
   ng-rails-csrf
   ngmin-rails
+  octokit (~> 4.0)
   ohm (~> 1.3.2)
   ohm-expire (~> 0.1.3)
   paperclip

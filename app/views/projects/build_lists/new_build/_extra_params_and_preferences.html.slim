@@ -22,7 +22,7 @@ h4.offset10= t("activerecord.attributes.build_list.preferences")
           name=     'build_list[auto_create_container]' ]
     = BuildList.human_attribute_name :auto_create_container
 
-- %i(include_testing_subrepository use_cached_chroot use_extra_tests save_buildroot).each do |kind|
+- %i(include_testing_subrepository use_cached_chroot use_extra_tests save_buildroot native_build).each do |kind|
   .checkbox
     label
       - checked = params[:build_list].try(:[], kind)

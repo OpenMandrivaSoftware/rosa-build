@@ -15,6 +15,7 @@ ru:
         use_extra_tests: Использовать дополнительные тесты
         save_buildroot: Сохранить RPM build root
         container_path: Путь до контейнера
+        native_build: Нативная сборка
         status: Статус
         project_id: Проект
         project: Проект

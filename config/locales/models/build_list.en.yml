@@ -12,6 +12,7 @@ en:
         extra_mass_builds: Extra mass builds
         auto_create_container: Create container automatically
         use_cached_chroot: Use cached chroot
+        native_build: Native build
         use_extra_tests: Use extra tests
         save_buildroot: Save RPM build root
         container_path: Container path

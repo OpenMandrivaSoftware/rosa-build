@@ -15,10 +15,27 @@ class Api::V1::JobsController < Api::V1::BaseController
       for_platform(platform_ids).where(builder: nil).pluck('DISTINCT user_id').sample
 
     if uid
-      build_lists = BuildList.scoped_to_arch(arch_ids).
-        for_status([BuildList::BUILD_PENDING, BuildList::RERUN_TESTS]).
-        for_platform(platform_ids).where(user_id: uid).where(builder: nil).oldest.order(:created_at)
-
+      if native_arch_ids.empty?
+        build_lists = BuildList.scoped_to_arch(arch_ids).for_platform(platform_ids).
+                      where(native_build: false)
+      else
+        sql_normal = []
+        params = []
+        sql_normal << 'arch_id IN (?)' if !arch_ids.empty?
+        params << arch_ids             if !arch_ids.empty?
+        sql_normal << 'platform_id IN (?)' if !platform_ids.empty?
+        params << platform_ids             if !platform_ids.empty?
+        sql_normal << 'native_build=false'
+        sql_normal *= ' AND '
+        sql_native_arch = 'arch_id IN (?)'
+        params << native_arch_ids
+        sql_native_arch << ' AND platform_id IN (?)' if !platform_ids.empty?
+        params << platform_ids                       if !platform_ids.empty?
+        sql_native_arch << ' AND native_build=true'
+        build_lists = BuildList.where(sql_normal + ' OR ' + sql_native_arch, *params)
+      end
+      build_lists = build_lists.for_status([BuildList::BUILD_PENDING, BuildList::RERUN_TESTS]).
+                    where(user_id: uid).where(builder: nil).oldest.order(:created_at)
       if current_user.system?
         @build_list = build_lists.where(external_nodes: ["", nil]).first
         @build_list ||= build_lists.external_nodes(:everything).first
@@ -98,6 +115,16 @@ class Api::V1::JobsController < Api::V1::BaseController
     @arch_ids ||= begin
       arches = params[:arches].to_s.split(',')
       arches.present? ? Arch.where(name: arches).pluck(:id) : []
+    end
+  end
+
+  def native_arch_ids
+    @native_arch_ids ||= begin
+      arches = params[:arches].to_s.split(',')
+      native_arches = params[:native_arches].to_s.split(',')
+      native_arches &= arches if !arches.empty?
+      puts native_arches
+      native_arches.present? ? Arch.where(name: native_arches).pluck(:id) : []
     end
   end
 

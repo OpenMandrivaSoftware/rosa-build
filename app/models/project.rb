@@ -216,13 +216,14 @@ class Project < ActiveRecord::Base
   end
 
   def increase_release_tag(project_version, message)
-    file = Github_blobs_api.get github_get_organization, name, '/' + name + '.spec', ref: project_version rescue return 1
-    decoded_content = Base64.decode64(file.content)
-    new_content = Project.replace_release_tag decoded_content
-    return 1 if new_content == decoded_content
-    Github_blobs_api.update github_get_organization, name, '/' + name + '.spec', path: '/' + name + '.spec',\
-                            message: message, content: new_content, sha: file.sha rescue return 2
-    return 2
+    file = Github_blobs_api.contents github_get_organization + '/' + name, path: '/' + name + '.spec', ref: project_version rescue nil
+    if file
+      decoded_content = Base64.decode64(file.content)
+      new_content = Project.replace_release_tag decoded_content
+      return if new_content == decoded_content
+      Github_blobs_api.update_contents github_get_organization + '/' + name, '/' + name + '.spec',\
+                              message, file.sha, new_content, branch: project_version rescue nil
+    end
   end
 
   protected
