@@ -23,16 +23,12 @@ class Api::V1::JobsController < Api::V1::BaseController
         params = []
         sql_normal << 'arch_id IN (?)' if !arch_ids.empty?
         params << arch_ids             if !arch_ids.empty?
-        sql_normal << 'platform_id IN (?)' if !platform_ids.empty?
-        params << platform_ids             if !platform_ids.empty?
         sql_normal << 'native_build=false'
         sql_normal *= ' AND '
         sql_native_arch = 'arch_id IN (?)'
         params << native_arch_ids
-        sql_native_arch << ' AND platform_id IN (?)' if !platform_ids.empty?
-        params << platform_ids                       if !platform_ids.empty?
         sql_native_arch << ' AND native_build=true'
-        build_lists = BuildList.where(sql_normal + ' OR ' + sql_native_arch, *params)
+        build_lists = BuildList.where(sql_normal + ' OR ' + sql_native_arch, *params).for_platform(platform_ids)
       end
       build_lists = build_lists.for_status([BuildList::BUILD_PENDING, BuildList::RERUN_TESTS]).
                     where(user_id: uid).where(builder: nil).oldest.order(:created_at)
