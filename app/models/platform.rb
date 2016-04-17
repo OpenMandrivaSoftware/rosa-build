@@ -269,7 +269,7 @@ class Platform < ActiveRecord::Base
       next false unless product
       pbl = product.product_build_lists.for_status(ProductBuildList::BUILD_COMPLETED).recent.first
       next false unless pbl
-      result = pbl.results.find{ |r| r['file_name'] =~ /-#{arch}.tar.gz$/ }
+      result = pbl.results.find{ |r| r['file_name'] =~ /-#{arch}.tar.(gz|xz)$/ }
       result.present? ? result['sha1'] : false
     end
   end
