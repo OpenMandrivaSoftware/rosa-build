@@ -11,8 +11,6 @@ class Platforms::PlatformsController < Platforms::BaseController
 
       format.json {
         @platforms = PlatformPolicy::Scope.new(current_user, Platform).related
-        @platforms_count = @platforms.count
-        @platforms = @platforms.paginate(page: current_page, per_page: Platform.per_page)
       }
     end
   end

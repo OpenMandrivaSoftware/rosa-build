@@ -1,6 +1,5 @@
-var RosaABF = angular.module('RosaABF', ['ui.bootstrap', 'angular-i18n', 'angularMoment',
-                                         'chieffancypants.loadingBar', 'ngSanitize', 'templates',
-                                         'ngResource', 'ng-rails-csrf', 'ngCookies']);
+var RosaABF = angular.module('RosaABF', ['ui.bootstrap', 'angular-i18n', 'angularMoment', 'templates',
+                                         'ngResource', 'ng-rails-csrf', 'ngCookies', 'ngSanitize']);
 
 RosaABF.factory('LocalesHelper', ['$locale', function($locale) {
   var locales = {
@@ -14,9 +13,9 @@ RosaABF.factory('LocalesHelper', ['$locale', function($locale) {
   }
 }]);
 
-RosaABF.config(function(cfpLoadingBarProvider) {
-  cfpLoadingBarProvider.includeSpinner = false;
-});
+RosaABF.config(['$compileProvider', function ($compileProvider) {
+  $compileProvider.debugInfoEnabled(false);
+}]);
 
 RosaABF.config(['$compileProvider', function ($compileProvider) {
   $compileProvider.debugInfoEnabled(false);
@@ -26,7 +25,6 @@ var SoundNotificationsHelper = function() {
   var isOn = true;
   var statusChangedSound = null;
   soundManager.setup({
-    // url: '/assets/swf/',
     preferFlash: false,
     onready: function() {
       statusChangedSound = soundManager.createSound({url: "<%=asset_path('garbage_shattering.wav')%>"});

@@ -1,0 +1,77 @@
+angular.module("RosaABF").factory('BuildListsService', ["$http", function($http) {
+  var BuildListsService = {};
+
+  var map_priorities = {
+    <%=BuildList::WAITING_FOR_RESPONSE%>: 13,
+    <%=BuildList::BUILD_PENDING%>: 12,
+    <%=BuildList::RERUN_TESTS%>: 11,
+    <%=BuildList::BUILD_CANCELING%>: 10,
+    <%=BuildList::BUILD_CANCELED%>: 9,
+    <%=BuildList::BUILD_STARTED%>: 8,
+    <%=BuildList::RERUNNING_TESTS%>: 7,
+    <%=BuildList::BUILD_PUBLISH%>: 6,
+    <%=BuildList::BUILD_PUBLISHED%>: 5,
+    <%=BuildList::BUILD_ERROR%>: 4,
+    <%=BuildList::SUCCESS%>: 3,
+    <%=BuildList::TESTS_FAILED%>: 2,
+    <%=BuildList::FAILED_PUBLISH%>: 1,
+    <%=BuildList::REJECTED_PUBLISH%>: 0
+  };
+
+  BuildListsService.getBuildLists = function(params, project) {
+    var url;
+    if(project) {
+      url = Routes.project_build_lists_path(project, {format: 'json'});
+    }
+    else {
+      url = Routes.build_lists_path({format: 'json'});
+    }
+
+    return $http.get(url, {params: params}).then(function(results) {
+      // TMP fields
+      var dictionary  = results.data.dictionary;
+      var build_lists = [];
+      var groups      = {};
+
+      // Grouping of build_lists
+      _.each(results.data.build_lists, function(r){
+        var bl = new BuildList(r, dictionary);
+        var key = bl.project_id + '-';
+        key += bl.group_id ? bl.group_id : (bl.commit_hash + '-' + bl.user_id);
+        if (groups[key]) {
+          groups[key].addRelated(bl);
+        }
+        else {
+          groups[key] = bl;
+          build_lists.push(bl);
+        }
+      });
+
+      // Adds all build_lists into the table (group by group)
+      var build_lists_final = [];
+      _.each(build_lists, function(bl){
+        if (bl.related.length > 1) {
+          var sorted_build_lists = _.sortBy(bl.related, function(b) { return map_priorities[b.status]; });
+          bl.clearRelated();
+          var first_in_group = sorted_build_lists[0];
+          first_in_group.clearRelated();
+          _.each(sorted_build_lists, function(b){
+            if (b != first_in_group) { first_in_group.addRelated(b); }
+            build_lists_final.push(b);
+          });
+        } else {
+          build_lists_final.push(bl);
+        }
+      });
+
+      return {
+              build_lists: build_lists_final, 
+              page: results.data.page, 
+              total_items: results.data.total_items,
+              filter: results.data.filter
+            };
+    });
+  }
+
+  return BuildListsService;
+}]);

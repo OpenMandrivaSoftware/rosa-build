@@ -1,11 +1,7 @@
 - user ||= false
 .row
   .col-md-12
-
-    h3.text-info
-      = t('.header')
-
-    form#statistics-form.form-inline.alert.alert-info.centered
+    form#statistics-form.form-inline.centered
       .form-group>
         label.control-label>
           = t('.range_label')
@@ -20,8 +16,8 @@
             size:                 7,
             readonly:             true,
             ng_disabled:          'loading',
-            datepicker_popup:     'yyyy-MM-dd',
-            datepicker_options:   'dateOptions',
+            uib_datepicker_popup: 'yyyy-MM-dd',
+            uib_datepicker_options: 'dateOptions',
             is_open:              'range_start_opened',
             show_button_bar:      false
 
@@ -43,8 +39,8 @@
             size:                 7,
             ng_disabled:          'loading',
             readonly:             true,
-            datepicker_popup:     'yyyy-MM-dd',
-            datepicker_options:   'dateOptions',
+            uib_datepicker_popup:     'yyyy-MM-dd',
+            uib_datepicker_options:   'dateOptions',
             is_open:              'range_end_opened',
             show_button_bar:      false
 

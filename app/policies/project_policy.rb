@@ -3,6 +3,7 @@ class ProjectPolicy < ApplicationPolicy
   def index?
     !user.guest?
   end
+  alias_method :dashboard?,                 :index?
   alias_method :autocomplete_project?,      :index?
   alias_method :remove_user?,               :index?
   alias_method :preview?,                   :index?
@@ -15,11 +16,12 @@ class ProjectPolicy < ApplicationPolicy
     local_reader?
   end
 
-  alias_method :commit?,                     :show?
+  alias_method :commit?,                    :show?
   alias_method :read?,                      :show?
   alias_method :archive?,                   :show?
   alias_method :get_id?,                    :show?
   alias_method :refs_list?,                 :show?
+  alias_method :project_info?,              :show?
 
   def fork?
     !user.guest? && show?

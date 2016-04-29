@@ -1,6 +1,10 @@
 - set_meta_tags title: t('.header')
 
-.container#manage-statistics ng-controller='StatisticsController' ng-init='init()'
-
-  = render 'filter'
-  = render 'build_lists'
+.row.top-space
+  .col-md-8.col-md-offset-2
+    rd-widget
+      rd-widget-header title=t('.header')
+      rd-widget-body
+        div#manage-statistics ng-controller='StatisticsController' ng-init='init()'
+          = render 'filter'
+          = render 'build_lists'

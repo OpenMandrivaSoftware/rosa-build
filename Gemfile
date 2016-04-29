@@ -31,8 +31,6 @@ gem 'sprockets'
 gem 'will_paginate'
 gem 'meta-tags', require: 'meta_tags'
 gem 'haml-rails'
-gem 'jquery-rails'
-gem 'jquery-migrate-rails'
 gem 'ruby-haml-js'
 gem 'slim'
 gem 'simple_form', '3.1.0.rc2'
@@ -45,27 +43,21 @@ gem 'ohm-expire', '~> 0.1.3'
 
 gem 'pygments.rb'
 
-gem 'ffi'
-
 gem 'attr_encrypted'
 
 # AngularJS related stuff
+gem 'angular-rails-templates'
 gem 'underscore-rails'
-gem 'angularjs-rails', '~> 1.3.14'
 gem 'ng-rails-csrf'
-gem 'momentjs-rails'
 gem 'angular-i18n'
 gem 'js-routes'
 gem 'soundmanager-rails'
-gem 'angular-ui-bootstrap-rails'
-gem 'angular-rails-templates'
 gem 'ngmin-rails'
 
 gem 'time_diff'
 
 gem 'sass-rails'
 gem 'coffee-rails'
-gem 'bootstrap-sass'
 gem 'font-awesome-rails'
 
 gem 'compass-rails'

@@ -121,14 +121,13 @@ Rails.application.routes.draw do
   get  '/forbidden'        => 'pages#forbidden',      as: 'forbidden'
   get  '/terms-of-service' => 'pages#tos',            as: 'tos'
 
+  get '/activity.:format'       => 'home#activity',     as: 'activity_feeds', format: /json/
   get '/activity_feeds.:format' => 'home#activity',     as: 'atom_activity_feeds', format: /atom/
-  get '/own_activity'           => 'home#own_activity', as: 'own_activity'
-  get '/get_owners_list'        => 'home#get_owners_list'
-  get '/get_project_names_list' => 'home#get_project_names_list'
+  get '/own_activity.:format'   => 'home#own_activity', as: 'own_activity', format: /json/
 
   if APP_CONFIG['anonymous_access']
     authenticated do
-      root to: 'home#activity'
+      root to: 'home#index'
     end
     unauthenticated do
       root to: 'statistics#index', as: :unauthenticated_root
@@ -137,7 +136,7 @@ Rails.application.routes.draw do
       #end
     end
   else
-    root to: 'home#activity'
+    root to: 'home#index'
   end
 
   scope module: 'platforms' do
@@ -263,31 +262,23 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :projects, only: [:index, :new, :create] do
-      collection do
-        post  :run_mass_import
-        get   :mass_import
-        post  :run_mass_create
-        get   :mass_create
-      end
-    end
+    get '/projects_dashboard' => 'projects#dashboard', as: :projects_dashboard
+
+    resources :projects, only: [:index, :new, :create]
+
     scope '*name_with_owner', name_with_owner: Project::OWNER_AND_NAME_REGEXP do # project
       scope as: 'project' do
-        resources :build_lists, only: [:index, :new, :create] do
-          get :list, on: :collection
-        end
+        resources :build_lists, only: [:index, :new, :create]
         put 'schedule' => 'projects#schedule'
       end
 
       # Resource
+      get '/project_info.:format' => 'projects#project_info', as: :project_info, format: /json/
       get '/autocomplete_maintainers' => 'projects#autocomplete_maintainers', as: :autocomplete_maintainers
       get '/modify' => 'projects#edit', as: :edit_project
-      patch '/' => 'projects#update'
+      patch '/' => 'projects#update', as: :project
       delete '/' => 'projects#destroy'
-      # Member
-      delete '/remove_user' => 'projects#remove_user', as: :remove_user_project
 
-      get '/' => "projects#bl_redirect", as: :project
       get '/commit/:sha' => 'projects#commit', as: :commit
       get '/diff/:diff' => 'projects#diff', as: :diff, format: false, diff: /.*/
     end

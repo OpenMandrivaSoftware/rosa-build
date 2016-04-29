@@ -119,7 +119,6 @@ class Api::V1::JobsController < Api::V1::BaseController
       arches = params[:arches].to_s.split(',')
       native_arches = params[:native_arches].to_s.split(',')
       native_arches &= arches if !arches.empty?
-      puts native_arches
       native_arches.present? ? Arch.where(name: native_arches).pluck(:id) : []
     end
   end

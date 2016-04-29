@@ -1,20 +1,21 @@
 -set_meta_tags title: [title_object(@project), t('layout.projects.edit')]
-== render 'submenu'
 
-.container.col-md-offset-2.col-md-8
-  .row
+.row.top-space
+  .col-md-offset-2.col-md-8
+    rd-widget
+      rd-widget-header title=( title_object(@project) + ' | ' + t('layout.projects.edit') )
+      rd-widget-body
+        = simple_form_for @project, html:             { class: 'form-horizontal' },
+                                    wrapper:          :horizontal_form,
+                                    wrapper_mappings: { boolean: :horizontal_boolean } do |f|
+          == render "form", f: f
 
-    = simple_form_for @project, html:             { class: 'form-horizontal' },
-                                wrapper:          :horizontal_form,
-                                wrapper_mappings: { boolean: :horizontal_boolean } do |f|
-      == render "form", f: f
+        .row
+          .col-sm-offset-3.col-sm-9
+            => t("layout.projects.delete_warning")
+            - if policy(@project).destroy?
+              = link_to t("layout.delete"), project_path(@project), method: :delete,
+                data: { confirm: t("layout.projects.confirm_delete") },
+                class: 'btn btn-danger'
 
     == render 'build_schedule'
-
-    hr.col-sm-12
-    .col-sm-9.col-sm-offset-3
-      => t("layout.projects.delete_warning")
-      - if policy(@project).destroy?
-        = link_to t("layout.delete"), project_path(@project), method: :delete,
-          data: { confirm: t("layout.projects.confirm_delete") },
-          class: 'btn btn-danger'

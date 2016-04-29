@@ -1,62 +1,12 @@
-nav.navbar.navbar-inverse.top_menu role = "navigation"
-  .container-fluid
-    / Brand and toggle get grouped for better mobile display
-    .navbar-header
-      button.navbar-toggle[ data-target = "#top-menu-navbar-collapse" data-toggle = "collapse" type = "button" ]
-        span.sr-only Toggle navigation
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
-      = link_to image_tag('logo-mini.png', alt: 'ABF'), root_path, class: 'navbar-brand'
-    / Collect the nav links, forms, and other content for toggling
-    #top-menu-navbar-collapse.collapse.navbar-collapse
-      ul.nav.navbar-nav
-        - (collection = t 'top_menu').each do |base, title|
-          - if policy(base.to_s.singularize.to_sym).index?
-            li class=top_menu_class(base)
-              a href=send("#{base}_path")
-                i.fa.hidden-sm                     class=top_menu_icon(base)
-                i.fa.visible-sm-inline-block.fa-2x class=top_menu_icon(base)
-                span.hidden-sm
-                  =< title
-        li
-          a href="http://repoclosure.openmandriva.org"
-            i.fa.hidden-sm                         class="fa-bicycle"
-            i.fa.visible-sm-inline-block.fa-2x     class="fa-bicycle"
-            span.hidden-sm
-              =< t('repoclosure')
-        - if current_user.try(:admin?)
-          li class=top_menu_class('admin')
-            a href=admin_users_path target="_blank"
-              i.fa.fa-lock.hidden-sm
-              i.fa.fa-lock.visible-sm-inline-block.fa-2x
-              span.hidden-sm
-                =< t('admins_menu_header')
-        li
-          = form_tag search_index_path, method: 'get', class: 'navbar-form navbar-left',
-                     role: 'search' do
-            .form-group
-              = text_field_tag 'query', @query, placeholder: t('layout.search.header'), class: 'form-control'
-      ul.nav.navbar-nav.navbar-right
-        - if current_user
-          li.hidden-xs
-            .avatar
-              = image_tag avatar_url(current_user), alt: 'avatar', class: 'img-responsive'
-          li.dropdown
-            a.dropdown[ data-toggle = 'dropdown' href = '#' id = 'userMenuLabel'
-                        aria-haspopup = 'true' aria-expanded = 'false' ]
-              span.visible-xs-inline-block.visible-lg-inline-block>
-                = current_user.uname
-              i.fa.fa-cog.hidden-sm
-              i.fa.fa-cog.visible-sm-inline-block.fa-2x
-            ul.dropdown-menu role = 'menu' aria-labelledby = 'userMenuLabel'
-              li= link_to current_user.uname, current_user
-              li= link_to t('layout.settings.label'), profile_settings_path
-              li.divider
-              li= link_to t('layout.logout'), destroy_user_session_path, method: :delete
-        - else
-          ul.nav.navbar-nav
-            li= link_to t('layout.devise.shared_links.sign_up'), new_user_registration_path
-            li= link_to t('layout.devise.shared_links.sign_in'), new_user_session_path
-    / /.navbar-collapse
-  / /.container-fluid
+-if current_user
+  -if policy(:project).dashboard?
+    li.sidebar-list
+      a href=projects_dashboard_path
+        =t 'dashboard.dashboard_name'
+        span.menu-icon.fa.fa-tachometer
+  - (collection = t 'top_menu').each do |base, title|
+    - if policy(base.to_s.singularize.to_sym).index?
+      li.sidebar-list
+        a href=send("#{base}_path")
+          = title
+          span.menu-icon.fa class=top_menu_icon(base)

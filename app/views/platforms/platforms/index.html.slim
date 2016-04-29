@@ -1,23 +1,24 @@
 - set_meta_tags title: t('layout.platforms.list_header')
-.row ng-controller='PlatformsCtrl'
-  .col-md-6.col-md-offset-3 ng-cloak=true
-    - if policy(:platform).create?
-      a.btn.btn-primary href=new_platform_path
-        = t('layout.platforms.new')
-    table.table.table-hover.offset10
-      thead
-        tr
-          th
-          th= t 'activerecord.attributes.platform.name'
-          th= t 'activerecord.attributes.platform.distrib_type'
-      tbody
-        tr ng-repeat='item in platforms'
-          td
-            i.fa.fa-lg ng-class='item.visibility_class'
-          td
-            a ng-href="{{item.link}}"
-              | {{item.name}}
-          td
-            | {{item.distrib_type}}
-
-    = angularjs_paginate per_page: Platform.per_page
+.row.top-space ng-controller='PlatformsController'
+  .col-md-6.col-md-offset-3
+    rd-widget
+      rd-widget-header title=(t('layout.platforms.list_header'))
+      rd-widget-body class="no-padding"
+        table.table.table-hover
+          thead
+            tr
+              th= t 'activerecord.attributes.platform.name'
+              th= t 'activerecord.attributes.platform.distrib_type'
+          tbody
+            tr ng-repeat='item in platforms'
+              td
+                a ng-href="{{item.link}}"
+                  | {{item.name}}
+              td
+                | {{item.distrib_type}}
+      - if policy(:platform).create?
+        rd-widget-footer
+          ul.nav.nav-justified
+            li
+              a href=new_platform_path
+                = t('layout.platforms.new')

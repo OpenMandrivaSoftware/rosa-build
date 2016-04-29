@@ -1,4 +1,4 @@
-RosaABF.controller 'BuildLogController', ['$scope', '$http', '$timeout', ($scope, $http, $timeout) ->
+RosaABF.controller 'BuildLogController', ['$scope', '$http', '$timeout', '$sanitize', ($scope, $http, $timeout, $sanitize) ->
 
   $scope.path           = null
   $scope.log            = null

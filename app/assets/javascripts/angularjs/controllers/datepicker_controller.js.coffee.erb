@@ -51,11 +51,12 @@ DatePickerController = ($scope, datepickerPopupConfig) ->
   <% end %>
   #datepickerPopupConfig.appendToBody = 'true'
 
+  return vm
+
 angular
   .module("RosaABF")
   .controller "DatePickerController", DatePickerController
 
 DatePickerController.$inject = [
                                 '$scope'
-                                'datepickerPopupConfig'
                                ]

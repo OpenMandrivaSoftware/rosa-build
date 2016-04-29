@@ -1,7 +1,0 @@
--set_meta_tags title: nil
-.row
-  .col-xs-12.col-md-10.col-md-offset-1[ ng-controller= 'ActivityController as actCtrl'
-                                        ng-init=       "actCtrl.init('#{action_name}')" ]
-    tabset.offset10 ng-cloak= true
-      == render 'activity_tab'
-      == render 'own_activity_tab'
