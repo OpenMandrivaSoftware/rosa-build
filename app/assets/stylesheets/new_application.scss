@@ -35,10 +35,7 @@ $navbar-inverse-toggle-border-color:       #ddd;
 
 $blockquote-font-size:                     14px;
 
-@import "bootstrap-sprockets";
-@import "bootstrap";
-@import "BootstrapXL";
-@import "custom_bootstrap";
+@import "rdash";
 @import "timeline";
 @import "font-awesome";
 @import "loading-bar";

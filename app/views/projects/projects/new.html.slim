@@ -1,11 +1,10 @@
-.container
-  .row
-    .col-md-offset-2.col-md-8
-      = simple_form_for @project,  html:              { class: 'form-horizontal' },
-                                    wrapper:          :horizontal_form,
-                                    wrapper_mappings: { boolean: :horizontal_boolean,
-                                                        file:    :horizontal_file_input } do |f|
-        .col-sm-offset-3.col-sm-9
-          h3
-            = title t('layout.projects.new')
-        = render 'form', f: f
+.row.top-space
+  .col-md-offset-2.col-md-8
+    rd-widget
+      rd-widget-header title=(title t('layout.projects.new'))
+      rd-widget-body
+        = simple_form_for @project,  html:              { class: 'form-horizontal' },
+                            wrapper:          :horizontal_form,
+                            wrapper_mappings: { boolean: :horizontal_boolean,
+                                                file:    :horizontal_file_input } do |f|
+          = render 'form', f: f

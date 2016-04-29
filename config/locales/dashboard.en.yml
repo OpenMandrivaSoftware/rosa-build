@@ -1,0 +1,18 @@
+en:
+  dashboard:
+    dashboard_name: Projects/Build lists
+    filters: Filters
+
+    projects:
+      title: Projects
+      last_projects: Projects you've worked with
+      name: Project name
+      search: Search
+      new_build: New build
+
+    project_info:
+      title: Project information
+      select: Please select a project
+
+    platforms:
+      title: Platforms

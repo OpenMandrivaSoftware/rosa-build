@@ -5,6 +5,7 @@ class ProductBuildList < ActiveRecord::Base
   include EventLoggable
   include ProductBuildLists::Statusable
   include ProductBuildLists::AbfWorkerable
+  include EventLoggable
 
   LIVE_TIME     = 2.week  # for autostart
   MAX_LIVE_TIME = 3.month # for manual start;

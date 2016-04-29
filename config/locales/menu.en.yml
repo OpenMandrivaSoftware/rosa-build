@@ -5,8 +5,6 @@ en:
     products: Products
   top_menu:
     platforms: Platforms
-    projects: Projects
-    build_lists: Task monitoring
     groups: Groups
     statistics: Statistics
   bottom_menu:

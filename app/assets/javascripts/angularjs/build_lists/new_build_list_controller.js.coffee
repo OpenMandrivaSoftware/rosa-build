@@ -144,33 +144,6 @@ NewBuildListController = (dataservice, $http) ->
     vm.selected_extra_build_list = null
     false
 
-  vm.updateFilterOwner = ->
-    vm.last_build_lists_filter.owner = !vm.last_build_lists_filter.owner;
-    updateLastBuilds()
-
-  vm.updateFilterStatus = ->
-    vm.last_build_lists_filter.status = !vm.last_build_lists_filter.status;
-    updateLastBuilds()
-
-  updateLastBuilds = ->
-    path = Routes.list_project_build_lists_path(
-      {
-        name_with_owner: vm.name_with_owner,
-        page:            vm.last_build_lists_filter.page
-        owner_filter:    vm.last_build_lists_filter.owner
-        status_filter:   vm.last_build_lists_filter.status
-      }
-    )
-
-    $http.get(path).then (response) ->
-      vm.last_build_lists = response.data.build_lists
-      vm.total_items      = response.data.total_items
-    false
-
-  vm.goToPage = (page) ->
-    vm.last_build_lists_filter.page = page
-    updateLastBuilds()
-
   vm.cloneBuildList = (id) ->
     path = Routes.new_project_build_list_path(
       {
@@ -212,11 +185,6 @@ NewBuildListController = (dataservice, $http) ->
     vm.is_build_for_main_platform   = isBuildForMainPlatform()
     vm.hidePlatform                 = (platform) ->
       vm.is_build_for_main_platform and platform.id isnt vm.build_for_platform_id
-
-    if !vm.last_build_lists
-      vm.last_build_lists           = []
-      vm.last_build_lists_filter    = { owner: true, status: true, page: 1 }
-      updateLastBuilds()
 
   init(dataservice)
   vm.selectSaveToRepository() if !dataservice.build_list_id

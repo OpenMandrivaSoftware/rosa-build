@@ -1,18 +1,16 @@
+.row.top-space
+  .col-md-6.col-md-offset-3
+    rd-widget
+      rd-widget-header title=t('layout.devise.shared_links.sign_up')
+      rd-widget-body
+        = simple_form_for resource, url: registration_path(resource_name) do |f|
+          = hidden_field_tag :invitation_token, @invitation_token
 
-.panel.panel-default
-  .panel-heading
-    h4= t('layout.devise.shared_links.sign_up')
-  .panel-body
-
-    = simple_form_for resource, url: registration_path(resource_name) do |f|
-      = hidden_field_tag :invitation_token, @invitation_token
-
-      = f.input :uname
-      = f.input :name
-      = f.input :email
-      = f.input :password
-      = f.input :password_confirmation
-
-      hr
-      .pull-right
-        = f.button :submit, t('layout.devise.shared_links.sign_up')
+          = f.input :uname
+          = f.input :name
+          = f.input :email
+          = f.input :password
+          = f.input :password_confirmation
+          .row
+            .pull-right
+              = f.button :submit, t('layout.devise.shared_links.sign_up')

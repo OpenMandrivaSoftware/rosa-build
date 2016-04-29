@@ -8,20 +8,48 @@ class Projects::ProjectsController < Projects::BaseController
 
   def index
     authorize :project
-    @projects = ProjectPolicy::Scope.new(current_user, Project).membered.search(params[:search])
     respond_to do |format|
-      format.html {
-        @groups = current_user.groups
-        @owners = User.where(id: @projects.where(owner_type: 'User').uniq.pluck(:owner_id))
-      }
       format.json {
-        groups = params[:groups] || []
-        owners = params[:users] || []
-        @projects = @projects.by_owners(groups, owners) if groups.present? || owners.present?
-        @projects_count = @projects.count
-        @projects = @projects.recent.paginate(page: current_page, per_page: Project.per_page)
+        if not params[:search].present?
+          @projects = Project.find(current_user.build_lists.group(:project_id).limit(10).pluck(:project_id))
+        else
+          @projects = ProjectPolicy::Scope.new(current_user, Project).membered.search(params[:search]).limit(20)
+        end
       }
     end
+  end
+
+  def project_info
+    authorize @project
+    respond_to do |format|
+      format.json {
+        @github_basic_info = @project.github_data
+        @commits = []
+        @project.github_branches.each do |branch|
+          last_commit_info = @project.github_last_commit(branch.name)[0]
+          if last_commit_info
+            last_commit = {
+                          branch: branch.name,
+                          url: last_commit_info['html_url'],
+                          sha: last_commit_info['sha'],
+                          message: last_commit_info['commit']['message']
+                        }
+            if last_commit_info['committer']
+              last_commit[:committer_login] = last_commit_info['committer']['login']
+              last_commit[:committer_url] = last_commit_info['committer']['html_url']
+            else
+              last_commit[:committer_login] = last_commit_info['commit']['author']['name']
+              last_commit[:committer_url] = ''
+            end
+            @commits << last_commit
+          end
+        end
+      }
+    end
+  end
+
+  def dashboard
+    authorize :project
   end
 
   def new
@@ -29,49 +57,8 @@ class Projects::ProjectsController < Projects::BaseController
     @project = Project.new
   end
 
-  def mass_import
-    authorize :project
-    @project = Project.new(mass_import: true)
-  end
-
-  def mass_create
-    authorize :project
-    @project = Project.new(mass_create: true)
-  end
-
-  def run_mass_import
-    @project = Project.new project_params
-    @project.owner = choose_owner
-    authorize @project
-    @project.valid?
-    @project.errors.messages.slice! :url
-    if @project.errors.messages.blank? # We need only url validation
-      @project.init_mass_import
-      flash[:notice] = t('flash.project.mass_import_added_to_queue')
-      redirect_to projects_path
-    else
-      render :mass_import
-    end
-  end
-
-  def run_mass_create
-    @project = Project.new project_params
-    @project.owner = choose_owner
-    authorize @project
-    @project.valid?
-    @project.errors.messages.slice! :url
-    if @project.errors.messages.blank? # We need only url validation
-      @project.init_mass_create
-      flash[:notice] = t('flash.project.mass_create_added_to_queue')
-      redirect_to projects_path
-    else
-      render :mass_create
-    end
-  end
-
   def edit
     authorize @project
-    @project_aliases = Project.project_aliases(@project).paginate(page: current_page)
   end
 
   def create
@@ -96,7 +83,7 @@ class Projects::ProjectsController < Projects::BaseController
       format.html do
         if @project.update_attributes(project_params)
           flash[:notice] = t('flash.project.saved')
-          redirect_to @project
+          redirect_to root_path
         else
           flash[:error] = t('flash.project.save_error')
           flash[:warning] = @project.errors.full_messages.join('. ')
@@ -137,31 +124,6 @@ class Projects::ProjectsController < Projects::BaseController
     redirect_to @project.owner
   end
 
-  def sections
-    authorize @project, :update?
-    if request.patch?
-      if @project.update_attributes(project_params)
-        flash[:notice] = t('flash.project.saved')
-        redirect_to sections_project_path(@project)
-      else
-        @project.save
-        flash[:error] = t('flash.project.save_error')
-      end
-    end
-  end
-
-  def remove_user
-    authorize @project
-    @project.relations.by_actor(current_user).destroy_all
-    respond_to do |format|
-      format.html do
-        flash[:notice] = t("flash.project.user_removed")
-        redirect_to projects_path
-      end
-      format.json { render nothing: true }
-    end
-  end
-
   def autocomplete_maintainers
     authorize @project
     term, limit = params[:query], params[:limit] || 10
@@ -177,10 +139,6 @@ class Projects::ProjectsController < Projects::BaseController
 
   def diff
     redirect_to 'https://github.com/' + @project.github_get_organization + '/' + @project.name + '/compare/' + params[:diff]
-  end
-
-  def bl_redirect
-    redirect_to controller: "build_lists", action: "index"
   end
 
   protected

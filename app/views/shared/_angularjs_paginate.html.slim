@@ -2,13 +2,13 @@
 / $scope.goToPage = (number) ->
 /   $location.search('page', number)
 
-pagination[ boundary-links = 'true'
-            total-items    = total_items
-            ng-model       = page
-            previous-text  = "‹" next-text = "›"
-            first-text     = "«" last-text = "»"
-            items-per-page = per_page
-            max-size       = 5
-            rotate         = 'false'
-            ng-show        = "#{total_items} > #{per_page}"
-            ng-change      = select_page ]
+uib-pagination[ boundary-links = 'true'
+                total-items    = total_items
+                ng-model       = page
+                previous-text  = "‹" next-text = "›"
+                first-text     = "«" last-text = "»"
+                items-per-page = per_page
+                max-size       = 5
+                rotate         = 'false'
+                ng-show        = "#{total_items} > #{per_page}"
+                ng-change      = select_page ]

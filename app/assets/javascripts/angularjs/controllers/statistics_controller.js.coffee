@@ -12,11 +12,7 @@ RosaABF.controller 'StatisticsController', ['$scope', '$http', '$timeout', ($sco
     '56, 132, 158',
     '77, 169, 68',
     '241, 128, 73',
-    '174, 199, 232',
-    # '255, 187, 120',
-    # '152, 223, 138',
-    # '214, 39, 40',
-    # '31, 119, 180'
+    '174, 199, 232'
   ]
   $scope.charts                   = {}
 
@@ -25,12 +21,6 @@ RosaABF.controller 'StatisticsController', ['$scope', '$http', '$timeout', ($sco
     startingDay:  1
 
   $scope.init = ->
-    $('#statistics-form .date_picker').datepicker
-      'dateFormat': 'yy-mm-dd'
-      maxDate: 0
-      minDate: -366
-      showButtonPanel: true
-
     $scope.update()
     true
 
@@ -84,18 +74,6 @@ RosaABF.controller 'StatisticsController', ['$scope', '$http', '$timeout', ($sco
       # BuildLists
       if $scope.statistics.build_lists
         $scope.initBuildListsChart()
-
-      # PullRequests
-      if $scope.statistics.pull_requests
-        $scope.initPullRequestsChart()
-
-      # Issues
-      if $scope.statistics.issues
-        $scope.initIssuesChart()
-
-      # Commits
-      if $scope.statistics.commits
-        $scope.initCommitsChart()
 
     .error (data, status, headers, config) ->
       console.log 'error:'
@@ -155,25 +133,6 @@ RosaABF.controller 'StatisticsController', ['$scope', '$http', '$timeout', ($sco
       $scope.statistics.build_lists.success,
       $scope.statistics.build_lists.build_error,
       $scope.statistics.build_lists.build_published
-    ]
-
-  $scope.initCommitsChart = ->
-    $scope.dateChart '#commits_chart', [
-      $scope.statistics.commits.chart
-    ]
-
-  $scope.initPullRequestsChart = ->
-    $scope.dateChart '#pull_requests_chart', [
-      $scope.statistics.pull_requests.open,
-      $scope.statistics.pull_requests.merged
-      $scope.statistics.pull_requests.closed,
-    ]
-
-  $scope.initIssuesChart = ->
-    $scope.dateChart '#issues_chart', [
-      $scope.statistics.issues.open,
-      $scope.statistics.issues.reopen,
-      $scope.statistics.issues.closed
     ]
 
 ]

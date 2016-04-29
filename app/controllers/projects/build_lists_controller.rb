@@ -16,7 +16,6 @@ class Projects::BuildListsController < Projects::BaseController
     params[:filter].each{|k,v| params[:filter].delete(k) if v.blank? } if params[:filter]
 
     respond_to do |format|
-      format.html
       format.json do
         @filter = BuildList::Filter.new(@project, current_user, params[:filter] || {})
         params[:page] = params[:page].to_i == 0 ? nil : params[:page]
@@ -84,7 +83,8 @@ class Projects::BuildListsController < Projects::BaseController
     else
       BuildList.where(id: build_lists.map(&:id)).update_all(group_id: build_lists[0].id) if build_lists.size > 1
       flash[:notice] = notices.join('<br>').html_safe
-      redirect_to project_build_lists_path(@project)
+      puts root_path(anchor: "project=" + @project.name_with_owner)
+      redirect_to root_path(anchor: "?project=" + @project.name_with_owner)
     end
   end
 
@@ -151,18 +151,6 @@ class Projects::BuildListsController < Projects::BaseController
       log: @build_list.log,
       building: @build_list.build_started?
     }
-  end
-
-  def list
-    @build_lists = @project.build_lists
-    @build_lists = @build_lists.where(user_id: current_user) if params[:owner_filter] == 'true'
-    @build_lists = @build_lists.where(status: [BuildList::BUILD_ERROR, BuildList::FAILED_PUBLISH, BuildList::REJECTED_PUBLISH]) if params[:status_filter] == 'true'
-
-    @total_build_lists = @build_lists.count
-
-    @build_lists = @build_lists.recent.paginate(page: current_page)
-
-    render partial: 'build_lists_ajax', layout: false
   end
 
   protected

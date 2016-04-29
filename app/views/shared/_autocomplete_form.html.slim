@@ -32,7 +32,7 @@ h4
       type                = 'text'
       ng-model            = "#{ctrl_as}selected_#{var_name}"
       placeholder         = placeholder
-      typeahead           = "extra.label for extra in #{ctrl_as}get#{field}($viewValue)"
+      uib-typeahead       = "extra.label for extra in #{ctrl_as}get#{field}($viewValue)"
       typeahead-on-select = "#{ctrl_as}select#{func_name}($item, $model, $label)" ]
   .col-md-4
     button[ class='btn btn-primary' type='button'

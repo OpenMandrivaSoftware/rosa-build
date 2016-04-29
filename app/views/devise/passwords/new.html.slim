@@ -1,12 +1,12 @@
-.panel.panel-default
-  .panel-heading
-    h4= t('devise.passwords.forgot')
-  .panel-body
+.row.top-space
+  .col-md-6.col-md-offset-3
+    rd-widget
+      rd-widget-header title=t('devise.passwords.forgot')
+      rd-widget-body
+        = simple_form_for resource, url: password_path(resource_name), html: { method: :post } do |f|
+          = hidden_field_tag :invitation_token, @invitation_token
 
-    = simple_form_for resource, url: password_path(resource_name), html: { method: :post } do |f|
-      = hidden_field_tag :invitation_token, @invitation_token
-
-      = f.input :email
-      hr
-      .pull-right
-        = f.button :submit, t('devise.passwords.send')
+          = f.input :email
+          .row
+            .pull-right
+              = f.button :submit, t('devise.passwords.send')

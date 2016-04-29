@@ -1,0 +1,28 @@
+ul.timeline {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 0;
+}
+ul.timeline > li.timeline-day {
+  margin-top: 5px;
+  padding: 5px;
+  border-bottom: none;
+}
+ul.timeline > li.timeline-day span {
+  padding: 3px;
+  border-radius: 3px;
+  border: 1px solid rgb(221, 221, 221);
+  background: rgb(250, 250, 250);
+}
+ul.timeline > li {
+  border-bottom: 1px solid rgb(221, 221, 221);
+}
+ul.timeline > li:last-of-type {
+  border-bottom: none;
+}
+ul.timeline > li div.timeline-item {
+  padding: 10px;
+}
+ul.timeline > li div.timeline-item > div.timeline-item-body {
+  margin-top: 5px;
+}

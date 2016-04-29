@@ -1,9 +1,5 @@
 if @activity_feeds.next_page
-  json.next_page_link root_path(filter:              @filter,
-                                page:                @activity_feeds.next_page,
-                                owner_filter:        @owner_filter,
-                                project_name_filter: @project_name_filter,
-                                format:              :json)
+  json.next_page_link @next_page_link
 end
 
 json.feed do
