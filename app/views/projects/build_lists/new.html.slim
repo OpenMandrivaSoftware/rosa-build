@@ -1,6 +1,6 @@
 -set_meta_tags title: [title_object(@project), t('layout.build_lists.new_header')]
 .row.top-space
-  .col-xs-12.col-md-10.col-md-offset-1 ng-controller = 'NewBuildListController as newBuildCtrl' ng-cloak = true
+  .col-md-12 ng-controller = 'NewBuildListController as newBuildCtrl' ng-cloak = true
     rd-widget
       rd-widget-header title=(t('layout.build_lists.new_header') + ' | ' + title_object(@project))
       rd-widget-body
