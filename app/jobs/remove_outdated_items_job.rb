@@ -13,6 +13,9 @@ class RemoveOutdatedItemsJob
     end
     counter_pbl = ProductBuildList.outdated.count
     ProductBuildList.outdated.destroy_all
+    User.find_each(batch_size: 50) do |u|
+      u.activity_feeds.outdated.destroy_all
+    end
     File.open(log_file, "w") do |f|
       f.puts "Build Lists deleted: #{counter_bl}"
       f.puts "Mass Builds deleted: #{counter_mb}"
