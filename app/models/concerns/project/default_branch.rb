@@ -15,6 +15,7 @@ module Project::DefaultBranch
   # Returns found String branch name.
 
   def resolve_default_branch
+    return default_branch	unless owner.is_a?(Group) && owner.default_branch.present?
     default_branch == 'master' ? owner.default_branch : default_branch
   end
 
