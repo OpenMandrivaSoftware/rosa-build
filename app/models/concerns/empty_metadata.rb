@@ -2,7 +2,7 @@ module EmptyMetadata
   extend ActiveSupport::Concern
 
   included do
-    after_create :create_empty_metadata
+    after_commit :create_empty_metadata, on: :create
   end
 
   def create_empty_metadata
