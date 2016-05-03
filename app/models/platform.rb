@@ -93,7 +93,6 @@ class Platform < ActiveRecord::Base
   after_update :update_owner_relation
 
   after_commit  -> { symlink_directory unless hidden? }, on: :create
-  after_destroy -> { remove_symlink_directory unless hidden? }
 
   accepts_nested_attributes_for :platform_arch_settings, allow_destroy: true
 
@@ -215,7 +214,6 @@ class Platform < ActiveRecord::Base
 
   def symlink_directory
     # umount_directory_for_rsync # TODO ignore errors
-    system("ln -s #{path} #{symlink_path}")
     Arch.all.each do |arch|
       str = "country=Russian Federation,city=Moscow,latitude=52.18,longitude=48.88,bw=1GB,version=2011,arch=#{arch.name},type=distrib,url=#{public_downloads_url}\n"
       File.open(File.join(symlink_path, "#{name}.#{arch.name}.list"), 'w') {|f| f.write(str) }
