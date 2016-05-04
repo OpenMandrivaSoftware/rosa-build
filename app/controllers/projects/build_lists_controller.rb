@@ -84,8 +84,7 @@ class Projects::BuildListsController < Projects::BaseController
     else
       BuildList.where(id: build_lists.map(&:id)).update_all(group_id: build_lists[0].id) if build_lists.size > 1
       flash[:notice] = notices.join('<br>').html_safe
-      puts root_path(anchor: "project=" + @project.name_with_owner)
-      redirect_to root_path(anchor: "?project=" + @project.name_with_owner)
+      redirect_to project_build_lists_path(@project.name_with_owner)
     end
   end
 
