@@ -1,9 +1,4 @@
 -if current_user
-  -if policy(:project).dashboard?
-    li.sidebar-list
-      a href=projects_dashboard_path
-        =t 'dashboard.dashboard_name'
-        span.menu-icon.fa.fa-tachometer
   - (collection = t 'top_menu').each do |base, title|
     - if policy(base.to_s.singularize.to_sym).index?
       li.sidebar-list

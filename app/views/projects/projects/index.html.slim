@@ -1,0 +1,29 @@
+.row.top-space
+  .col-md-6
+    rd-widget
+      div ng-controller="ProjectsController"
+        rd-widget-header title=(t "dashboard.projects.title") icon="fa-cube"
+          input.form-control.input-sm [ng-model="search" placeholder=(t "dashboard.projects.search")
+                                       ng-change="searchProjects(search)" ng-model-options="{ debounce: 500 }"]
+        rd-widget-body classes="medium no-padding" loading="requesting"
+          .table-responsive
+            table.table ng-cloak=true
+              thead
+                tr
+                  th ng-show="search" = t 'dashboard.projects.name'
+                  th ng-hide="search" = t 'dashboard.projects.last_projects'
+                  th
+                  th
+              tbody
+                tr ng-repeat = 'item in projects'
+                  td
+                    a ng-href="{{::item.project_link}}" {{::item.name_with_owner}}
+                  td
+                    a[ ng-href = '{{::item.new_build_list_link}}'] = t 'dashboard.projects.new_build'
+                  td
+                    a[ ng-href = '{{::item.edit_link}}' ng-show='::item.edit_link'] = t 'project_menu.settings'
+        - if policy(:project).create?
+          rd-widget-footer
+            ul.nav.nav-justified
+              li
+                = link_to t('layout.projects.new'), new_project_path, target: '_blank'

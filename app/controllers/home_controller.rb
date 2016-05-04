@@ -3,7 +3,7 @@ class HomeController < ApplicationController
   skip_after_action :verify_authorized
 
   def index
-    redirect_to projects_dashboard_path
+    redirect_to projects_path
   end
 
   def activity(is_my_activity = false)

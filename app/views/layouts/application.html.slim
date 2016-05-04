@@ -14,12 +14,13 @@ html
 
   body[ ng-app='RosaABF' ng-controller='RosaABFController' ng-strict-di=''
         ng-init="init('#{I18n.locale}', #{!!current_user.try(:sound_notifications)})" ng-cloak="true"]
-    .page-wrapper.open
+    .page-wrapper ng-class="{'open': toggle}"
       .sidebar-wrapper
         ul.sidebar
           li.sidebar-main
-            a href="/"
-              = link_to image_tag('logo-mini.png', alt: 'ABF'), root_path
+            a ng-click="toggleSidebar()"
+              = image_tag('logo-mini.png', alt: 'ABF')
+              span class="menu-icon glyphicon glyphicon-transfer"
           == render 'layouts/menu/new_top'
 
       .content-wrapper

@@ -16,6 +16,7 @@ class Projects::BuildListsController < Projects::BaseController
     params[:filter].each{|k,v| params[:filter].delete(k) if v.blank? } if params[:filter]
 
     respond_to do |format|
+      format.html
       format.json do
         @filter = BuildList::Filter.new(@project, current_user, params[:filter] || {})
         params[:page] = params[:page].to_i == 0 ? nil : params[:page]

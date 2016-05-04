@@ -4,6 +4,8 @@ en:
     personal_repository: My repository
     products: Products
   top_menu:
+    projects: Projects
+    build_lists: Build Lists
     platforms: Platforms
     groups: Groups
     statistics: Statistics
