@@ -262,8 +262,6 @@ Rails.application.routes.draw do
       end
     end
 
-    get '/projects_dashboard' => 'projects#dashboard', as: :projects_dashboard
-
     resources :projects, only: [:index, :new, :create]
 
     scope '*name_with_owner', name_with_owner: Project::OWNER_AND_NAME_REGEXP do # project

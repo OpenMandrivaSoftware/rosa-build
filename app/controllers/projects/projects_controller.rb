@@ -9,6 +9,7 @@ class Projects::ProjectsController < Projects::BaseController
   def index
     authorize :project
     respond_to do |format|
+      format.html
       format.json {
         if not params[:search].present?
           @projects = Project.find(current_user.build_lists.group(:project_id).limit(10).pluck(:project_id))

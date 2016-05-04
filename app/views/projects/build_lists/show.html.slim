@@ -16,7 +16,16 @@ div[ ng-controller='BuildListController'
         | )
 
   .row
-    div ng-class="{'col-md-6': build_list.packages || build_list.results, 'col-md-12': !build_list.packages && !build_list.results}"
+    .col-md-8
+      = render 'packages'
+    .col-md-4
+      = render 'shared/build_results', subject: @build_list
+
+  .row.top-space ng-show="build_list.status == #{BuildList::BUILD_STARTED}"
+    = render 'shared/log', { build_started: true, get_log_path: log_build_list_path(@build_list) }
+
+  .row.top-space
+    .col-md-10
       rd-widget
         rd-widget-header title=t('layout.build_lists.main_data')
         rd-widget-body class="no-padding"
@@ -175,19 +184,9 @@ div[ ng-controller='BuildListController'
             tr.alert.alert-danger ng-show='build_list.can_publish && build_list.can_publish_in_future && !build_list.can_publish_into_repository'
               td colspan=2
                 = t('flash.build_list.not_all_build_lists_success')
-        rd-widget-footer
+    .col-md-2
+      rd-widget
+        rd-widget-header title="Actions"
+        rd-widget-body
           = form_for @build_list, url: publish_build_list_path(@build_list), html: {class: :"form-inline"} do |f|
             = render 'buttons', build_list: @build_list
-    .col-md-6
-      = render 'packages'
-      .top-space ng-show="build_list.packages"
-      = render 'shared/build_results', subject: @build_list
-
-  .row.top-space ng-show="build_list.status == #{BuildList::BUILD_STARTED}"
-    = render 'shared/log', { build_started: true, get_log_path: log_build_list_path(@build_list) }
-
-  .row.top-space
-    .col-md-12
-      = render 'item_groups'
-
-  .row.top-space

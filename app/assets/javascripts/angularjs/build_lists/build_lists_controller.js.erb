@@ -1,11 +1,11 @@
-RosaABF.controller('BuildListsController', ['$scope', 'BuildListsService', '$location', '$interval', '$uibModal', 'ProjectSelectService',
-function($scope, BuildListsService, $location, $interval, $uibModal, ProjectSelectService) {
+RosaABF.controller('BuildListsController', ['$scope', 'BuildListsService', '$location', '$interval', '$uibModal',
+function($scope, BuildListsService, $location, $interval, $uibModal) {
   $scope.params          = null;
   $scope.build_lists     = [];
   $scope.isRequest       = false; // Disable 'Search' button
   $scope.opened          = {};
-  $scope.ProjectSelectService = ProjectSelectService;
 
+  var selectedProject = "";
   var refresh, is_autoreload_on;
   var default_filters = {page: '1', per_page: '25', 'ownership': 'owned'};
 
@@ -23,17 +23,20 @@ function($scope, BuildListsService, $location, $interval, $uibModal, ProjectSele
     }
   }
 
-  $scope.getBuildLists = function() {
+  $scope.getBuildLists = function(project) {
     if ($scope.isRequest) {
       return;
     }
 
-    ProjectSelectService.disable_bl = true;
-    $scope.isRequest = true;
-
-    if(ProjectSelectService.project) {
-      var project = ProjectSelectService.project;
+    if(selectedProject) {
+      project = selectedProject;
     }
+    else {
+      selectedProject = project;
+    }
+
+    $scope.widgetTitle = project;
+    $scope.isRequest = true;
 
     var filter = Object.assign(Object.create(null), default_filters, $location.search());
     var fixed_filter = Object.create(null);
@@ -66,13 +69,7 @@ function($scope, BuildListsService, $location, $interval, $uibModal, ProjectSele
       $location.search(Object.assign(filter, res.filter));
       $scope.per_page = filter.per_page;
       $scope.isRequest = false;
-      ProjectSelectService.disable_bl = false;
-      ProjectSelectService.load_project_info = ProjectSelectService.project;
     });
-  }
-
-  $scope.clearProject = function() {
-    ProjectSelectService.project = "";
   }
 
   $scope.showRelated = function(build_list) {
@@ -129,28 +126,6 @@ function($scope, BuildListsService, $location, $interval, $uibModal, ProjectSele
   }
 
   $scope.setAutoreload(true);
-
-  var project_hash = $location.search();
-  if(project_hash['project']) {
-    ProjectSelectService.project = project_hash['project'];
-    $location.search('project', null);
-  }
-
-  $scope.$watch(function() {
-    return ProjectSelectService.project;
-  }, function() {
-    var turn_back_on = is_autoreload_on;
-    if(ProjectSelectService.project) {
-      $scope.widget_title = " | " + ProjectSelectService.project;
-    }
-    else {
-      $scope.widget_title = "";
-    }
-    $scope.setAutoreload(false);
-    $scope.getBuildLists();
-    $scope.setAutoreload(turn_back_on);
-  });
-
 }]);
 
 RosaABF.controller('FiltersInstanceController', ['$scope', '$uibModalInstance', 'params',

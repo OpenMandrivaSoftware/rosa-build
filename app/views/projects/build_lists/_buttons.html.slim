@@ -1,67 +1,71 @@
 - if policy(build_list).cancel?
-  = link_to t("layout.build_lists.cancel"),
-    cancel_build_list_path(build_list),
-    method:       :put,
+  .row
+    = link_to t("layout.build_lists.cancel"),
+      cancel_build_list_path(build_list),
+      method:       :put,
+      data:         { confirm: t('layout.confirm') },
+      class:        'btn btn-primary',
+      'ng-show' =>  'build_list.can_cancel'
+
+.row.top-space ng-show="build_list.can_publish && build_list.status == #{BuildList::BUILD_PUBLISHED}"
+  = submit_tag t('layout.publish_again'),
+    data:         { confirm: t("layout.publish_again_warning") },
+    name:         'publish',
+    class:        'btn btn-primary'
+
+.row.top-space ng-show="build_list.can_publish && build_list.can_publish_in_future && build_list.extra_build_lists_published && build_list.status == #{BuildList::TESTS_FAILED}"
+  = submit_tag t('layout.publish'),
+    data:         { confirm: t('layout.build_lists.tests_failed') },
+    name:         'publish',
+    class:        'btn btn-primary'
+
+.row.top-space ng-show="build_list.can_publish && build_list.can_publish_in_future && build_list.extra_build_lists_published && build_list.status != #{BuildList::TESTS_FAILED} && build_list.status != #{BuildList::BUILD_PUBLISHED}"
+  = submit_tag t('layout.publish'),
     data:         { confirm: t('layout.confirm') },
-    class:        'btn btn-primary roffset5 boffset5',
-    'ng-show' =>  'build_list.can_cancel'
+    name:         'publish',
+    class:        'btn btn-primary'
+    
 
-= submit_tag t('layout.publish_again'),
-  data:         { confirm: t("layout.publish_again_warning") },
-  name:         'publish',
-  class:        'btn btn-primary roffset5 boffset5',
-  'ng-show' =>  "build_list.can_publish && build_list.status == #{BuildList::BUILD_PUBLISHED}"
-
-= submit_tag t('layout.publish'),
-  data:         { confirm: t('layout.build_lists.tests_failed') },
-  name:         'publish',
-  class:        'btn btn-primary roffset5 boffset5',
-  'ng-show' =>  "build_list.can_publish && build_list.can_publish_in_future && build_list.extra_build_lists_published && build_list.status == #{BuildList::TESTS_FAILED}"
-
-= submit_tag t('layout.publish'),
-  data:         { confirm: t('layout.confirm') },
-  name:         'publish',
-  class:        'btn btn-primary roffset5 boffset5',
-  'ng-show' =>  "build_list.can_publish && build_list.can_publish_in_future && build_list.extra_build_lists_published && build_list.status != #{BuildList::TESTS_FAILED} && build_list.status != #{BuildList::BUILD_PUBLISHED}"
-
-= link_to t('layout.publish_into_testing'),
-  publish_into_testing_build_list_path(build_list),
-  method:      :put,
-  data:        { confirm: t('layout.confirm') },
-  class:       'btn btn-primary roffset5 boffset5',
-  'ng-show' => 'build_list.can_publish_into_testing'
+.row.top-space ng-show='build_list.can_publish_into_testing'
+  = link_to t('layout.publish_into_testing'),
+    publish_into_testing_build_list_path(build_list),
+    method:      :put,
+    data:        { confirm: t('layout.confirm') },
+    class:       'btn btn-primary'
 
 - if policy(build_list).reject_publish?
-  = link_to t('layout.reject_publish'),
-    reject_publish_build_list_path(build_list),
-    method:       :put,
-    data:         { confirm: t('layout.confirm') },
-    class:        'btn btn-primary roffset5 boffset5',
-    'ng-show' =>  'build_list.can_reject_publish'
+  .row.top-space ng-show='build_list.can_reject_publish'
+    = link_to t('layout.reject_publish'),
+      reject_publish_build_list_path(build_list),
+      method:       :put,
+      data:         { confirm: t('layout.confirm') },
+      class:        'btn btn-primary'
 
 - if policy(build_list).rerun_tests?
-  = link_to t('layout.build_lists.rerun_tests'),
-    rerun_tests_build_list_path(build_list),
-    method:       :put,
-    data:         { confirm: t('layout.confirm') },
-    class:        'btn btn-primary roffset5 boffset5',
-    'ng-show' =>  "build_list.status == #{BuildList::TESTS_FAILED} || build_list.status == #{BuildList::SUCCESS}"
+  .row.top-space ng-show="build_list.status == #{BuildList::TESTS_FAILED} || build_list.status == #{BuildList::SUCCESS}"
+    = link_to t('layout.build_lists.rerun_tests'),
+      rerun_tests_build_list_path(build_list),
+      method:       :put,
+      data:         { confirm: t('layout.confirm') },
+      class:        'btn btn-primary'
 
 - if policy(build_list).create_container?
-  = link_to t('layout.build_lists.create_container'),
-    create_container_build_list_path(build_list),
-    method:       :put,
-    data:         { confirm: t("layout.confirm") },
-    class:        'btn btn-primary roffset5 boffset5',
-    'ng-show' =>  'build_list.can_create_container'
+  .row.top-space ng-show='build_list.can_create_container'
+    = link_to t('layout.build_lists.create_container'),
+      create_container_build_list_path(build_list),
+      method:       :put,
+      data:         { confirm: t("layout.confirm") },
+      class:        'btn btn-primary'
 
 - if policy(build_list).create?
-  = link_to t('layout.build_lists.recreate_build_list'), new_project_build_list_path(build_list.project,
-    build_list_id: build_list.id),
-    class:         'btn btn-primary roffset5 boffset5'
+  .row.top-space
+    = link_to t('layout.build_lists.recreate_build_list'), new_project_build_list_path(build_list.project,
+      build_list_id: build_list.id),
+      class:         'btn btn-primary'
 
   - if can_run_dependent_build_lists?(build_list)
-    = link_to t('projects.build_lists.dependent_projects.title'),
-      dependent_projects_build_list_path(build_list),
-      class:        'btn btn-primary roffset5 boffset5',
-      'ng-show' =>  'build_list.dependent_projects_exists'
+    .row.top-space ng-show='build_list.dependent_projects_exists'
+      = link_to t('projects.build_lists.dependent_projects.title'),
+        dependent_projects_build_list_path(build_list),
+        class:        'btn btn-primary'
+        

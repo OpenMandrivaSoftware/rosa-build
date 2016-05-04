@@ -1,0 +1,80 @@
+.row.top-space
+  .col-md-12 ng-controller="BuildListsController" ng-init=('getBuildLists("'+params[:name_with_owner].to_s+'")')
+    == render 'projects/build_lists/filter'
+    rd-widget
+      rd-widget-header title="Build Lists {{::widgetTitle}}" icon="fa-gears"
+        .form-inline ng-init="autoreload=true"
+          button ng-model="autoreload" ng-click="setAutoreload(autoreload)" class="btn btn-default" uib-btn-checkbox=""
+            = t 'layout.autoreload_page'
+          button class="btn btn-default" ng-click="openFilters()" ng-disabled="isRequest"
+            | Filters
+      rd-widget-body classes="no-padding" loading="isRequest"
+        .row
+          table.table.table-condensed
+            thead
+              tr
+                th
+                th= t('activerecord.attributes.build_list.id')
+                th= t('activerecord.attributes.build_list.status')
+                th= t('activerecord.attributes.build_list.project')
+                th= t('diff')
+                th= t('activerecord.attributes.build_list.project_version')
+                th= t('activerecord.attributes.build_list.save_to_repository')
+                th= t('activerecord.attributes.build_list.arch_short')
+                th= t('activerecord.attributes.build_list.user')
+                th= t('activerecord.attributes.build_list.hostname')
+            tbody
+              tr[ ng-repeat = 'bl in build_lists'
+                  class     = '{{::bl.status_color}}'
+                  id        = 'build-list-{{::bl.id}}'
+                  ng-class  = "{'group-start': !bl.relatedHidden, 'group-end': bl.lastRelated}"
+                  ng-show   = 'bl.show' ]
+                td.build-list-chevrons
+                  a.expand ng-show = '::bl.hasRelated'
+                    span.fa.fa-chevron-down ng-show = 'bl.relatedHidden' ng-click = 'showRelated(bl)'
+                    span.fa.fa-chevron-up   ng-hide = 'bl.relatedHidden' ng-click = 'hideRelated(bl)'
+                / id
+                td.build-list-statuses
+
+                  a[ ng-href = '{{::bl.url}}' ] {{::bl.id}}
+                  div ng-show = '::bl.hasRelated' ng-bind-html="::bl.chevronHtml"
+
+                / status
+                td
+                  | {{::bl.human_status | i18n}}
+                  br
+                  time ng-show = '::bl.duration'
+                    | {{::bl.duration}}
+                    time ng-show = '::bl.average_build_time'
+                      | /{{::bl.average_build_time}}
+
+                / project
+                td.centered ng-hide = '::bl.project' colspan = 2
+                  = t('layout.projects.unexisted_project')
+                td ng-show = '::bl.project'
+                  | {{::bl.project.name_with_owner}}
+
+                / diff
+                td
+                  a ng-href = '{{::bl.version_link_url}}' ng-show = '::bl.project'
+                    | {{::bl.version_link_text}}
+
+                / project_version
+                td[] {{::bl.version_release}}
+
+                / save_to_repository
+                td
+                  a[ ng-href = '{{::bl.save_to_repository_url}}' ] {{::bl.save_to_repository_name}}
+
+                / arch_short
+                td[ ng-show = '::bl.arch' ] {{::bl.arch.name}}
+                td[ ng-hide = '::bl.arch' ]= t('layout.arches.unexisted_arch')
+
+                / user
+                td
+                  a[ ng-href = '{{::bl.user.url}}' ] {{::bl.user.fullname}}
+
+                / hostname
+                td[] {{::bl.hostname}}
+        rd-widget-footer ng-show="total_items > per_page"
+          == angularjs_paginate( per_page: 'per_page' )
