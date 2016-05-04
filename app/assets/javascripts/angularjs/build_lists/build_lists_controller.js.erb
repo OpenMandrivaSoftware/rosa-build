@@ -15,7 +15,7 @@ function($scope, BuildListsService, $location, $interval, $uibModal) {
       if(refresh) {
         $interval.cancel(refresh);
       }
-      refresh = $interval($scope.getBuildLists, 60000);
+      refresh = $interval(function() { $scope.getBuildLists() }, 60000);
     }
     else if(!autoreload && refresh) {
       $interval.cancel(refresh);

@@ -49,8 +49,8 @@
 
           = hidden_field_tag :from_build_list_id, params[:build_list_id] if params[:build_list_id].present?
 
-        .col-xs-12.col-sm-8.col-sm-offset-2
-          %hr
+      .row.top-space
+        .pull-right
           = button_tag type: :submit,
               data: {'disable-with' => t('layout.processing')},
               class: 'btn btn-primary btn-lg btn-block' do
