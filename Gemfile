@@ -1,4 +1,4 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 gem 'rails'
 
@@ -60,7 +60,7 @@ gem 'therubyracer', platforms: [:mri, :rbx]
 gem 'therubyrhino', platforms: :jruby
 gem 'sitemap_generator'
 
-source 'http://rails-assets.org' do
+source 'https://rails-assets.org' do
   gem 'rails-assets-notifyjs'
 end
 
