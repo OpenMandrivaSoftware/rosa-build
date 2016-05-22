@@ -1,8 +1,12 @@
 RosaABF.controller('ProductBuildListController', ['$scope', '$http', '$timeout', 'SoundNotificationsHelper', function($scope, $http, $timeout, SoundNotificationsHelper) {
 
-  $scope.id       = $('#product_build_list_id').val();
   $scope.pbl      = null;
   $scope.subject  = {}; // See: shared/build_results
+
+  $scope.init = function(id) {
+    $scope.id = id;
+    $scope.refresh();
+  }
 
   $scope.getProductBuildList = function() {
     $http.get(Routes.product_build_list_path($scope.id, {format: 'json'})).success(function(results) {
@@ -26,7 +30,6 @@ RosaABF.controller('ProductBuildListController', ['$scope', '$http', '$timeout',
     }
     $scope.cancelRefresh = $timeout($scope.refresh, 10000);
   }
-  $scope.refresh();
 
   $scope.updateStatus = function() {
     $http.put(

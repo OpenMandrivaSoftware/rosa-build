@@ -1,42 +1,32 @@
-div ng-controller='RepositoryProjectsController'
-  = simple_form_for :project,
-    html: { ng_submit:  'search()',
-            id:         'search_projects_form',
-            class:      'well' } do |f|
-
-    = hidden_field_tag :added, controller.action_name.to_sym == :show
-    = hidden_field_tag :repository_id, @repository.id
-    = hidden_field_tag :platform_id, @repository.platform_id
-    = hidden_field_tag :page
-    .row
-      .col-md-5
-        = f.input :owner, label: false
-      .col-md-5
-        = f.input :name, label: false
-      .col-md-2
-        = f.button :submit, t('layout.search.header')
-
-  table.table.table-striped
-    thead
-      tr
-        th= t("activerecord.attributes.project.name")
-        th= t("activerecord.attributes.project.description")
-        th
-    tbody ng-hide='processing'
-      tr ng-repeat='project in projects' ng-cloak = true
-
-        td
-          i.fa ng-class='project.visibility_class'
-          | &nbsp;
-          a ng-href='{{project.path}}'
-            | {{project.name}}
-        td
-          a ng-href='{{project.add_path}}' ng-show='project.add_path'
-            = t('layout.add')
-          a.pointer[ng-href  = ''
-                    ng-show  = 'project.remove_path'
-                    ng-click = 'removeProject(project)']
-            span.glyphicon.glyphicon-remove
+div ng-controller='RepositoryProjectsController' ng-init=("init("+(controller.action_name.to_sym == :show).to_s+","+repository.id.to_s+","+repository.platform_id.to_s+")")
+  rd-widget
+    rd-widget-header title=t("layout.projects.list_header") custom-class="col-sm-8"
+      .col-md-6
+        input [ ng-model="search_owner" ng-change="search(search_owner, search_name)" class="form-control" 
+                placeholder=t("simple_form.placeholders.project.owner") ng-model-options="{ debounce: 500 }" ]
+      .col-md-6
+        input [ ng-model="search_name" ng-change="search(search_owner, search_name)" class="form-control" 
+                placeholder=t("simple_form.placeholders.project.name") ng-model-options="{ debounce: 500 }"]
+    rd-widget-body class="no-padding" loading="processing"
+      table.table.table-striped
+        thead
+          tr
+            th= t("activerecord.attributes.project.name")
+            th
+        tbody ng-hide='processing'
+          tr ng-repeat='project in projects' ng-cloak = true
+            td
+              i.fa ng-class='project.visibility_class'
               | &nbsp;
-
-  = angularjs_paginate
+              a ng-href='{{project.path}}'
+                | {{project.name}}
+            td
+              a ng-href='{{project.add_path}}' ng-show='project.add_path'
+                = t('layout.add')
+              a.pointer[ng-href  = ''
+                        ng-show  = 'project.remove_path'
+                        ng-click = 'removeProject(project)']
+                span.glyphicon.glyphicon-remove
+                  | &nbsp;
+    rd-widget-footer ng-show="total_items > 20"
+      = angularjs_paginate

@@ -1,0 +1,1 @@
+json.project_versions grouped_options_for_select(versions_for_group_select(@project), params[:project_version])

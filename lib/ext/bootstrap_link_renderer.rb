@@ -13,7 +13,12 @@ class BootstrapLinkRenderer < WillPaginate::ActionView::LinkRenderer
       end
     end.join(@options[:link_separator])
 
-    tag("ul", list_items, class: ul_class)
+    res = tag("ul", list_items, class: ul_class)
+    if @options[:rd_widget_footer]
+      tag("rd-widget-footer", res)
+    else
+      res
+    end
   end
 
   def container_attributes

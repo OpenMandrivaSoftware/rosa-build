@@ -1,63 +1,63 @@
-RosaABF.controller 'RepositoryProjectsController', ['$scope', '$http', '$location', 'confirmMessage', ($scope, $http, $location, confirmMessage) ->
+RosaABF.controller 'RepositoryProjectsController', 
+['$scope', '$http', 'confirmMessage', 
+  ($scope, $http, confirmMessage) ->
+    $scope.page           = 1
+    $scope.owner_name     = ""
+    $scope.project_name   = ""
+    $scope.processing     = true
+    $scope.projects       = []
+    $scope.total_items    = null
 
-  $scope.added          = $('#added').val()
-  $scope.platform_id    = $('#platform_id').val()
-  $scope.repository_id  = $('#repository_id').val()
-  $scope.processing     = true
-  $scope.projects       = []
-  $scope.total_items    = null
+    $scope.init = (added, repository_id, platform_id) ->
+      $scope.added = added
+      $scope.platform_id = platform_id
+      $scope.repository_id = repository_id
+      $scope.refresh()
+      true
 
-  # Fixes: redirect to page after form submit
-  $("#search_projects_form").on 'submit', ->
-    false
+    $scope.refresh = ->
+      $scope.processing = true
 
-  $scope.refresh = ->
-    $scope.processing = true
+      params  =
+        added:        $scope.added
+        owner_name:   $scope.owner_name
+        project_name: $scope.project_name
+        page:         $scope.page
+        sSortDir_0:   'asc'
+        format:       'json'
 
-    params  =
-      added:        $scope.added
-      owner_name:   $('#project_owner').val()
-      project_name: $('#project_name').val()
-      page:         $('#page').val()
-      format:       'json'
+      path = Routes.projects_list_platform_repository_path $scope.platform_id, $scope.repository_id
+      $http.get(path, params: params).success (data) ->
+        $scope.projects    = data.projects
+        $scope.total_items = data.total_items
+        $scope.processing  = false
+      .error ->
+        $scope.projects    = []
+        $scope.processing  = false
 
-    path = Routes.projects_list_platform_repository_path $scope.platform_id, $scope.repository_id
-    $http.get(path, params: params).success (data) ->
-      $scope.projects    = data.projects
-      $scope.total_items = data.total_items
-      $scope.processing  = false
-    .error ->
-      $scope.projects    = []
-      $scope.processing  = false
+      true
 
-    true
+    $scope.search = (owner, name) ->
+      $scope.owner_name = owner
+      $scope.project_name = name
+      $scope.refresh()
+      true
 
-  $scope.search = ->
-    params =
-      owner_name:   $('#project_owner').val()
-      project_name: $('#project_name').val()
-    $location.search(params)
+    $scope.goToPage = (number) ->
+      $scope.page = number
+      $scope.refresh()
+      true
 
-  $scope.$on '$locationChangeSuccess', (event) ->
-    $scope.updateParams()
-    $scope.refresh()
+    $scope.removeProject = (project) ->
+      return false unless confirmMessage.show()
+      $http.delete(project.remove_path).success (data) ->
+        $.notify(data.message, 'success')
 
-  $scope.updateParams = ->
-    params = $location.search()
-    $('#project_owner').val(params['owner_name'])
-    $('#project_name').val(params['project_name'])
-    $('#page').val(params['page'])
+      $scope.projects = _.reject($scope.projects, (pr) ->
+        return pr.id is project.id
+      )
+      false
 
-  $scope.goToPage = (number) ->
-    $location.search('page', number)
 
-  $scope.removeProject = (project) ->
-    return false unless confirmMessage.show()
-    $http.delete(project.remove_path).success (data) ->
-      $.notify(data.message, 'success')
-
-    $scope.projects = _.reject($scope.projects, (pr) ->
-      return pr.id is project.id
-    )
-    false
+    return
 ]

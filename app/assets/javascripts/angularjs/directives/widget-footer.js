@@ -8,7 +8,6 @@ angular
 
 function rdWidgetFooter() {
     var directive = {
-        requires: '^rdWidget',
         transclude: true,
         replace: true,
         template: '<div class="widget-footer" ng-transclude></div>',

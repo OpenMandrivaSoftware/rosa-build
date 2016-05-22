@@ -1,15 +1,14 @@
 -set_meta_tags title: [title_object(@platform), t('layout.products.list_header')]
 = render 'submenu' if params[:platform_id]
 
-
-.container.col-md-12
-  .row
-
-    - if policy(@platform.products.build).create?
-      a.btn.btn-primary href=new_platform_product_path(@platform)
-        = t('layout.products.new')
-      hr
-
-    = render 'list', object: @products
-    = will_paginate @products
+.row
+  .col-md-8.col-md-offset-2
+    rd-widget
+      rd-widget-header title=t('layout.products.list_header')
+        - if policy(@platform.products.build).create?
+          a.btn.btn-primary.pull-right href=new_platform_product_path(@platform)
+            = t('layout.products.new')
+      rd-widget-body class="no-padding"
+        = render 'list', object: @products
+      = will_paginate @products, rd_widget_footer: true
 

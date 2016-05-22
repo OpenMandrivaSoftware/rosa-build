@@ -1,11 +1,11 @@
 .row.top-space
-  .col-md-6
+  .col-md-6.col-md-offset-3
     rd-widget
       div ng-controller="ProjectsController"
         rd-widget-header title=(t "dashboard.projects.title") icon="fa-cube"
           input.form-control.input-sm [ng-model="search" placeholder=(t "dashboard.projects.search")
                                        ng-change="searchProjects(search)" ng-model-options="{ debounce: 500 }"]
-        rd-widget-body classes="medium no-padding" loading="requesting"
+        rd-widget-body classes="no-padding" loading="requesting"
           .table-responsive
             table.table ng-cloak=true
               thead

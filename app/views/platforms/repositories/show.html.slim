@@ -1,37 +1,25 @@
 - title = title_object(@repository)
 - set_meta_tags title: title
-- set_meta_tags og:      { title:       title,
-                           description: truncate(@repository.description, length: 255) }
-- set_meta_tags twitter: { title:       title,
-                           description: truncate(@repository.description, length: 200) }
+
 = render 'submenu'
 
-.container.col-md-12
-  .row
-    h3 
-      = t("layout.repositories.about")
-      | &nbsp;
-      i
-        = @repository.name
-
-    p= @repository.description
-  .row
-    - if policy(@repository).update?
-      a.btn.btn-primary href=edit_platform_repository_path(@platform, @repository)
-        = t("layout.edit")
-      | &nbsp;
-    - if policy(@repository).destroy?
-      = link_to t('layout.delete'), platform_repository_path(@platform, @repository), method: 'delete', class: 'btn btn-danger', data: { confirm: t("layout.repositories.confirm_delete") }
-  .row
-    hr
-    h3= t("layout.projects.list_header")
-    - if policy(@repository).add_project?
-      a.btn.btn-primary href=add_project_platform_repository_path(@platform, @repository)
-        = t('layout.projects.add')
-      | &nbsp;
-    - if policy(@repository).remove_project?
-      a.btn.btn-primary href=remove_project_platform_repository_path(@platform, @repository)
-        = t('layout.repositories.mass_delete')
-  .row
-    hr
-    = render 'proj_list'
+.row
+  .col-md-9
+    = render 'proj_list', repository: @repository
+  .col-md-3
+    rd-widget
+      rd-widget-header title=(t("layout.repositories.about") + " " + @repository.name)
+      rd-widget-body
+        p= @repository.description
+      - if policy(@repository).update? || policy(@repository).destroy? || policy(@repository).remove_project? || policy(@repository).add_project?
+        rd-widget-footer
+          - if policy(@repository).update?
+            a.btn.btn-primary href=edit_platform_repository_path(@platform, @repository)
+              = t("layout.edit")
+            | &nbsp;
+          - if policy(@repository).manage_projects?
+            a.btn.btn-primary href=manage_projects_platform_repository_path(@platform, @repository)
+              = t('layout.projects.manage_projects')
+            | &nbsp;
+          - if policy(@repository).destroy?
+            = link_to t('layout.delete'), platform_repository_path(@platform, @repository), method: 'delete', class: 'btn btn-danger', data: { confirm: t("layout.repositories.confirm_delete") }

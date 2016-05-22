@@ -25,6 +25,7 @@ en:
       clear_warning: Attention! Cleared packages cannot be restored!
       regenerate_metadata: Regenerate metadata
       mass_delete: Mass delete
+      manage_projects: Manage projects
 
     personal_repositories:
       settings_header: Settings

@@ -3,6 +3,9 @@
   .col-md-6.col-md-offset-3
     rd-widget
       rd-widget-header title=(t('layout.platforms.list_header'))
+        - if policy(:platform).create?
+          a.btn.btn-primary.pull-right href=new_platform_path
+            = t('layout.platforms.new')
       rd-widget-body class="no-padding"
         table.table.table-hover
           thead
@@ -16,9 +19,3 @@
                   | {{item.name}}
               td
                 | {{item.distrib_type}}
-      - if policy(:platform).create?
-        rd-widget-footer
-          ul.nav.nav-justified
-            li
-              a href=new_platform_path
-                = t('layout.platforms.new')

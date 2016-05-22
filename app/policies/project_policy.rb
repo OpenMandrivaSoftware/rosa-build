@@ -5,6 +5,7 @@ class ProjectPolicy < ApplicationPolicy
   end
   alias_method :dashboard?,                 :index?
   alias_method :autocomplete_project?,      :index?
+  alias_method :project_versions?,          :index?
   alias_method :remove_user?,               :index?
   alias_method :preview?,                   :index?
 

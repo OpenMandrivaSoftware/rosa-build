@@ -53,8 +53,8 @@ common: &common
 
 development:
   <<: *common
-  root_path: /var/rosa
-  git_path: /var/rosa
+  root_path: /share
+  git_path: /share
   tmpfs_path: /dev/shm
   do-not-reply-email: do-not-reply@localhost
   github_services:

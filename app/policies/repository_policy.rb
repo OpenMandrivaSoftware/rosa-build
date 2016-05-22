@@ -36,10 +36,11 @@ class RepositoryPolicy < ApplicationPolicy
   alias_method :add_member?,            :packages?
   alias_method :sync_lock_file?,        :packages?
 
-  def add_project?
+  def manage_projects?
     is_admin? || local_admin?(record.platform) || repository_user_ids.include?(user.id)
   end
-  alias_method :remove_project?, :add_project?
+  alias_method :add_project?,    :manage_projects?
+  alias_method :remove_project?, :manage_projects?
 
   def settings?
     is_admin? || owner?(record.platform) || local_admin?(record.platform)

@@ -1,33 +1,22 @@
 = f.input :name
 = f.input :description, as: :text
 
-= f.input :project_id, as: :string,
-  input_html: { 'data-ajax' =>  autocomplete_project_platform_products_path(@platform),
-                value:          @product.project.try(:name_with_owner) }
-= hidden_field_tag 'product[project_id]', @product.project_id, id: 'src_project_id'
+div ng-controller="ProjectsVersionsTypeaheadController" ng-init=('init("'+@platform.name+'","'+@product.project.try(:name_with_owner).to_s+'","'+@product.project_id.to_s+'","'+@product.project_version+'")')
+  = f.input :project_id, as: :string,
+    input_html: { uib_typeahead:       'project.name for project in getProjects($viewValue)',
+                  typeahead_wait_ms:   200,
+                  typeahead_on_select: 'selectProject($item)',
+                  ng_model:            'project',
+                  typeahead_editable:  'false',
+                  value:               '{{project}}',
+                  ng_disabled:         'loadingVersions' }
+  = hidden_field_tag 'product[project_id]', '', value: '{{projectId}}'
 
-- content_for :additional_scripts do
-  coffee:
-    product_projects = []
-
-    $('#product_project_id').typeahead
-      val:          'data'
-      ajax:
-        url:        $('#product_project_id').data('ajax')
-        preProcess: (data) ->
-          product_projects = data
-      onSelect:     (i) ->
-        $('#src_project_id').val i.value
-        project = _.find product_projects, (p) ->
-          p.id.toString() == i.value
-        if project
-          $('#product_project_version').html project.project_versions
-
-= f.input :project_version,
-  as:             :grouped_select,
-  collection:     versions_for_group_select(@product.project),
-  group_method:   :last,
-  include_blank:  false
+  = f.input :project_version,
+    as:             :grouped_select,
+    group_method:   :last,
+    include_blank:  false,
+    input_html:     { ng_disabled: 'loadingVersions', ng_bind_html: 'projectVersions' }
 
 = f.input :main_script
 = f.input :params
