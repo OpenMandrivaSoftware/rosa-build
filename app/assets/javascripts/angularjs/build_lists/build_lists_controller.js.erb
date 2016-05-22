@@ -100,7 +100,15 @@ function($scope, BuildListsService, $location, $interval, $uibModal) {
       size: 'lg',
       resolve: {
         params: function() {
-          return $location.search();
+          var ls = $location.search();
+          var res = {};
+          for(var i in ls) {
+            if(ls.hasOwnProperty(i)) {
+              res[i] = ls[i].toString();
+            }
+          }
+
+          return res;
         }
       }
     });

@@ -1,4 +1,4 @@
-json.project_link project_path(project_name_with_owner)
+json.project_link project_build_lists_path(project_name_with_owner)
 json.build_list do
   json.id item.data[:build_list_id]
   json.link build_list_path(item.data[:build_list_id])
