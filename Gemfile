@@ -9,7 +9,6 @@ gem 'schema_plus'
 gem 'devise'
 gem 'pundit'
 
-gem 'ancestry'
 gem 'paperclip'
 gem 'resque'
 gem 'resque-status'
@@ -21,12 +20,9 @@ gem 'highline', '~> 1.6.20'
 gem 'state_machines-activerecord'
 gem 'redis-rails'
 
-gem 'charlock_holmes'
-
 gem 'newrelic_rpm'
 
 gem 'jbuilder'
-gem 'rails3-jquery-autocomplete'
 gem 'sprockets'
 gem 'will_paginate'
 gem 'meta-tags', require: 'meta_tags'
@@ -47,18 +43,16 @@ gem 'attr_encrypted'
 
 # AngularJS related stuff
 gem 'angular-rails-templates'
-gem 'underscore-rails'
 gem 'ng-rails-csrf'
 gem 'angular-i18n'
 gem 'js-routes'
 gem 'soundmanager-rails'
-gem 'ngmin-rails'
+gem 'ngannotate-rails'
 
 gem 'time_diff'
 
 gem 'sass-rails'
 gem 'coffee-rails'
-gem 'font-awesome-rails'
 
 gem 'compass-rails'
 gem 'uglifier'
@@ -87,11 +81,6 @@ group :development do
   gem 'rails3-generators'
   gem 'hirb'
   gem 'shotgun'
-  # deploy
-  gem 'capistrano', require: false
-  gem 'rvm-capistrano', require: false
-  gem 'cape', require: false
-  gem 'capistrano_colors', require: false
   # Better Errors & RailsPanel
   gem 'better_errors'
   gem 'binding_of_caller'

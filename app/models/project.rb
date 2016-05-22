@@ -1,8 +1,6 @@
 require 'base64'
 
 class Project < ActiveRecord::Base
-  has_ancestry orphan_strategy: :adopt # we replace a 'path' method in the Git module
-
   include Autostart
   include Owner
   include UrlHelper

@@ -10,6 +10,4 @@
 
 //= require_tree ./angularjs
 
-//= require underscore
-
 //= require lib/Chart

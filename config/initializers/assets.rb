@@ -6,6 +6,6 @@ Rails.application.config.assets.version = '1.0'
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 Rails.application.config.assets.precompile += %w(
-  login.css login.js reg_session.css tour.css tour.js gollum/editor/langs/*.js
+  login.css login.js reg_session.css
   moment/ru.js new_application.css new_application.js angular-locale_ru-ru.js
 )
