@@ -1,73 +1,53 @@
 - set_meta_tags title: [title_object(@platform), t('layout.platforms.contents')]
 = render 'platforms/base/submenu'
 
-.col-xs-12.col-md-12
-  h3
-    = t('layout.platforms.contents_of')
-    | &nbsp;
-    = @platform.name
+.row
+  .col-xs-12.col-md-12 ng-controller='ContentsController' ng-init=('platform="'+@platform.name+'"')
+    rd-widget
+      rd-widget-header title=(t('layout.platforms.contents_of') + ' ' + @platform.name)
+        input.form-control.pull-right [ placeholder=t('simple_form.placeholders.platform.term') ng-model="term"
+                                      ng-model-options="{ debounce: 500 }" ng-change="search(term)" ]
+      rd-widget-body loading='processing' class="no-padding huge"
+        .path
+          ol.breadcrumb.no-margin
+            li= link_to @platform.name, '#', 'ng-click' => 'open($event, "/")'
+            li ng-repeat='folder in folders' ng-show='$middle'
+              a[ href='#' ng-click='open($event, folder.path)' ] {{folder.name}}
+            li.active[ ng-repeat='fold in folders' ng-show='$last && !$first' ] {{fold.name}}
+        .clearfix
 
-  #contents ng-controller='ContentsController'
+        - can_remove = policy(@platform).remove_file?
+        table.table
+          tbody
+            tr ng-show='back'
+              td
+                a.pointer ng-click="open($event, back)" ..
+              td
+              td
+              - if can_remove
+                td
 
-    = simple_form_for @platform, html: { 'ng-submit' => 'search()', id: 'search_contents_form' } do |f|
-      = f.hidden_field :name
-      = hidden_field_tag 'path'
-      = hidden_field_tag 'page'
+            tr ng-repeat='content in contents'
+              td ng-show='content.is_folder'
+                span.glyphicon.glyphicon-folder-close
+                | &nbsp;
+                span
+                  a.pointer.files-see ng-click="open($event, content)" {{content.name}}
+              td ng-hide='content.is_folder'
+                span.glyphicon.glyphicon-file
+                | &nbsp;
+                span
+                  a.pointer.files-see ng-href='{{content.download_url}}' {{content.name}}
+              td
+                a.pointer ng-href='{{content.build_list.url}}' ng-show='content.build_list'
+                  = t('activerecord.models.build_list')
+              td
+                | {{content.size}}
+              - if can_remove
+                td ng-show='content.is_folder'
+                td.buttons ng-hide='content.is_folder'
+                  span.pointer.text-danger.glyphicon.glyphicon-remove[
+                      confirmed-click ="destroy(content)"
+                      ng-confirm-click=t('layout.confirm') ]
 
-      .row
-        .col-md-6
-          = f.input :term, label: false
-        .col-md-6
-          = f.button :submit, t('layout.search.header')
-    hr
-
-    .text-center ng-show='processing'
-      = image_tag 'loading-large.gif'
-
-    .path ng-hide='processing'
-      ol.breadcrumb
-        li= link_to @platform.name, '#', 'ng-click' => 'open($event, "/")'
-        li ng-repeat='folder in folders' ng-show='$middle'
-          a[ href='#' ng-click='open($event, folder.path)' ] {{folder.name}}
-        li.active[ ng-repeat='fold in folders' ng-show='$last && !$first' ] {{fold.name}}
-    .clearfix
-
-    - can_remove = policy(@platform).remove_file?
-    table.table ng-hide='processing'
-      tbody
-
-      tr ng-show='back'
-        td
-          a.pointer ng-click="open($event, back)" ..
-        td
-        td
-        - if can_remove
-          td
-
-      tr ng-repeat='content in contents'
-        td ng-show='content.is_folder'
-          span.glyphicon.glyphicon-folder-close
-          | &nbsp;
-          span
-            a.pointer.files-see ng-click="open($event, content)" {{content.name}}
-        td ng-hide='content.is_folder'
-          span.glyphicon.glyphicon-file
-          | &nbsp;
-          span
-            a.pointer.files-see ng-href='{{content.download_url}}' {{content.name}}
-        td
-          a.pointer ng-href='{{content.build_list.url}}' ng-show='content.build_list'
-            = t('activerecord.models.build_list')
-        td
-          | {{content.size}}
-        - if can_remove
-          td ng-show='content.is_folder'
-          td.buttons ng-hide='content.is_folder'
-            div ng-show='content.processing'
-              = t('layout.processing')
-            span.pointer.text-danger.glyphicon.glyphicon-remove[
-                confirmed-click ="destroy(content)"
-                ng-confirm-click=t('layout.confirm')
-                ng-hide         ="content.processing" ]
-
-    = angularjs_paginate
+      = angularjs_paginate rd_widget_footer: true

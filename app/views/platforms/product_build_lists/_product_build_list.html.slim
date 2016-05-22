@@ -16,6 +16,3 @@ tr
     - if policy(pbl).destroy? && pbl.can_destroy?
       = link_to platform_product_product_build_list_path(platform, product, pbl), method: :delete, data: { confirm: t('layout.confirm') } do
         span.glyphicon.glyphicon-remove
-
-  td
-    = datetime_moment pbl.updated_at

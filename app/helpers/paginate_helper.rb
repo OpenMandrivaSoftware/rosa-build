@@ -25,7 +25,8 @@ module PaginateHelper
         per_page:    params[:per_page].to_i > 0 ? params[:per_page] : 20,
         total_items: 'total_items',
         page:        'page',
-        select_page: "goToPage(page)"
+        select_page: "goToPage(page)",
+        rd_widget_footer: false
       }
     )
 

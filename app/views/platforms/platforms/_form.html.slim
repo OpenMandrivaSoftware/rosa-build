@@ -26,17 +26,6 @@
 
 - if %w(edit update).include? controller.action_name
 
-  - if policy(@platform).change_visibility?
-    dl.dl-horizontal
-      dt
-        = t('activerecord.attributes.platform.visibility')
-      dd
-        = link_to t("layout.platforms.change_visibility_from_#{@platform.visibility}"),
-          change_visibility_platform_path(@platform),
-          method: :post,
-          data: { confirm: t("layout.platforms.confirm_change_visibility") },
-          class: 'btn btn-xs btn-warning'
-
   - unless @platform.personal?
     h3
       = t('layout.platform_arch_settings.extra_settings')
@@ -60,7 +49,7 @@
                   input_html: { value:  setting.time_living / 60 },
                   label:      false
 
-.col-sm-offset-3.col-sm-9
+.pull-right
   => submit_button_tag
   => t('layout.or')
   a.btn.btn-default href=(@platform.new_record? ? root_path : platform_path(@platform))

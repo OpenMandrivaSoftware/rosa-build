@@ -3,7 +3,7 @@
     == render 'projects/build_lists/filter'
     rd-widget
       rd-widget-header title="Build Lists {{::widgetTitle}}" icon="fa-gears"
-        .form-inline ng-init="autoreload=true"
+        .form-inline.pull-right ng-init="autoreload=true"
           button ng-model="autoreload" ng-click="setAutoreload(autoreload)" class="btn btn-default" uib-btn-checkbox=""
             = t 'layout.autoreload_page'
           button class="btn btn-default" ng-click="openFilters()" ng-disabled="isRequest"

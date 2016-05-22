@@ -1,24 +1,22 @@
-RosaABF.controller 'ProfileController', ['$scope', '$http', '$location', ($scope, $http, $location) ->
+RosaABF.controller 'ProfileController', ['$scope', '$http', ($scope, $http) ->
 
-  $scope.subject     = $('#subject_uname').val()
   $scope.processing  = true
   $scope.projects    = []
   $scope.page        = null
   $scope.total_items = null
-
   $scope.term        = null
-  $scope.visibility  = 'all'
 
-  # Fixes: redirect to page after form submit
-  $("#search_projects_form").on 'submit', ->
-    false
+  $scope.init = (subject) ->
+    $scope.subject = subject
+    $scope.refresh()
+    return
 
   $scope.refresh = ->
     $scope.processing = true
 
     params  =
       term:         $scope.term
-      visibility:   $scope.visibility
+      visibility:   'all'
       page:         $scope.page
       format:       'json'
 
@@ -33,23 +31,16 @@ RosaABF.controller 'ProfileController', ['$scope', '$http', '$location', ($scope
 
     true
 
-  $scope.search = ->
-    params =
-      term:       $scope.term
-      visibility: $scope.visibility
-    $location.search params
-
-  $scope.$on '$locationChangeSuccess', (event) ->
-    $scope.updateParams()
+  $scope.search = (term) ->
+    $scope.term = term
     $scope.refresh()
-
-  $scope.updateParams = ->
-    params = $location.search()
-    $scope.term       = params['term']
-    $scope.visibility = params['visibility'] if params['visibility']
-    $scope.page       = params['page']
+    return
 
   $scope.goToPage = (number) ->
-    $location.search 'page', number
+    $scope.page = number
+    $scope.refresh()
+    return
 
+
+  return
 ]

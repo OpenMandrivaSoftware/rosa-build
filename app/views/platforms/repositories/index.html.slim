@@ -1,20 +1,14 @@
 - title = title_object(@platform)
 - set_meta_tags title: [title, t('layout.repositories.list_header')]
-- title = t('layout.repositories.list_header') + ' - ' + title
-- set_meta_tags og:      { title: title,
-                           description: truncate(@platform.description, length: 255) }
-- set_meta_tags twitter: { title: title,
-                           description: truncate(@platform.description, length: 200) }
 
 = render 'submenu' if params[:platform_id]
-
-.container.col-md-12
-  - if policy(@platform.repositories.build).create?
-    .row
-      a.btn.btn-primary href=new_platform_repository_path(@platform)
-        = t("layout.repositories.new")
-      hr
-  .row
-
-    = render 'list', object: @repositories
-    = will_paginate @repositories
+.row
+  .col-md-6.col-md-offset-3
+    rd-widget
+      rd-widget-header title=t('layout.repositories.list_header')
+        -if policy(@platform.repositories.build).create?
+          a.btn.btn-primary.pull-right href=new_platform_repository_path(@platform)
+            = t("layout.repositories.new")
+      rd-widget-body class="no-padding"
+        = render 'list', object: @repositories
+        = will_paginate @repositories

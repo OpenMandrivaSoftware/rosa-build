@@ -22,7 +22,8 @@ div[ ng-controller='BuildListController'
       = render 'shared/build_results', subject: @build_list
 
   .row.top-space ng-show="build_list.status == #{BuildList::BUILD_STARTED}"
-    = render 'shared/log', { build_started: true, get_log_path: log_build_list_path(@build_list) }
+    .col-md-12
+      = render 'shared/log', { build_started: true, get_log_path: log_build_list_path(@build_list) }
 
   .row.top-space
     .col-md-10
@@ -189,4 +190,5 @@ div[ ng-controller='BuildListController'
         rd-widget-header title="Actions"
         rd-widget-body
           = form_for @build_list, url: publish_build_list_path(@build_list), html: {class: :"form-inline"} do |f|
-            = render 'buttons', build_list: @build_list
+            .buttons-block
+              = render 'buttons', build_list: @build_list

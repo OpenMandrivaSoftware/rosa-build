@@ -1,8 +1,5 @@
 - title = title_object(@product_build_list.product)
 - set_meta_tags title: [title, t('layout.product_build_lists.show')]
-- description = @product_build_list.results.map{ |r| r['file_name'] }.select{ |n| n =~ /.iso$/ } * ', '
-- set_meta_tags og:      { title: title, description: description }
-- set_meta_tags twitter: { title: title, description: description }
 
 = render 'submenu'
 
@@ -10,130 +7,118 @@
 - product   = pbl.product
 - platform  = product.platform
 
-.container.col-md-12 ng-controller='ProductBuildListController'
-  .row
-    h3
-      = t('layout.product_build_lists.main_data')
+.row ng-controller='ProductBuildListController' ng-init=("init("+pbl.id.to_s+")")
+  .col-md-6
+    rd-widget
+      rd-widget-header title=t('layout.product_build_lists.main_data')
+      rd-widget-body class="no-padding"
+        table.table.table-condensed
+          tr
+            td
+              = t('activerecord.attributes.product_build_list.id')
+            td
+              = pbl.id
 
-  .row
-    = hidden_field_tag :product_build_list_id, pbl.id
-    .col-md-6
-      b
-        = t('activerecord.attributes.product_build_list.id')
-    .col-md-6
-      = pbl.id
+          tr
+            td
+              = t('activerecord.attributes.product_build_list.status')
+            td
+              | {{pbl.human_status}}
 
-  .row
-    .col-md-6
-      b
-        = t('activerecord.attributes.product_build_list.status')
-    .col-md-6
-      | {{pbl.human_status}}
+            - if pbl.user
+              tr
+                td
+                  = t('activerecord.attributes.product_build_list.user')
+                td
+                  = link_to pbl.user.try(:fullname), pbl.user
 
-  - if pbl.user
-    .row
-      .col-md-6
-        b
-          = t('activerecord.attributes.product_build_list.user')
-      .col-md-6
-        = link_to pbl.user.try(:fullname), pbl.user
+              tr
+                td
+                  = t('activerecord.attributes.product_build_list.product')
+                td
+                  = link_to pbl.product.name, platform_product_path(platform, product)
 
-  .row
-    .col-md-6
-      b
-        = t('activerecord.attributes.product_build_list.product')
-    .col-md-6
-      = link_to pbl.product.name, platform_product_path(platform, product)
+            tr
+              td
+                = t('activerecord.attributes.product_build_list.project')
+              td
+                = link_to pbl.project.name_with_owner, project_path(pbl.project)
 
-  .row
-    .col-md-6
-      b
-        = t('activerecord.attributes.product_build_list.project')
-    .col-md-6
-      = link_to pbl.project.name_with_owner, project_path(pbl.project)
+            tr
+              td
+                = t('activerecord.attributes.product_build_list.project_version')
+              td
+                = product_build_list_version_link(pbl, true)
 
-  .row
-    .col-md-6
-      b
-        = t('activerecord.attributes.product_build_list.project_version')
-    .col-md-6
-      = product_build_list_version_link(pbl, true)
+            tr
+              td
+                = t('activerecord.attributes.product_build_list.main_script')
+              td
+                = pbl.main_script
 
-  .row
-    .col-md-6
-      b
-        = t('activerecord.attributes.product_build_list.main_script')
-    .col-md-6
-      = pbl.main_script
+            tr
+              td
+                = t('activerecord.attributes.product_build_list.params')
+              td
+                = pbl.params
 
-  .row
-    .col-md-6
-      b
-        = t('activerecord.attributes.product_build_list.params')
-    .col-md-6
-      = pbl.params
+            tr
+              td
+                = t('activerecord.attributes.product_build_list.time_living')
+              td
+                = pbl.time_living / 60
 
-  .row
-    .col-md-6
-      b
-        = t('activerecord.attributes.product_build_list.time_living')
-    .col-md-6
-      = pbl.time_living / 60
+            tr
+              td
+                = t('activerecord.attributes.product_build_list.autostarted')
+              td
+                = t("layout.#{pbl.autostarted}_")
 
-  .row
-    .col-md-6
-      b
-        = t('activerecord.attributes.product_build_list.autostarted')
-    .col-md-6
-      = t("layout.#{pbl.autostarted}_")
+            tr
+              td
+                = t('activerecord.attributes.product_build_list.notified_at')
+              td
+                | {{pbl.notified_at}}
 
-  .row
-    .col-md-6
-      b
-        = t('activerecord.attributes.product_build_list.notified_at')
-    .col-md-6
-      | {{pbl.notified_at}}
+            - if policy(pbl).update?
+              tr ng-show="pbl.status == #{ ProductBuildList::BUILD_COMPLETED }"
+                td
+                  = t('activerecord.attributes.product_build_list.not_delete')
+                td
+                  = select_tag 'not_delete',
+                    options_for_select(product_build_list_delete_options),
+                    { ng_model: "pbl.not_delete", ng_change: 'updateStatus()'}
+      .row.alert.alert-danger.top-space ng-hide='pbl.not_delete != "false"'
+        - days = pbl.autostarted? ? ProductBuildList::LIVE_TIME : ProductBuildList::MAX_LIVE_TIME
+        - days = (pbl.created_at.to_date - days.ago.to_date).to_i
+        - if days > 1
+          = t('layout.product_build_lists.will_be_removed_n_days', n: days)
+        - else
+          = t('layout.product_build_lists.will_be_removed_today')
 
-  - if policy(pbl).update?
-    .row ng-show="pbl.status == #{ ProductBuildList::BUILD_COMPLETED }"
-      .col-md-6
-        b
-          = t('activerecord.attributes.product_build_list.not_delete')
-      .col-md-6
-        = select_tag 'not_delete',
-          options_for_select(product_build_list_delete_options),
-          { ng_model: "pbl.not_delete", ng_change: 'updateStatus()'}
+      - if policy(pbl).cancel? || policy(pbl).destroy?
+        rd-widget-footer ng-show="pbl.can_cancel || pbl.can_destroy"
+          - if policy(pbl).cancel?
+            a.btn.btn-warning[
+                href=cancel_platform_product_product_build_list_path(pbl.product.platform, pbl.product, pbl)
+                data-method   = 'put'
+                data-confirm  = t('layout.confirm')
+                ng-show       = 'pbl.can_cancel' ]
+              = t('layout.build_lists.cancel')
+            | &nbsp;
 
-  .row.alert.alert-danger.offset10 ng-hide='pbl.not_delete'
-    - days = pbl.autostarted? ? ProductBuildList::LIVE_TIME : ProductBuildList::MAX_LIVE_TIME
-    - days = (pbl.created_at.to_date - days.ago.to_date).to_i
-    - if days > 1
-      = t('layout.product_build_lists.will_be_removed_n_days', n: days)
-    - else
-      = t('layout.product_build_lists.will_be_removed_today')
+          - if policy(pbl).destroy?
+            a.btn.btn-danger[
+                href=platform_product_product_build_list_path(pbl.product.platform, pbl.product, pbl)
+                data-method   = 'delete'
+                data-confirm  = t('layout.confirm')
+                ng-show       = 'pbl.can_destroy' ]
+              = t('layout.product_build_lists.delete')
+  .col-md-6
+    = render 'shared/build_results', subject: pbl
 
-  .row
-    hr
-    - if policy(pbl).cancel?
-      a.btn.btn-warning[
-          href=cancel_platform_product_product_build_list_path(pbl.product.platform, pbl.product, pbl)
-          data-method   = 'put'
-          data-confirm  = t('layout.confirm')
-          ng-show       = 'pbl.can_cancel' ]
-        = t('layout.build_lists.cancel')
-      | &nbsp;
-
-    - if policy(pbl).destroy?
-      a.btn.btn-danger[
-          href=platform_product_product_build_list_path(pbl.product.platform, pbl.product, pbl)
-          data-method   = 'delete'
-          data-confirm  = t('layout.confirm')
-          ng-show       = 'pbl.can_destroy' ]
-        = t('layout.product_build_lists.delete')
-
-  .row.offset10 ng-show="pbl.status == #{ProductBuildList::BUILD_STARTED}"
+.row ng-show="pbl.status == #{ProductBuildList::BUILD_STARTED}"
+  .col-md-12
     = render 'shared/log', { build_started: true, get_log_path: log_platform_product_product_build_list_path(pbl.product.platform, pbl.product, pbl) }
 
-  .row
-    = render 'shared/build_results', subject: pbl
 

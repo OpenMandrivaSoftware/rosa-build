@@ -1,6 +1,5 @@
 RosaABF.controller 'ContentsController', ['$scope', '$http', '$location', ($scope, $http, $location) ->
 
-  $scope.platform    = $('#platform_name').val()
   $scope.processing  = true
   $scope.contents    = []
   $scope.folders     = []
@@ -16,9 +15,9 @@ RosaABF.controller 'ContentsController', ['$scope', '$http', '$location', ($scop
 
     params  =
       platform_id:  $scope.platform
-      path:         $('#path').val()
-      term:         $('#platform_term').val()
-      page:         $('#page').val()
+      path:         $scope.path
+      term:         $scope.term
+      page:         $scope.page
       format:       'json'
 
     $http.get(Routes.platform_contents_path(params)).success( (data) ->
@@ -54,8 +53,8 @@ RosaABF.controller 'ContentsController', ['$scope', '$http', '$location', ($scop
     )
     true
 
-  $scope.search = ->
-    $location.search('term', $('#platform_term').val())
+  $scope.search = (term) ->
+    $location.search('term', term)
 
   $scope.$on '$locationChangeSuccess', (event) ->
     $scope.updateParams()
@@ -63,9 +62,9 @@ RosaABF.controller 'ContentsController', ['$scope', '$http', '$location', ($scop
 
   $scope.updateParams = ->
     params = $location.search()
-    $('#path').val(params['path'])
-    $('#platform_term').val(params['term'])
-    $('#page').val(params['page'])
+    $scope.path = params['path']
+    $scope.term = params['term']
+    $scope.page = params['page']
 
   $scope.goToPage = (number) ->
     $location.search('page', number)

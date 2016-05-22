@@ -4,7 +4,7 @@ class Platforms::ProductsController < Platforms::BaseController
   before_action :authenticate_user!
   skip_before_action :authenticate_user!, only: [:index, :show] if APP_CONFIG['anonymous_access']
 
-  before_action :load_product, except: %i(index new create autocomplete_project)
+  before_action :load_product, except: %i(index new create autocomplete_project project_versions)
 
   def index
     authorize @platform.products.new
@@ -56,7 +56,10 @@ class Platforms::ProductsController < Platforms::BaseController
     authorize :project
     @items = ProjectPolicy::Scope.new(current_user, Project).membered.
       by_owner_and_name(params[:query]).limit(20)
-    #items.select! {|e| e.repo.branches.count > 0}
+  end
+
+  def project_versions
+    authorize @project = Project.find(params[:project_id])
   end
 
   private

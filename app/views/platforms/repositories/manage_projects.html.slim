@@ -1,0 +1,20 @@
+= render 'submenu'
+
+.row
+  .col-md-4
+    .row
+      rd-widget
+        rd-widget-header title=(t("layout.repositories.add_projects_to") + ' ' + @repository.name)
+        rd-widget-body
+          = simple_form_for :repository, url: add_project_platform_repository_path(@platform, @repository), html: { method: :put } do |f|
+            = f.input :projects_list, as: :text
+            = f.button :submit, t('layout.add')
+    .row.top-space
+      rd-widget
+        rd-widget-header title=(t("layout.repositories.remove_projects_from") + ' ' + @repository.name)
+        rd-widget-body
+          = simple_form_for :repository, url: remove_project_platform_repository_path(@platform, @repository), html: { method: :delete } do |f|
+            = f.input :projects_list, as: :text
+            = f.button :submit, t('layout.delete'), class: 'btn-danger'
+  .col-md-8
+    = render 'proj_list', object: @projects, repository: @repository

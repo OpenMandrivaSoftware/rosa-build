@@ -215,11 +215,11 @@ class Platform < ActiveRecord::Base
 
   def symlink_directory
     # umount_directory_for_rsync # TODO ignore errors
-    system("ln -s #{path} #{symlink_path}")
-    Arch.all.each do |arch|
-      str = "country=Russian Federation,city=Moscow,latitude=52.18,longitude=48.88,bw=1GB,version=2011,arch=#{arch.name},type=distrib,url=#{public_downloads_url}\n"
-      File.open(File.join(symlink_path, "#{name}.#{arch.name}.list"), 'w') {|f| f.write(str) }
-    end
+    #system("ln -s #{path} #{symlink_path}")
+    #Arch.all.each do |arch|
+    #  str = "country=Russian Federation,city=Moscow,latitude=52.18,longitude=48.88,bw=1GB,version=2011,arch=#{arch.name},type=distrib,url=#{public_downloads_url}\n"
+    #  File.open(File.join(symlink_path, "#{name}.#{arch.name}.list"), 'w') {|f| f.write(str) }
+    #end
   end
   later :symlink_directory, queue: :middle
 

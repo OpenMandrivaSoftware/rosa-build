@@ -169,9 +169,8 @@ Rails.application.routes.draw do
 
       resources :repositories do
         member do
-          get     :add_project
+          get     :manage_projects
           put     :add_project
-          get     :remove_project
           delete  :remove_project
           get     :projects_list
           delete  :remove_members
@@ -193,7 +192,10 @@ Rails.application.routes.draw do
             put :cancel
           }
         end
-        collection { get :autocomplete_project }
+        collection { 
+          get :autocomplete_project 
+          get :project_versions
+        }
       end
       resources :maintainers, only: [:index]
     end

@@ -1,49 +1,42 @@
 - title = title_object(@product)
 - set_meta_tags title: title
-- set_meta_tags og:      { title:       title,
-                           description: truncate(@product.description, length: 255) }
-- set_meta_tags twitter: { title:       title,
-                           description: truncate(@product.description, length: 200) }
 
 = render 'submenu'
 
-.container.col-md-12
-  .row
-
-    h3
-      = t('layout.products.about')
-      | &nbsp;
-      = @product.name
-
-    p= @product.description
-
-    - if policy(@product).update?
-      a.btn.btn-primary href=edit_platform_product_path(@platform, @product)
-        = t('layout.edit')
-      | &nbsp;
-    - if policy(@product).destroy?
-      a.btn.btn-danger[ href          = platform_product_path(@platform, @product)
-                        data-method   = 'delete'
-                        data-confirm  = t('layout.products.confirm_delete') ]
-        = t('layout.delete')
-      | &nbsp;
-    - if policy(@product.product_build_lists.build).create?
-      a.btn.btn-primary href=new_platform_product_product_build_list_path(@platform, @product)
-        = t('layout.products.build')
-
-    hr
-
-    h3= t("layout.products.build_lists_monitoring")
-
-    table.table.table-striped
-      thead
-        tr
-          th= t("activerecord.attributes.product_build_list.id")
-          th= t("activerecord.attributes.product_build_list.status")
-          th= t("activerecord.attributes.product_build_list.product")
-          th= t("layout.product_build_lists.action")
-          th= t("activerecord.attributes.product_build_list.notified_at")
-      tbody
-        = render partial: 'platforms/product_build_lists/product_build_list',
-          collection: @product_build_lists
-    = will_paginate @product_build_lists
+.row
+  .col-md-6
+    rd-widget
+      rd-widget-header title=(t('layout.products.about')+" "+@product.name)
+      - if @product.description.to_s != ""
+        rd-widget-body
+          p= @product.description
+      - if policy(@product).update? || policy(@product).destroy? || policy(@product.product_build_lists.build).create?
+        rd-widget-footer
+          - if policy(@product).update?
+            a.btn.btn-primary href=edit_platform_product_path(@platform, @product)
+              = t('layout.edit')
+            | &nbsp;
+          - if policy(@product).destroy?
+            a.btn.btn-danger[ href          = platform_product_path(@platform, @product)
+                              data-method   = 'delete'
+                              data-confirm  = t('layout.products.confirm_delete') ]
+              = t('layout.delete')
+            | &nbsp;
+          - if policy(@product.product_build_lists.build).create?
+            a.btn.btn-primary href=new_platform_product_product_build_list_path(@platform, @product)
+              = t('layout.products.build')
+  .col-md-6
+    rd-widget
+      rd-widget-header title=t("layout.products.build_lists_monitoring")
+      rd-widget-body class="no-padding"
+        table.table.table-striped
+          thead
+            tr
+              th= t("activerecord.attributes.product_build_list.id")
+              th= t("activerecord.attributes.product_build_list.status")
+              th= t("activerecord.attributes.product_build_list.product")
+              th= t("layout.product_build_lists.action")
+          tbody
+            = render partial: 'platforms/product_build_lists/product_build_list',
+              collection: @product_build_lists
+      = will_paginate @product_build_lists, rd_widget_footer: true

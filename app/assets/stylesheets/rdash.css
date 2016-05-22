@@ -1,3 +1,6 @@
+a {
+  cursor: pointer;
+}
 .content-wrapper {
   padding-left: 0;
   margin-left: 0;
@@ -57,7 +60,6 @@
 .row.header {
   height: 60px;
   background: #fff;
-  /*margin-bottom: 15px;*/
 }
 .row.header > div:last-child {
   padding-right: 0;
@@ -433,6 +435,10 @@ ul.sidebar .sidebar-list .menu-icon {
 .widget .widget-body div.alert {
   margin-bottom: 10px;
 }
+.widget .widget-body.huge {
+  height: 700px;
+  overflow-y: auto;
+}
 .widget .widget-body.large {
   height: 350px;
   overflow-y: auto;
@@ -492,6 +498,9 @@ ul.sidebar .sidebar-list .menu-icon {
 .bottom-space {
   margin-bottom: 15px;
 }
+.no-margin {
+  margin: 0;
+}
 table tbody td.build-list-statuses .status {
   float: left;
   border: 1px solid #DDD;
@@ -514,4 +523,24 @@ table tbody tr.group-end td {
 }
 .form-inline > * {
   margin-left: 5px;
+}
+.buttons-block > div {
+  margin-bottom: 15px;
+}
+.buttons-block > div:last-of-kind {
+  margin-bottom: 0;
+}
+.pre-fail-reason {
+    border: none;
+    border-radius: 0;
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+.navbar-account > li > a {
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+}
+table {
+  margin-bottom: 0 !important;
 }

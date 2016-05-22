@@ -1,65 +1,12 @@
-= simple_form_for :project, html: { 'ng-submit' => 'search()', id: 'search_projects_form' } do |f|
-  = hidden_field_tag 'subject_uname', subject.uname
-
-  .row
-    - if current_user
-      .col-md-2
-        .btn-group ng-cloak = true
-          button.btn.btn-default.dropdown-toggle[ type="button"
-                                                  id="dropdownVisibility"
-                                                  aria-expanded="false"
-                                                  data-toggle="dropdown" ]
-            span> ng-show="visibility == 'all'"
-              = t('.visibilities.all')
-            span> ng-show="visibility == 'open'"
-              i.fa.fa-unlock-alt.text-success>
-              = t('.visibilities.open')
-            span> ng-show="visibility == 'hidden'"
-              i.fa.fa-lock.text-danger>
-              = t('.visibilities.hidden')
-            span.caret
-
-          ul.dropdown-menu role="menu"
-            li role="presentation"
-              a.btn-link.pointer role="menuitem" tabindex="-1" ng-click="visibility = 'all'"
-                = t('.visibilities.all')
-            li role="presentation"
-              a.btn-link.pointer role="menuitem" tabindex="-1" ng-click="visibility = 'open'"
-                i.fa.fa-unlock-alt.text-success>
-                = t('.visibilities.open')
-            li role="presentation"
-              a.btn-link.pointer role="menuitem" tabindex="-1" ng-click="visibility = 'hidden'"
-                i.fa.fa-lock.text-danger>
-                = t('.visibilities.hidden')
-
-
-    .col-md-5
-      = f.input :name,
-        label:          false,
-        input_html:     { ng_model: 'term' }
-
-    .col-md-5
-      => f.button :submit, t('.search')
-      => t('.or')
-      = link_to t('.clear'), subject, class: 'btn btn-default'
-hr
-
-table.table.table-striped ng-show='!processing'
-  thead
-    tr
-      th
-  tbody
-    tr ng-repeat='project in projects'
-      td
-        h4
-          i.fa.fa-unlock-alt.text-success> ng-if='project.public'
-          i.fa.fa-lock.text-danger> ng-if='!project.public'
-          a ng-href='{{project.path}}'
-            | {{project.name}}
-        .help-block title = '{{project.updated_at_utc}}'
-          => t('.updated')
-          | {{project.updated_at | amDateFormat:'YYYY-MM-DD HH:mm'}} (
-          span am-time-ago = 'project.updated_at'
-          | )
-
-= angularjs_paginate
+div ng-controller='ProfileController' ng-init=('init("'+subject.uname+'")')
+  rd-widget
+    rd-widget-header title=t('top_menu.projects')
+      input.form-control [placeholder=t("simple_form.placeholders.project.name") ng-model="project_name" ng-change="search(project_name)" ng-model-options="{debounce: 500}" ng-disabled="total_items == 0 && !term"]
+    rd-widget-body class="no-padding" loading="processing"
+      table.table.table-striped
+        tbody
+          tr ng-repeat='project in projects'
+            td
+              a ng-href='{{project.path}}'
+                | {{project.name}}
+    = angularjs_paginate rd_widget_footer: true

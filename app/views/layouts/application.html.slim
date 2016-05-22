@@ -38,11 +38,14 @@ html
                       li.divider
                       li.link= link_to t('layout.logout'), destroy_user_session_path, method: :delete
                 - else
-                  ul.nav.navbar-nav
+                  ul.nav.navbar-nav.navbar-account
                     li= link_to t('layout.devise.shared_links.sign_up'), new_user_registration_path
                     li= link_to t('layout.devise.shared_links.sign_in'), new_user_session_path
               .meta
                 .page
+                  = form_tag search_index_path, method: 'get', role: 'search', class: 'navbar-left' do
+                    = text_field_tag 'query', @query, placeholder: t('layout.search.header'), class: 'form-control'
+
           == yield :submenu if content_for?(:submenu)
           == render 'layouts/noscript'
           == render "layouts/flashes"

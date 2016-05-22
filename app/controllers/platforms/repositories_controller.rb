@@ -77,6 +77,9 @@ class Platforms::RepositoriesController < Platforms::BaseController
     end
   end
 
+  def manage_projects
+  end
+
   def add_project
     authorize @repository
     if projects_list = params.try(:[], :repository).try(:[], :projects_list)
