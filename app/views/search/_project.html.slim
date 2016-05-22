@@ -1,3 +1,8 @@
-h4
-  a href=project_path(project)
-    = project.name_with_owner
+.row
+  .pull-left
+    a href=project_build_lists_path(project)
+      = project.name_with_owner
+  - if BuildListPolicy.new(current_user, project.build_lists.build).new?
+    .pull-right
+      a href=new_project_build_list_path(project)
+        = t 'dashboard.projects.new_build'

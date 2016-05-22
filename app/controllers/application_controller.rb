@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
     AbstractController::ActionNotFound
   ]
 
-  protect_from_forgery
+  protect_from_forgery with: :exception
 
   layout :layout_by_resource
 
