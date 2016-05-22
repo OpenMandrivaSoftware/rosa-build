@@ -7,7 +7,7 @@ module MassBuildHelper
   end
 
   def link_to_mass_build(mass_build)
-    link_to mass_build.name, build_lists_path+"#?#{{filter: {mass_build_id: mass_build.id, ownership: 'everything'}}.to_param}"
+    link_to mass_build.name, build_lists_path+"#?#{{mass_build_id: mass_build.id, ownership: 'everything'}.to_param}"
   end
 
   def new_mass_build_data(mass_build, platform, params)
