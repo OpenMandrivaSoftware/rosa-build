@@ -13,7 +13,7 @@ gem 'paperclip'
 gem 'resque'
 gem 'resque-status'
 gem 'resque_mailer'
-gem 'resque-scheduler'
+gem 'resque-scheduler', '~>2.5.4'
 gem 'perform_later', git: 'git://github.com/KensoDev/perform_later.git' # should be after resque_mailer
 gem 'russian'
 gem 'state_machines-activerecord'
