@@ -3,6 +3,9 @@ en:
     repositories: Repositories
     personal_repository: My repository
     products: Products
+  top_menu_labels:
+    navigation: navigation
+    account: account
   top_menu:
     projects: Projects
     build_lists: Build Lists
@@ -11,7 +14,7 @@ en:
     statistics: Statistics
   bottom_menu:
     copyright: OMV © %{year}
-    about: About the company
+    about: About
     about_url: https://www.openmandriva.org/About?lang=en
     contacts: Contacts
     contacts_url: https://www.openmandriva.org/Join-contribute?lang=en

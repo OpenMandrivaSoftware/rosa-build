@@ -4,6 +4,9 @@
     rd-widget
       rd-widget-header title="Build Lists {{::widgetTitle}}" icon="fa-gears"
         .form-inline.pull-right ng-init="autoreload=true"
+          - if @project and policy(@project.build_lists.build).create?
+            a.btn.btn-default href=new_project_build_list_path(@project)
+              = t('layout.build_lists.new_header')
           button ng-model="autoreload" ng-click="setAutoreload(autoreload)" class="btn btn-default" uib-btn-checkbox=""
             = t 'layout.autoreload_page'
           button class="btn btn-default" ng-click="openFilters()" ng-disabled="isRequest"

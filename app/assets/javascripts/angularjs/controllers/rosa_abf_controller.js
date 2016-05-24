@@ -1,5 +1,5 @@
-RosaABF.controller('RosaABFController', ['$scope', 'LocalesHelper', 'SoundNotificationsHelper', '$timeout',
-                   function($scope, LocalesHelper, SoundNotificationsHelper, $timeout) {
+RosaABF.controller('RosaABFController', ['$scope', 'LocalesHelper', 'SoundNotificationsHelper', '$timeout', '$cookies',
+                   function($scope, LocalesHelper, SoundNotificationsHelper, $timeout, $cookies) {
 
   $scope.hideAlerts = false;
   $scope.init = function(locale, sound_notifications) {
@@ -8,23 +8,24 @@ RosaABF.controller('RosaABFController', ['$scope', 'LocalesHelper', 'SoundNotifi
     SoundNotificationsHelper.enabled(sound_notifications);
     $timeout(function() { $scope.hideAlerts = true; }, 5000);
   }
-  var mobileView = 992;
 
-  $scope.getWidth = function() {
-      return window.innerWidth;
-  };
+  if(typeof $cookies.get('toggle') == 'undefined') {
+    var mobileView = 992;
 
-  $scope.$watch($scope.getWidth, function(newValue, oldValue) {
-      if (newValue >= mobileView) {
-        $scope.toggle = true;
-      } 
-      else {
-        $scope.toggle = false;
-      }
-  });
+    if (window.innerWidth >= mobileView) {
+      $scope.toggle = true;
+    } 
+    else {
+      $scope.toggle = false;
+    }
+  }
+  else {
+    $scope.toggle = $cookies.get('toggle') == 'true' ? true : false;
+  }
 
   $scope.toggleSidebar = function() {
-      $scope.toggle = !$scope.toggle;
+    $scope.toggle = !$scope.toggle;
+    $cookies.put("toggle", $scope.toggle);
   };
 
 }]);

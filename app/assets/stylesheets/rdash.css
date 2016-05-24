@@ -493,7 +493,7 @@ ul.sidebar .sidebar-list .menu-icon {
   padding-left: 0;
 }
 .top-space {
-  margin-top: 15px;
+  padding-top: 15px;
 }
 .bottom-space {
   margin-bottom: 15px;
@@ -543,4 +543,7 @@ table tbody tr.group-end td {
 }
 table {
   margin-bottom: 0 !important;
+}
+.no-indent {
+  text-indent: 0;
 }
