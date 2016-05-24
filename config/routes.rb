@@ -9,8 +9,6 @@ Rails.application.routes.draw do
     end
   end
 
-  # Redirect sitemap1.xml.gz file on AWS S3
-  match '/sitemap.xml.gz' => 'sitemap#show', via: [:get, :post, :head], as: :sitemap
   match '/robots.txt' => 'sitemap#robots', via: [:get, :post, :head], as: :robots
 
   resources :statistics, only: [:index]

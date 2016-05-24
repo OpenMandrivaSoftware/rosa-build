@@ -57,7 +57,6 @@ gem 'compass-rails'
 gem 'uglifier'
 gem 'therubyracer', platforms: [:mri, :rbx]
 gem 'therubyrhino', platforms: :jruby
-gem 'sitemap_generator'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-notifyjs'
