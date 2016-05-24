@@ -57,11 +57,9 @@
     div ng-show="tab == 'projects'"
       = render 'projects', subject: @user
     #manage-statistics.offset10[ ng-show       = "tab == 'statistics'"
-                                 ng-controller = 'StatisticsController'
                                  ng-cloak      = true ]
       rd-widget
         rd-widget-header title=t('top_menu.statistics')
         rd-widget-body
-          = render 'statistics'
-
-
+          div ng-controller = 'StatisticsController'
+            = render 'statistics'
