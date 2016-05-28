@@ -41,6 +41,12 @@ div[ ng-controller='BuildListController'
                   = t('layout.build_lists.creating')
 
             tr
+              td= t('activerecord.attributes.build_list.project')
+              td
+                a href=project_build_lists_path(@build_list.project.name_with_owner)
+                  = @build_list.project.name_with_owner
+
+            tr
               td= t('activerecord.attributes.build_list.id')
               td= @build_list.id
 

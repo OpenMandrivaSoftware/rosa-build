@@ -1,6 +1,6 @@
 script type="text/ng-template" id="build_list_filters.html"
   .modal-header
-    | Bleh
+    = t 'layout.build_lists.filters'
   .modal-body
     .row
       - html_options = { class: 'form-control' }
@@ -52,6 +52,12 @@ script type="text/ng-template" id="build_list_filters.html"
                 'datepicker-options' => 'datePickerCtrl.dateOptions',
                 'date-disabled' => "datePickerCtrl.disabled(date, mode)",
                 'ng-click' => "datePickerCtrl.open_#{attr}($event)"
+            h4.medium= t 'layout.build_lists.project_name_search'
+            input#filter_project_name.form-control[ name     = 'project_name'
+                                                    size     = '30'
+                                                    type     = 'text'
+                                                    ng-model = 'params.project_name'
+                                                    disabled = @project.present? ]
 
   .modal-footer
     button.btn.btn-primary type = 'button' ng-click = 'apply()'

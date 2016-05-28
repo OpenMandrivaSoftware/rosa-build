@@ -8,6 +8,8 @@ en:
     turned_on: on
     turned_off: off
 
+    for: for
+
     list: List
 
     year: year

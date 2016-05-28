@@ -99,7 +99,7 @@
       rd-widget-body class="no-padding"
         table.table.table-striped
           - MassBuild::COUNT_STATUSES.each do |status|
-            - path = build_lists_path+"#?#{{filter: {mass_build_id: @mass_build.id, ownership: 'everything'}.merge(status != :build_lists ? {status: BuildList.status_by_human(status)} : {})}.to_param}"
+            - path = build_lists_path+"#?#{{mass_build_id: @mass_build.id, ownership: 'everything'}.merge(status != :build_lists ? {status: BuildList.status_by_human(status)} : {}).to_param}"
             tr
               td
                 = link_to t("layout.build_lists.statuses.#{status}") + ": ", path

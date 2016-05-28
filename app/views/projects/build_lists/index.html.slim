@@ -4,6 +4,10 @@
     rd-widget
       rd-widget-header title="Build Lists {{::widgetTitle}}" icon="fa-gears"
         .form-inline.pull-right ng-init="autoreload=true"
+          - if @project
+            a.btn.btn-default [ href=("https://github.com/" + @project.github_get_organization + "/" + @project.name)
+                                target="_blank" ]
+              = t('menu.project_menu.github')
           - if @project and policy(@project.build_lists.build).create?
             a.btn.btn-default href=new_project_build_list_path(@project)
               = t('layout.build_lists.new_header')
@@ -55,7 +59,8 @@
                 td.centered ng-hide = '::bl.project' colspan = 2
                   = t('layout.projects.unexisted_project')
                 td ng-show = '::bl.project'
-                  | {{::bl.project.name_with_owner}}
+                  a ng-href='{{::bl.project.url}}'
+                    | {{::bl.project.name_with_owner}}
 
                 / diff
                 td

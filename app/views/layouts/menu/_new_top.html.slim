@@ -2,16 +2,25 @@ li.sidebar-list
   div.form-inline.no-indent
     = form_tag search_index_path, method: 'get', role: 'search' do
       = text_field_tag 'query', @query, placeholder: t('layout.search.header'), class: 'form-control', ng_show: 'toggle'
--if current_user
-  li.sidebar-title
-    span
-      = t 'top_menu_labels.navigation'
-  - (collection = t 'top_menu').each do |base, title|
-    - if policy(base.to_s.singularize.to_sym).index?
-      li.sidebar-list
-        a href=send("#{base}_path")
-          = title
-          span.menu-icon.fa class=top_menu_icon(base)
+li.sidebar-title
+  span
+    = t 'top_menu_labels.navigation'
+- (collection = t 'top_menu').each do |base, title|
+  - if policy(base.to_s.singularize.to_sym).index?
+    li.sidebar-list
+      a href=send("#{base}_path")
+        = title
+        span.menu-icon.fa class=top_menu_icon(base)
+li.sidebar-list
+  a href="http://repoclosure.openmandriva.org"
+    | Repoclosure
+    span.menu-icon.fa.fa-circle-o
+- if current_user.try(:admin?)
+  li.sidebar-list
+    a href=admin_users_path
+      = t('admins_menu_header')
+      span.menu-icon.fa.fa-lock
+- if current_user
   li.sidebar-title
     span
       = t 'top_menu_labels.account'
@@ -27,7 +36,10 @@ li.sidebar-list
     a href=destroy_user_session_path data-method='delete'
       = t('layout.logout')
       span.menu-icon.fa.fa-sign-out
--else
+- else
+  li.sidebar-title
+    span
+      = t 'top_menu_labels.account'
   li.sidebar-list
     a href=new_user_registration_path
       = t('layout.devise.shared_links.sign_up')
