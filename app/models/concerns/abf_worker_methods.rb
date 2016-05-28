@@ -22,8 +22,8 @@ module AbfWorkerMethods
   end
 
   def add_job_to_abf_worker_queue
-    Resque.push(
-      worker_queue_with_priority,
+    Sidekiq::Client.push(
+      'queue' => worker_queue_with_priority,
       'class' => worker_queue_class,
       'args' => [abf_worker_args]
     )
@@ -39,11 +39,8 @@ module AbfWorkerMethods
   end
 
   def destroy_from_resque_queue
-    Resque::Job.destroy(
-      worker_queue_with_priority,
-      worker_queue_class,
-      abf_worker_args
-    )
+    #FIX THIS
+    0
   end
 
   def worker_queue_with_priority(prefix = true)

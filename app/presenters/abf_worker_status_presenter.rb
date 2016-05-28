@@ -38,10 +38,10 @@ class AbfWorkerStatusPresenter
 
   def get_status(*queues)
     status = {}
-    queues.each do |worker|
-      workers = Resque.workers.select{ |w| yield w, worker }
-      status[worker] = status_of_worker workers, worker
-    end
+    #queues.each do |worker|
+    #  workers = Resque.workers.select{ |w| yield w, worker }
+    #  status[worker] = status_of_worker workers, worker
+    #end
     status
   end
 

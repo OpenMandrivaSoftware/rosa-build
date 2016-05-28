@@ -1,5 +1,7 @@
 module AbfWorker
-  class BaseObserver
+  class BaseObserver < BaseActiveRecordJob
+    include Sidekiq::Worker
+
     COMPLETED     = 0
     FAILED        = 1
     PENDING       = 2
@@ -9,13 +11,13 @@ module AbfWorker
 
     attr_accessor :status, :options
 
-    def initialize(options, subject_class)
+    def perform(options)
       @status         = options['status'].to_i
       @options        = options
-      @subject_class  = subject_class
+      real_perform
     end
 
-    def perform
+    def real_perform
       raise NotImplementedError, "You should implement this method"
     end
 

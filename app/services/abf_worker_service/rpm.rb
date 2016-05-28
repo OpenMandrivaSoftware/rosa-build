@@ -206,8 +206,8 @@ module AbfWorkerService
     end
 
     def push(options)
-      Resque.push(
-        'publish_worker_default',
+      Sidekiq::Client.push(
+        'queue' => 'publish_worker_default',
         'class' => 'AbfWorker::PublishWorkerDefault',
         'args'  => [options]
       )

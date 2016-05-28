@@ -4,7 +4,7 @@ class UserMailer < ActionMailer::Base
   default from: "\"#{APP_CONFIG['project_name']}\" <#{APP_CONFIG['do-not-reply-email']}>"
   default_url_options.merge!(protocol: 'https') if APP_CONFIG['mailer_https_url']
 
-  include Resque::Mailer # send email async
+#  include Resque::Mailer # send email async
 
   def build_list_notification(build_list, user)
     set_locale user

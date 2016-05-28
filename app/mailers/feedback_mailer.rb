@@ -6,7 +6,7 @@ class FeedbackMailer < ActionMailer::Base
           bcc: FBM_CONFIG['bcc']
   default_url_options.merge!(protocol: 'https') if APP_CONFIG['mailer_https_url']
 
-  include Resque::Mailer # send email async
+#  include Resque::Mailer # send email async
 
   def feedback_form_send(form_data)
     @data = Feedback.new(form_data)

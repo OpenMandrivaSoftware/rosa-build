@@ -1,11 +1,8 @@
-class RunExtraMassBuildsJob
-  @queue = :low
+class RunExtraMassBuildsJob < BaseActiveRecordJob
+  include Sidekiq::Worker
+  sidekiq_options :queue => :low
 
-  def self.perform
-    RunExtraMassBuildsJob.new.perform
-  end
-
-  def perform
+  def perform_with_ar_connection
     MassBuild.where(status: MassBuild::BUILD_PENDING).find_each do |mb|
       next if mb.extra_mass_builds.blank?
       emb = MassBuild.where(status: MassBuild::SUCCESS, id: mb.extra_mass_builds).to_a

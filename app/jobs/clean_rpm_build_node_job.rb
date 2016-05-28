@@ -1,7 +1,7 @@
 class CleanRpmBuildNodeJob
-  @queue = :middle
+  include Sidekiq::Worker
 
-  def self.perform
+  def perform
     RpmBuildNode.all.each do |n|
       n.delete unless n.user_id
     end

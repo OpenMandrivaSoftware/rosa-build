@@ -10,8 +10,8 @@ module AbfWorkerService
     def regenerate!
       return unless can_regenerate?
 
-      Resque.push(
-        'publish_worker_default',
+      Sidekiq::Client.push(
+        'queue' => 'publish_worker_default',
         'class' => 'AbfWorker::PublishWorkerDefault',
         'args' => [{
           id:              Time.now.to_i,

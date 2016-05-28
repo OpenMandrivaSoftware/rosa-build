@@ -1,7 +1,8 @@
-class RemoveOutdatedItemsJob
-  @queue = :low
+class RemoveOutdatedItemsJob < BaseActiveRecordJob
+  include Sidekiq::Worker
+  sidekiq_options :queue => :low
 
-  def self.perform
+  def perform_with_ar_connection
     log_file = Rails.root.join("log", "remove_outdated.log").to_s
     counter_bl = 0
     BuildList.outdated.find_each(batch_size: 100) do |bl|

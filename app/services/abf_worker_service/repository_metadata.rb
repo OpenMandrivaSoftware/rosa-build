@@ -18,8 +18,8 @@ module AbfWorkerService
         system "mkdir -p #{platform_path}"
       end
 
-      Resque.push(
-        'publish_worker_default',
+      Sidekiq::Client.push(
+        'queue' => 'publish_worker_default',
         'class' => 'AbfWorker::PublishWorkerDefault',
         'args' => [{
           id:              Time.now.to_i,

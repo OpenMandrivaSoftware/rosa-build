@@ -169,10 +169,6 @@ class BuildList < ActiveRecord::Base
 
   state_machine :status, initial: :waiting_for_response do
 
-    #after_transition(on: [:place_build, :rerun_tests]) do |build_list, transition|
-      #build_list.add_job_to_abf_worker_queue if build_list.external_nodes.blank?
-    #end
-
     after_transition on: :published,
       do: %i(set_version_and_tag actualize_packages)
     after_transition on: :publish, do: :set_publisher
@@ -286,7 +282,6 @@ class BuildList < ActiveRecord::Base
   end
 
   later :publish, queue: :middle
-  later :add_job_to_abf_worker_queue, queue: :middle
 
   HUMAN_CONTAINER_STATUSES = { WAITING_FOR_RESPONSE => :waiting_for_publish,
                                BUILD_PUBLISHED => :container_published,
@@ -571,7 +566,7 @@ class BuildList < ActiveRecord::Base
   protected
 
   def create_container
-    Resque.enqueue(BuildLists::CreateContainerJob, id)
+    BuildLists::CreateContainerJob.perform_async(id)
   end
 
   def remove_container
@@ -595,14 +590,14 @@ class BuildList < ActiveRecord::Base
   end
 
   def notify_users
-    unless mass_build_id
-      users = [user, publisher].compact.uniq.select{ |u| u.notifier.can_notify? && u.notifier.new_build? }
+    #unless mass_build_id
+    #  users = [user, publisher].compact.uniq.select{ |u| u.notifier.can_notify? && u.notifier.new_build? }
 
-      users |= project.all_members(:notifier).select do |u|
-        u.notifier.can_notify? && u.notifier.new_associated_build?
-      end if project
-      users.each{ |u| UserMailer.build_list_notification(self, u).deliver }
-    end
+    #  users |= project.all_members(:notifier).select do |u|
+    #    u.notifier.can_notify? && u.notifier.new_associated_build?
+    #  end if project
+    #  users.each{ |u| UserMailer.build_list_notification(self, u).deliver }
+    #end
   end # notify_users
 
   def build_package(pkg_hash, package_type, prj)

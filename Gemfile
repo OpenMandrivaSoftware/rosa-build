@@ -10,11 +10,15 @@ gem 'devise'
 gem 'pundit'
 
 gem 'paperclip'
-gem 'resque'
-gem 'resque-status'
-gem 'resque_mailer'
-gem 'resque-scheduler', '~>2.5.4'
-gem 'perform_later', git: 'git://github.com/KensoDev/perform_later.git' # should be after resque_mailer
+gem 'sinatra', :require => nil
+gem 'sidekiq'
+gem 'kiqit'
+gem 'sidekiq-scheduler', '~> 2.0'
+#gem 'resque'
+#gem 'resque-status'
+#gem 'resque_mailer'
+#gem 'resque-scheduler', '~>2.5.4'
+#gem 'perform_later', git: 'git://github.com/KensoDev/perform_later.git' # should be after resque_mailer
 gem 'russian'
 gem 'state_machines-activerecord'
 gem 'redis-rails'
@@ -79,6 +83,7 @@ group :development do
   gem 'rails3-generators'
   gem 'hirb'
   gem 'shotgun'
+  gem 'state_machines-graphviz'
   # Better Errors & RailsPanel
   gem 'better_errors'
   gem 'binding_of_caller'

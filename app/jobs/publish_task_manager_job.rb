@@ -1,11 +1,8 @@
-class PublishTaskManagerJob
-  @queue = :middle
+class PublishTaskManagerJob < BaseActiveRecordJob
+  include Sidekiq::Worker
+  sidekiq_options :queue => :middle
 
-  def self.perform
-    PublishTaskManagerJob.new.perform
-  end
-
-  def perform
+  def perform_with_ar_connection
     regenerate_metadata_for_software_center
     resign_repositories
     regenerate_metadata

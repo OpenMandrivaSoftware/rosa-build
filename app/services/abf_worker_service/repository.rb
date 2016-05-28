@@ -30,8 +30,8 @@ module AbfWorkerService
     def resign!(repository_status)
       return if repository.repo_lock_file_exists?
 
-      Resque.push(
-        'publish_worker_default',
+      Sidekiq::Client.push(
+        'queue' => 'publish_worker_default',
         'class' => "AbfWorker::PublishWorkerDefault",
         'args' => [{
           id:              repository.id,

@@ -27,7 +27,7 @@ class ProjectToRepository < ActiveRecord::Base
   protected
 
   def destroy_project_from_repository
-    DestroyProjectFromRepositoryJob.perform(project, repository)
+    DestroyProjectFromRepositoryJob.perform_async(project_id, repository_id)
   end
 
   def one_project_in_platform_repositories

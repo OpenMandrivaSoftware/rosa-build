@@ -88,7 +88,7 @@ class Platforms::ProductBuildListsController < Platforms::BaseController
     @product_build_lists = @product_build_lists.
       includes(:project, product: :platform).
       recent.paginate(page: current_page)
-    @build_server_status = AbfWorkerStatusPresenter.new.products_status
+    #@build_server_status = AbfWorkerStatusPresenter.new.products_status
   end
 
   protected

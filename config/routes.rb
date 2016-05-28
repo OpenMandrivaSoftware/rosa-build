@@ -1,3 +1,6 @@
+require 'sidekiq/web'
+require 'sidekiq-scheduler/web'
+
 Rails.application.routes.draw do
 
   # ActiveAdmin routes.
@@ -5,7 +8,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     constraints Rosa::Constraints::AdminAccess do
-      mount Resque::Server => 'resque'
+      mount Sidekiq::Web => 'sidekiq'
     end
   end
 

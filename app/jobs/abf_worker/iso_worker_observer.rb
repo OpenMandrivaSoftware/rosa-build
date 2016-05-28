@@ -1,30 +1,29 @@
 module AbfWorker
   class IsoWorkerObserver < AbfWorker::BaseObserver
-    @queue = :iso_worker_observer
+    sidekiq_options :queue => :iso_worker_observer
 
-    def self.perform(options)
-      new(options, ProductBuildList).perform
-    end
+    def real_perform
+      @subject_class = ProductBuildList
+      subject.with_lock do
+        case status
+        when COMPLETED
+          subject.build_success
+        when FAILED
 
-    def perform
-      case status
-      when COMPLETED
-        subject.build_success
-      when FAILED
+          case options['exit_status'].to_i
+          when ProductBuildList::BUILD_COMPLETED_PARTIALLY
+            subject.build_success_partially
+          else
+            subject.build_error
+          end
 
-        case options['exit_status'].to_i
-        when ProductBuildList::BUILD_COMPLETED_PARTIALLY
-          subject.build_success_partially
-        else
-          subject.build_error
+        when STARTED
+          subject.start_build
+        when CANCELED
+          subject.build_canceled
         end
-
-      when STARTED
-        subject.start_build
-      when CANCELED
-        subject.build_canceled
+        update_results if status != STARTED
       end
-      update_results if status != STARTED
     end
 
   end

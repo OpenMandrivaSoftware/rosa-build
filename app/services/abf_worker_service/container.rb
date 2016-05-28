@@ -15,8 +15,8 @@ module AbfWorkerService
         return
       end
 
-      Resque.push(
-        'publish_worker', # Low priority
+      Sidekiq::Client.push(
+        'queue' => 'publish_worker', # Low priority
         'class' => 'AbfWorker::PublishWorker',
         'args' => [{
           id:                   build_list.id,

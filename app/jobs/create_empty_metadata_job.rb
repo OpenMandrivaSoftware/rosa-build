@@ -1,23 +1,21 @@
-class CreateEmptyMetadataJob < Struct.new(:class_name, :id)
-  @queue = :low
+class CreateEmptyMetadataJob < BaseActiveRecordJob
+  include Sidekiq::Worker
+  sidekiq_options :queue => :low
 
-  def perform
+  def perform_with_ar_connection(class_name, id)
+    @id = id
     case class_name
     when Platform.name
       create_empty_metadata_for_platform
     when Repository.name
-      create_empty_metadata_for_repository Repository.find(id)
+      create_empty_metadata_for_repository Repository.find(@id)
     end
-  end
-
-  def self.perform(class_name, id)
-    new(class_name, id).perform
   end
 
   private
 
   def create_empty_metadata_for_platform
-    platform      = Platform.main.opened.find id
+    platform      = Platform.main.opened.find @id
     @platforms    = [platform]
     repositories  = Repository.joins(:platform).
       where(platforms: { platform_type: Platform::TYPE_PERSONAL })

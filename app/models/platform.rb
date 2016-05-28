@@ -310,8 +310,8 @@ class Platform < ActiveRecord::Base
     end
 
     def notify_users
-      users = members.includes(:notifier).select{ |u| u.notifier.can_notify? }
-      users.each{ |u| UserMailer.metadata_regeneration_notification(self, u).deliver }
+      #users = members.includes(:notifier).select{ |u| u.notifier.can_notify? }
+      #users.each{ |u| UserMailer.metadata_regeneration_notification(self, u).deliver }
     end
 
 end

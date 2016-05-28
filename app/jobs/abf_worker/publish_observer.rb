@@ -1,12 +1,9 @@
 module AbfWorker
   class PublishObserver < AbfWorker::BaseObserver
-    @queue = :publish_observer
+    sidekiq_options :queue => :publish_observer
 
-    def self.perform(options)
-      new(options, BuildList).perform
-    end
-
-    def perform
+    def real_perform
+      @subject_class = BuildList
       return if status == STARTED # do nothing when publication started
       extra = options['extra']
       repository_status = RepositoryStatus.where(id: extra['repository_status_id']).first

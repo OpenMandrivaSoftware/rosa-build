@@ -1,8 +1,9 @@
 module BuildLists
-  class CreateContainerJob
-    @queue = :middle
+  class CreateContainerJob < BaseActiveRecordJob
+    include Sidekiq::Worker
+    sidekiq_options :queue => :middle
 
-    def self.perform(build_list_id)
+    def perform_with_ar_connection(build_list_id)
       build_list  = BuildList.find(build_list_id)
       container   = AbfWorkerService::Container.new(build_list)
       container.create!
