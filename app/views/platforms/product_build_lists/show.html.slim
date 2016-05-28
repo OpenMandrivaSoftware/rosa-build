@@ -121,39 +121,3 @@ div ng-init=("init("+pbl.id.to_s+")") ng-controller='ProductBuildListController'
   .row.top-space ng-show="pbl.status == #{ProductBuildList::BUILD_STARTED}"
     .col-md-12
       = render 'shared/log', { build_started: true, get_log_path: log_platform_product_product_build_list_path(pbl.product.platform, pbl.product, pbl) }
-
-.row.top-space
-  .col-md-6
-    rd-widget
-      div ng-controller="ProjectInfoController"
-        rd-widget-header title=(t('dashboard.project_info.title') + '{{widget_title}}')
-        rd-widget-body class="medium" loading="requesting"
-          div ng-hide="widget_title"
-            = t('dashboard.project_info.select')
-          div ng-show="widget_title"
-            div
-              a ng-href="{{project_info.html_url}}" target="_blank"
-                | {{project}}
-            div.bottom-space
-              | {{project_info.description}}
-            div
-              div.bottom-space ng-repeat="commit in project_info.commits"
-                div
-                  span
-                    | {{::commit.branch}}
-                  span.pull-right
-                    a ng-href="{{::commit.committer_url}}" target="_blank"
-                      | {{::commit.committer_login}}
-                div
-                  a ng-href="{{::commit.url}}" target="_blank"
-                    | {{::commit.sha}}
-                div
-                  | {{::commit.message}}
-
-                - if policy(@repository).add_project?
-            a.btn.btn-primary href=add_project_platform_repository_path(@platform, @repository)
-              = t('layout.projects.add')
-            | &nbsp;
-          - if policy(@repository).remove_project?
-            a.btn.btn-primary href=remove_project_platform_repository_path(@platform, @repository)
-              = t('layout.repositories.mass_delete')
