@@ -14,6 +14,7 @@ gem 'sinatra', :require => nil
 gem 'sidekiq'
 gem 'kiqit'
 gem 'sidekiq-scheduler', '~> 2.0'
+gem 'sidekiq-failures'
 #gem 'resque'
 #gem 'resque-status'
 #gem 'resque_mailer'
