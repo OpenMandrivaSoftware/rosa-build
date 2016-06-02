@@ -1,6 +1,6 @@
 module BuildLists
   class DependentPackagesJob
-    sidekiq_options :queue => :middle
+    #sidekiq_options :queue => :middle
 
     def perform(build_list_id, user_id, project_ids, arch_ids, options)
       build_list  = BuildList.find(build_list_id)
