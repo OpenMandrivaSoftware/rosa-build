@@ -104,20 +104,20 @@ class Projects::BuildListsController < Projects::BaseController
         project_ids = prs[:projects].select{ |k, v| v == '1'  }.keys
         arch_ids    = prs[:arches].  select{ |k, v| v == '1'  }.keys
         #FIX
-#        enqueue(
-#          BuildLists::DependentPackagesJob,
-#          @build_list.id,
-#          current_user.id,
-#          project_ids,
-#          arch_ids,
-#          {
-#            auto_publish_status:            prs[:auto_publish_status],
-#            auto_create_container:          prs[:auto_create_container],
-#            include_testing_subrepository:  prs[:include_testing_subrepository],
-#            use_cached_chroot:              prs[:use_cached_chroot],
-#            use_extra_tests:                prs[:use_extra_tests]
-#          }
-#        )
+        Sidekiq::Client.push(
+          'class' => BuildLists::DependentPackagesJob,
+          'args'  => [@build_list.id,
+          current_user.id,
+          project_ids,
+          arch_ids,
+          {
+            auto_publish_status:            prs[:auto_publish_status],
+            auto_create_container:          prs[:auto_create_container],
+            include_testing_subrepository:  prs[:include_testing_subrepository],
+            use_cached_chroot:              prs[:use_cached_chroot],
+            use_extra_tests:                prs[:use_extra_tests]
+          }]
+        )
         flash[:notice] = t('flash.build_list.dependent_projects_job_added_to_queue')
         redirect_to build_list_path(@build_list)
       end

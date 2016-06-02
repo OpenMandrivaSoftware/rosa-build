@@ -1,8 +1,8 @@
 module BuildLists
   class DependentPackagesJob
-    @queue = :middle
+    sidekiq_options :queue => :middle
 
-    def self.perform(build_list_id, user_id, project_ids, arch_ids, options)
+    def perform(build_list_id, user_id, project_ids, arch_ids, options)
       build_list  = BuildList.find(build_list_id)
       return if build_list.save_to_platform.personal?
       user        = User.find(user_id)
