@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/DuratarskeyK/kiqit.git
-  revision: e4912d799eaa6b9d908a2a3dc233155cde37fa0c
+  revision: f6fbfc67c6535ec36ce4fea6a1f5dd79b1005573
   specs:
     kiqit (2.4.0)
       activerecord
@@ -522,7 +522,7 @@ GEM
     valuable (0.9.12)
     warden (1.2.6)
       rack (>= 1.0)
-    webmock (2.0.3)
+    webmock (2.1.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
