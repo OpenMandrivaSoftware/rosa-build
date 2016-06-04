@@ -11,7 +11,7 @@ module AbfWorker
 
     attr_accessor :status, :options
 
-    def perform(options)
+    def perform_with_ar_connection(options)
       @status         = options['status'].to_i
       @options        = options
       real_perform
