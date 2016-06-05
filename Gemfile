@@ -8,6 +8,7 @@ gem 'schema_plus'
 ########
 gem 'devise'
 gem 'pundit'
+gem 'rbtrace'
 
 gem 'paperclip'
 gem 'sinatra', :require => nil

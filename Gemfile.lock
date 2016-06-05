@@ -236,6 +236,7 @@ GEM
     modware (0.1.2)
       its-it
       key_struct (~> 0.4)
+    msgpack (0.7.6)
     multi_json (1.12.1)
     multipart-post (2.0.0)
     nest (1.1.2)
@@ -324,6 +325,10 @@ GEM
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
+    rbtrace (0.4.8)
+      ffi (>= 1.0.6)
+      msgpack (>= 0.4.3)
+      trollop (>= 1.16.2)
     redis (3.3.0)
     redis-actionpack (4.0.1)
       actionpack (~> 4)
@@ -512,6 +517,7 @@ GEM
       activesupport
       i18n
     timecop (0.8.1)
+    trollop (2.1.2)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (3.0.0)
@@ -575,6 +581,7 @@ DEPENDENCIES
   rails-assets-notifyjs!
   rails3-generators
   rake
+  rbtrace
   redis-rails
   redis-semaphore
   rest-client
