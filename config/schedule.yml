@@ -33,12 +33,12 @@ run_extra_mass_builds:
   queue: low
   description: 'Run mass builds with relations'
 
-clear_builder_on_stale_buildlists:
-  every:
-    - '2m'
-  class: 'BuildLists::ClearBuilderOnStaleBuildListsJob'
-  queue: low
-  description: 'Clear builder on build lists which are still pending'
+#clear_builder_on_stale_buildlists:
+#  every:
+#    - '2m'
+#  class: 'BuildLists::ClearBuilderOnStaleBuildListsJob'
+#  queue: low
+#  description: 'Clear builder on build lists which are still pending'
 
 remove_outdated_items:
   cron: '0 3 * * *'

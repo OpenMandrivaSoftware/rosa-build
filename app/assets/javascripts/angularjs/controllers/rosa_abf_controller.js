@@ -9,15 +9,17 @@ RosaABF.controller('RosaABFController', ['$scope', 'LocalesHelper', 'SoundNotifi
     $timeout(function() { $scope.hideAlerts = true; }, 5000);
   }
 
-  if(typeof $cookies.get('toggle') == 'undefined') {
-    var mobileView = 992;
+  var mobileView = 992, toggle;
 
-    if (window.innerWidth >= mobileView) {
-      $scope.toggle = true;
-    } 
-    else {
-      $scope.toggle = false;
-    }
+  if (window.innerWidth >= mobileView) {
+    toggle = true;
+  } 
+  else {
+    toggle = false;
+  }
+
+  if(typeof $cookies.get('toggle') == 'undefined') {
+    $scope.toggle = toggle;
   }
   else {
     $scope.toggle = $cookies.get('toggle') == 'true' ? true : false;
