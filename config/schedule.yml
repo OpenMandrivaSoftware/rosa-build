@@ -19,12 +19,12 @@ clean_api_defender_statistics:
   queue: low
   description: 'Cleans ApiDefender statistics'
 
-clean_build_list_buildroot:
-  every:
-    - '1h'
-  class: 'BuildLists::CleanBuildrootJob'
-  queue: middle
-  description: 'Cleans RPM buildroot from BuildList'
+#clean_build_list_buildroot:
+#  every:
+#    - '1h'
+#  class: 'BuildLists::CleanBuildrootJob'
+#  queue: middle
+#  description: 'Cleans RPM buildroot from BuildList'
 
 run_extra_mass_builds:
   every:
@@ -32,13 +32,6 @@ run_extra_mass_builds:
   class: 'RunExtraMassBuildsJob'
   queue: low
   description: 'Run mass builds with relations'
-
-#clear_builder_on_stale_buildlists:
-#  every:
-#    - '2m'
-#  class: 'BuildLists::ClearBuilderOnStaleBuildListsJob'
-#  queue: low
-#  description: 'Clear builder on build lists which are still pending'
 
 remove_outdated_items:
   cron: '0 3 * * *'

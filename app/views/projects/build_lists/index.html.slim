@@ -30,6 +30,7 @@
                 th= t('activerecord.attributes.build_list.arch_short')
                 th= t('activerecord.attributes.build_list.user')
                 th= t('activerecord.attributes.build_list.hostname')
+                th= t('activerecord.attributes.build_list.updated_at')
             tbody
               tr[ ng-repeat = 'bl in build_lists'
                   class     = '{{::bl.status_color}}'
@@ -83,6 +84,10 @@
                   a[ ng-href = '{{::bl.user.url}}' ] {{::bl.user.fullname}}
 
                 / hostname
-                td[] {{::bl.hostname}}
+                td
+                  | {{::bl.hostname}}
+
+                td
+                  | {{::bl.updated_at}}
         rd-widget-footer ng-show="total_items > per_page"
           == angularjs_paginate( per_page: 'per_page' )

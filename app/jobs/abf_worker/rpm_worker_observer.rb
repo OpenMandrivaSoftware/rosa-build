@@ -44,7 +44,7 @@ module AbfWorker
           when COMPLETED
             subject.build_success
             if subject.can_auto_publish? && subject.can_publish?
-              subject.now_publish
+              subject.publish
             elsif subject.auto_publish_into_testing? && subject.can_publish_into_testing?
               subject.publish_into_testing
             end

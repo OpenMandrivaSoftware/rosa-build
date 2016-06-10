@@ -281,8 +281,6 @@ class BuildList < ActiveRecord::Base
     end
   end
 
-  later :publish, queue: :middle
-
   HUMAN_CONTAINER_STATUSES = { WAITING_FOR_RESPONSE => :waiting_for_publish,
                                BUILD_PUBLISHED => :container_published,
                                BUILD_PUBLISH => :container_publish,

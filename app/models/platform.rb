@@ -92,7 +92,7 @@ class Platform < ActiveRecord::Base
   after_update :freeze_platform_and_update_repos
   after_update :update_owner_relation
 
-  after_commit  -> { symlink_directory unless hidden? }, on: :create
+  #after_commit  -> { symlink_directory unless hidden? }, on: :create
 
   accepts_nested_attributes_for :platform_arch_settings, allow_destroy: true
 
@@ -212,18 +212,13 @@ class Platform < ActiveRecord::Base
     end
   end
 
-  def symlink_directory
-    # umount_directory_for_rsync # TODO ignore errors
-    Arch.all.each do |arch|
-      str = "country=Russian Federation,city=Moscow,latitude=52.18,longitude=48.88,bw=1GB,version=2011,arch=#{arch.name},type=distrib,url=#{public_downloads_url}\n"
-      File.open(File.join(path, "#{name}.#{arch.name}.list"), 'w') {|f| f.write(str) }
-    end
-  end
-  later :symlink_directory, queue: :middle
-
-  def remove_symlink_directory
-    #system("rm -Rf #{symlink_path}")
-  end
+  #def symlink_directory
+  #   umount_directory_for_rsync # TODO ignore errors
+  #  Arch.all.each do |arch|
+  #    str = "country=Russian Federation,city=Moscow,latitude=52.18,longitude=48.88,bw=1GB,version=2011,arch=#{arch.name},type=distrib,url=#{public_downloads_url}\n"
+  #    File.open(File.join(path, "#{name}.#{arch.name}.list"), 'w') {|f| f.write(str) }
+  #  end
+  #end
 
   def update_owner_relation
     if owner_id_was != owner_id

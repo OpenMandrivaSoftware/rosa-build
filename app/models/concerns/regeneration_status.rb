@@ -37,7 +37,7 @@ module RegenerationStatus
     def cleanup_file_store
       old_log_sha1 = last_regenerated_log_sha1_was
       if old_log_sha1.present? && old_log_sha1 != last_regenerated_log_sha1
-        later_destroy_files_from_file_store([old_log_sha1])
+        DestroyFilesFromFileStoreJob.perform_async([old_log_sha1])
       end
     end
   end

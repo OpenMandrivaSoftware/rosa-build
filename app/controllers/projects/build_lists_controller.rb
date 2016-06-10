@@ -103,7 +103,7 @@ class Projects::BuildListsController < Projects::BaseController
       if prs.present? && prs[:projects].present? && prs[:arches].present?
         project_ids = prs[:projects].select{ |k, v| v == '1'  }.keys
         arch_ids    = prs[:arches].  select{ |k, v| v == '1'  }.keys
-        #FIX
+
         Sidekiq::Client.push(
           'class' => BuildLists::DependentPackagesJob,
           'args'  => [@build_list.id,
