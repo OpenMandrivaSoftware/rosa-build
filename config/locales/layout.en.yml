@@ -1,6 +1,6 @@
 en:
   layout:
-    autoreload_page: Update page automatically
+    autoreload_page: Autoreload
     autoreload_log: Update log every
     word_wrap: Word wrap
     read_more: Read more
