@@ -9,7 +9,6 @@ class UpdateStatisticsJob < BaseActiveRecordJob
                 'key' => nil, 
                 'counter' => 1}
     options = defaults.merge(args)
-    puts options
     statsd_increment(activity_at: options['activity_at'], user_id: options['user_id'],
                       project_id: options['project_id'], key: options['key'], counter: options['counter'])
   end
