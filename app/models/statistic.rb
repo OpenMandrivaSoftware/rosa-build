@@ -58,32 +58,9 @@ class Statistic < ActiveRecord::Base
   scope :build_lists_error,     -> { where(key: KEY_BUILD_LIST_BUILD_ERROR) }
   scope :build_lists_published, -> { where(key: KEY_BUILD_LIST_BUILD_PUBLISHED) }
 
-  def self.now_statsd_increment(activity_at: nil, user_id: nil, project_id: nil, key: nil, counter: 1)
-    # Truncates a DateTime to the minute
-    activity_at = activity_at.utc.change(min: 0)
-    user        = User.find user_id
-    project     = Project.find project_id
-    Statistic.create(
-      user_id:                  user_id,
-      email:                    user.email,
-      project_id:               project_id,
-      project_name_with_owner:  project.name_with_owner,
-      key:                      key,
-      activity_at:              activity_at
-    )
-  rescue ActiveRecord::RecordNotUnique
-    # Do nothing, see: ensure
-  ensure
-    Statistic.where(
-      user_id:      user_id,
-      project_id:   project_id,
-      key:          key,
-      activity_at:  activity_at
-    ).update_all(['counter = counter + ?', counter]) if user_id.present? && project_id.present?
-  end
-
   def self.statsd_increment(options = {})
-    Statistic.perform_later(:middle, :now_statsd_increment, options)
+    options[:activity_at] = options[:activity_at].to_i if options[:activity_at]
+    UpdateStatisticsJob.perform_async(options)
   end
 
 end
