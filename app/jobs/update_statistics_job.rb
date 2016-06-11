@@ -3,12 +3,13 @@ class UpdateStatisticsJob < BaseActiveRecordJob
   sidekiq_options :queue => :middle
 
   def perform_with_ar_connection(args = {})
-    defaults = {activity_at: nil, 
-                user_id: nil, 
-                project_id: nil, 
-                key: nil, 
-                counter: 1}
+    defaults = {'activity_at' => nil, 
+                'user_id' => nil, 
+                'project_id' => nil, 
+                'key' => nil, 
+                'counter' => 1}
     options = defaults.merge(args)
+    puts options
     statsd_increment(activity_at: options['activity_at'], user_id: options['user_id'],
                       project_id: options['project_id'], key: options['key'], counter: options['counter'])
   end
