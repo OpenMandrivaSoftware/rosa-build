@@ -242,7 +242,6 @@ GEM
     nest (1.1.2)
       redis
     netrc (0.11.0)
-    newrelic_rpm (3.15.2.317)
     ng-rails-csrf (0.1.0)
     ngannotate-rails (1.2.2)
       execjs
@@ -563,7 +562,6 @@ DEPENDENCIES
   meta-tags
   meta_request
   mock_redis
-  newrelic_rpm
   ng-rails-csrf
   ngannotate-rails
   octokit (~> 4.0)

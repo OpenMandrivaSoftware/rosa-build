@@ -1,6 +1,8 @@
 class CleanApiDefenderStatisticsJob
   include Sidekiq::Worker
 
+  sidekiq_options :queue => :low
+
   def perform
     deadline = Date.today - 1.month
     Redis.current.keys.select do |key|
