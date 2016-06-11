@@ -199,4 +199,6 @@ Devise.setup do |config|
   # end
 
   config.secret_key = APP_CONFIG['keys']['devise']['secret']
+
+  config.reconfirmable = false
 end
