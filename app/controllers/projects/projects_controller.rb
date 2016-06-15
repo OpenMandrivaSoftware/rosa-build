@@ -69,7 +69,7 @@ class Projects::ProjectsController < Projects::BaseController
 
     if @project.save
       flash[:notice] = t('flash.project.saved')
-      redirect_to @project
+      redirect_to project_build_lists_path(@project)
     else
       flash[:error] = t('flash.project.save_error')
       flash[:warning] = @project.errors.full_messages.join('. ')

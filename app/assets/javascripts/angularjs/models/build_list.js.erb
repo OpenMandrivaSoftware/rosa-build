@@ -37,7 +37,6 @@ var BuildList = function(atts, dictionary) {
       self.version_link_url   = Routes.commit_path(self.project.name_with_owner, self.version_link_text);
     }
     self.project.url = Routes.project_build_lists_path(self.project.name_with_owner);
-    console.log(self.project.url);
   }
 
   if (self.user)

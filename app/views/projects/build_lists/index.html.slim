@@ -1,5 +1,6 @@
 .row.top-space
   .col-md-12 ng-controller="BuildListsController" ng-init=('getBuildLists("'+params[:name_with_owner].to_s+'")')
+    == render 'projects/build_lists/server_status'
     == render 'projects/build_lists/filter'
     rd-widget
       rd-widget-header title="Build Lists {{::widgetTitle}}" icon="fa-gears"

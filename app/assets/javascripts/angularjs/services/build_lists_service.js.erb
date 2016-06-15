@@ -68,7 +68,8 @@ angular.module("RosaABF").factory('BuildListsService', ["$http", function($http)
               build_lists: build_lists_final, 
               page: results.data.page, 
               total_items: results.data.total_items,
-              filter: results.data.filter
+              filter: results.data.filter,
+              server_status: results.data.server_status
             };
     });
   }

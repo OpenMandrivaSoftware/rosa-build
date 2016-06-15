@@ -65,7 +65,7 @@ RosaABF.controller 'StatisticsController', ['$scope', '$http', '$timeout', ($sco
       range_end:        $scope.range_end
       users_or_groups:  $scope.users_or_groups
       format:       'json'
-    console.log($scope.users_or_groups)
+
     $http.get($scope.statistics_path, params: params).success (results) ->
       $scope.statistics = results
 

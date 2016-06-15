@@ -68,6 +68,7 @@ function($scope, BuildListsService, $location, $interval, $uibModal) {
       $scope.total_items = res.total_items;
       $location.search(Object.assign(filter, res.filter));
       $scope.per_page = filter.per_page;
+      $scope.server_status = res.server_status;
       $scope.isRequest = false;
     });
   }
@@ -138,7 +139,6 @@ function($scope, BuildListsService, $location, $interval, $uibModal) {
 
 RosaABF.controller('FiltersInstanceController', ['$scope', '$uibModalInstance', 'params',
 function($scope, $uibModalInstance, params) {
-  console.log(params);
   $scope.params = params;
 
   $scope.apply = function() {
