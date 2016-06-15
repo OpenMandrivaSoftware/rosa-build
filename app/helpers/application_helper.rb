@@ -45,6 +45,8 @@ module ApplicationHelper
       'fa-cube'
     when :build_lists
       'fa-cogs'
+    when :product_build_lists
+      'fa-product-hunt'
     when :groups
       'fa-users'
     when :statistics

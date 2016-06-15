@@ -9,6 +9,7 @@ en:
   top_menu:
     projects: Projects
     build_lists: Build Lists
+    product_build_lists: Product Build Lists
     platforms: Platforms
     groups: Groups
     statistics: Statistics

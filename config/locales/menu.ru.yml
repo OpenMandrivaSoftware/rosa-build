@@ -4,6 +4,9 @@ ru:
     repositories: Репозитории
     personal_repository: Мой репозиторий
   top_menu:
+    projects: Проекты
+    build_lists: Билды
+    product_build_lists: ISO Билды
     platforms: Платформы
     groups: Группы
     statistics: Статистика
