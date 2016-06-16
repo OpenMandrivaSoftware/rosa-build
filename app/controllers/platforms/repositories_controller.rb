@@ -1,7 +1,5 @@
 class Platforms::RepositoriesController < Platforms::BaseController
-  include DatatableHelper
   include FileStoreHelper
-  include RepositoriesHelper
   include PaginateHelper
 
   before_action :authenticate_user!
@@ -10,11 +8,6 @@ class Platforms::RepositoriesController < Platforms::BaseController
   before_action :load_repository, except: [:index, :create, :new]
   before_action :set_members,     only:   [:edit, :update]
   before_action -> { @repository = @platform.repositories.find(params[:id]) if params[:id] }
-
-  def index
-    @repositories = @platform.repositories
-    @repositories = Repository.custom_sort(@repositories).paginate(page: current_page)
-  end
 
   def show
     params[:per_page] = 30
@@ -128,7 +121,7 @@ class Platforms::RepositoriesController < Platforms::BaseController
 
     # @total_projects = @projects.count
     @projects = @projects.by_owner(params[:owner_name]).
-      search(params[:project_name]).order("projects.name #{sort_dir}")
+      search(params[:project_name]).order("projects.name asc")
 
     @total_items = @projects.count
     @projects    = @projects.paginate(paginate_params)

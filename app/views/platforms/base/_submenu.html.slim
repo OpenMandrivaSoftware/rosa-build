@@ -10,10 +10,8 @@
       / Collect the nav links, forms, and other content for toggling
       ul.nav.navbar-nav.left-border
 
-        li class=('active' if act == :show && contr == :platforms)
+        li class=('active' if act == :show && contr == :platforms || contr == :repositories)
           = link_to t("layout.platforms.about"), platform_path(@platform)
-        li class=('active' if contr == :repositories)
-          = link_to t("layout.repositories.list_header"), platform_repositories_path(@platform)
         li class=('active' if contr == :contents)
           = link_to t('layout.platforms.contents'), platform_contents_path(@platform)
         - if policy(@platform).show?

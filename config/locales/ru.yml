@@ -1,193 +1,73 @@
+---
 ru:
-  will_paginate:
-    previous_label: ‹ Предыдущая
-    next_label: Следующая ›
-    page_gap: ...
-
+  activerecord:
+    models:
+      product_build_list: "Сборочный лист продукта"
   datatables:
-    previous_label: ‹ Предыдущая
-    next_label: Следующая ›
-    first_label: « Первая
-    last_label: Последняя »
-    empty_label: Нет доступных данных
-    info_label: Показаны записи с _START_ по _END_ из _TOTAL_
-    info_empty_label: Показаны записи с 0 по 0 из 0
-    filtered_label: (отфильтровано из _MAX_)
-
-  layout:
-    logged_in_as: Вы вошли как
-    logout: Выйти
-    user_list: Список пользователей
-    edit: Редактировать
-    show: Просмотр
-    hide: Скрыть
-    cancel: Отмена
-    create: Создать
-    update: Обновить
-    delete: Удалить
-    delete_selected: Удалить выбранное
-    save: Сохранить
-    saving: Сохранение...
-    clone: Клонировать
-    search_by_name: Фильтр по имени
-    are_you_sure: "Вы уверены?"
-    login: Войти
-    or: или
-    yes_: Да
-    no_: Нет
-    true_: Да
-    false_: Нет
-    publish: Опубликовать
-    publish_again: Опубликовать снова
-    publish_again_warning: Повторная публикация может привести к нарушению зависимостей в репозитории. Будьте осторожны!
-    publish_into_testing: '[testing] Опубликовать'
-    reject_publish: Отклонить
-    add: Добавить
-    upload: Загрузить
-    not_access: Нет доступа!
-    owner: Владелец
-    confirm: Уверены?
-    back: Назад
-    processing: Обрабатывается...
-    invalid_content_type: имеет неверный тип
-    atom_link_tag_title: Приватная лента для %{nickname} | %{app_name}
-    preview: Предосмотр
-    link: Ссылка
-    noscript_message: Включите javascript для корректной работы сайта
-
+    empty_label: "Нет доступных данных"
+    filtered_label: "(отфильтровано из _MAX_)"
+    info_empty_label: "Показаны записи с 0 по 0 из 0"
+    info_label: "Показаны записи с _START_ по _END_ из _TOTAL_"
+    next_label: "Следующая ›"
+    previous_label: "‹ Предыдущая"
+  diff: "Изменения"
+  flash:
+    collaborators:
+      wrong_user: "Пользователь с ником '%{uname}' не найден."
+    exception_message: "У Вас нет доступа к этой странице!"
     settings:
-      label: 'Настройки'
-      notifier: Настройки оповещений
-      notifiers:
-        edit_header: Настройки оповещений
-        notice_header: Вы можете получать уведомления об изменениях, которые вносят другие участники, в код ваших программ. Уведомления будут высылаться на указанный вами адрес электронной почты %{email}.
-        change_email_link: Изменить адрес электронной почты
-        code_header: Код
-        tracker_header: Трекер задач
-        build_list_header: Сборочные задания
-
+      save_error: "При обновлении настроек произошла ошибка"
+      saved: "Настройки успешно сохранены"
+  layout:
+    add: "Добавить"
+    atom_link_tag_title: "Приватная лента для %{nickname} | %{app_name}"
+    cancel: "Отмена"
+    clone: "Клонировать"
+    collaborators:
+      members: "Участники"
+      role_names:
+        admin: "Админ"
+        reader: "Читатель"
+        writer: "Писатель"
+      roles: "Роли"
+    confirm: "Уверены?"
+    create: "Создать"
+    delete: "Удалить"
     devise:
       shared_links:
-        sign_in: Войти
-        sign_up: Регистрация
-        forgot_password: Забыли пароль?
-        confirm_again: Не получили инструкции по подтверждению?
-        unlock: Не получили инструкции по разблокировке?
-        sign_in_through: Войти через %{provider}
-
-    weekdays:
-      Monday: Понедельник
-      Tuesday: Вторник
-      Wednesday: Среда
-      Thursday: Четверг
-      Friday: Пятница
-      Saturday: Субота
-      Sunday: Воскресенье
-
-    time:
-      ago: назад
-
-    sessions:
-      sign_in_header: Вход в систему
-      sign_up_with: или войти с помощью
-
-    collaborators:
-      back_to_proj: Вернуться к проекту
-      edit: Редактировать список
-      add: Добавить/Удалить
-      list: Список
-      edit_roles: Редактировать роли
-      roles_header: Роли для
-      add_role: Добавить/Удалить роль
-      input_username: Введите псевдоним пользователя
-      input_groupname: Введите псевдоним группы
-      members: Участники
-      roles: Роли
-      role_names:
-        reader: Читатель
-        writer: Писатель
-        admin: Админ
-
+        confirm_again: "Не получили инструкции по подтверждению?"
+        forgot_password: "Забыли пароль?"
+        sign_in: "Войти"
+        sign_up: "Регистрация"
+        unlock: "Не получили инструкции по разблокировке?"
+    edit: "Редактировать"
+    false_: "Нет"
     git:
       repositories:
-        empty: "Репозиторий пуст. Если вы клонировали(Fork) проект или импортировали пакет, данные скоро появятся"
-        source: Source
-        commits: Коммиты
-        commit_diff_too_big: Извините, изменений слишком много!
-        tags: Теги
-        branches: Ветки
-        project_versions: Версии
-
-  flash:
+        branches: "Ветки"
+        tags: "Теги"
+    logout: "Выйти"
+    no_: "Нет"
+    noscript_message: "Включите javascript для корректной работы сайта"
+    or: "или"
+    processing: "Обрабатывается..."
+    publish: "Опубликовать"
+    publish_again: "Опубликовать снова"
+    publish_again_warning: "Повторная публикация может привести к нарушению зависимостей
+      в репозитории. Будьте осторожны!"
+    publish_into_testing: "[testing] Опубликовать"
+    reject_publish: "Отклонить"
+    save: "Сохранить"
     settings:
-      saved: Настройки успешно сохранены
-      save_error: При обновлении настроек произошла ошибка
-
-    subscribe:
-      saved: Вы подписаны на оповещения для этой задачи
-      saved_error: При создании подписки произошла ошибка
-      destroyed: Подписка на оповещения для этой задачи убрана
-      commit:
-        saved: Вы подписаны на оповещения для этого коммита
-        destroyed: Подписка на оповещения для этого коммита убрана
-
-    exception_message: У Вас нет доступа к этой странице!
-
-    500_message: Ошибка 500. Что-то пошло не так. Мы уже в курсе данной проблемы и постараемся поскорее ее решить.
-    404_message: Ошибка 404. Страница не найдена!
-
-    collaborators:
-      successfully_added: Участник %{uname} успешно добавлен
-      error_in_adding: Ошибка при добавлении участника
-      successfully_removed: Участник %{uname} успешно удален
-      error_in_removing: Ошибка при удалении участника %{uname}
-      successfully_updated: Участнику %{uname} изменена роль
-      error_in_updating: Ошибка при изменении роли
-
-      successfully_changed: Список участников успешно изменен
-      error_in_changing: Ошибка изменения списка участников
-      member_already_added: Участник %s уже добавлен
-      group_already_added: Группа уже добавлена
-      wrong_user: "Пользователь с ником '%{uname}' не найден."
-
-    blob:
-      successfully_updated: "Файл '%{name}' успешно обновлен"
-      updating_error: "Ошибка обновления файла '%{name}'"
-
-  attributes:
-    password: Пароль
-    password_confirmation: Подтверждение
-    remember_me: Запомнить
-    name: Название
-    parent_platform_id: Родительская платформа
-
-  activerecord:
-
-    errors:
-      models:
-        project:
-          attributes:
-            base:
-              can_have_less_or_equal: Нельзя иметь больше, чем %{count} проектов.
-
-    models:
-      product_build_list: Сборочный лист продукта
-
-    attributes:
-      arch:
-        name: Название
-        created_at: Создана
-        updated_at: Обновлена
-
-  into: в
-  from: из
-  by: от
-  diff: Изменения
-  number_rows: Количество строк
-  reset: Сброс
-  _on: с
-  until: по
-  none: Нет
-  close: Закрыть
-
-  new_feature: '(новинка!)'
+      label: "Настройки"
+      notifiers:
+        build_list_header: "Сборочные задания"
+        change_email_link: "Изменить адрес электронной почты"
+        notice_header: "Вы можете получать уведомления об изменениях, которые вносят
+          другие участники, в код ваших программ. Уведомления будут высылаться на
+          указанный вами адрес электронной почты %{email}."
+    show: "Просмотр"
+    true_: "Да"
+  none: "Нет"
+  number_rows: "Количество строк"
+  reset: "Сброс"

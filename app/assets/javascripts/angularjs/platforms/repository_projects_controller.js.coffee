@@ -23,7 +23,6 @@ RosaABF.controller 'RepositoryProjectsController',
         owner_name:   $scope.owner_name
         project_name: $scope.project_name
         page:         $scope.page
-        sSortDir_0:   'asc'
         format:       'json'
 
       path = Routes.projects_list_platform_repository_path $scope.platform_id, $scope.repository_id

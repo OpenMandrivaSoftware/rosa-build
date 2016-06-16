@@ -1,193 +1,72 @@
+---
 en:
-  will_paginate:
-    previous_label: ‹ Previous
-    next_label: Next ›
-    page_gap: ...
-
-  datatables:
-    previous_label: ‹ Prev.
-    next_label: Next ›
-    first_label: « First
-    last_label: Last »
-    empty_label: No data accessible
-    info_label: Records displayed from _START_ to _END_ total _TOTAL_
-    info_empty_label: Records displayed from 0 to 0 total 0
-    filtered_label: (filtered from _MAX_)
-
-  layout:
-    logged_in_as: You logged as
-    logout: Logout
-    user_list: User list
-    edit: Edit
-    show: View
-    hide: Hide
-    cancel: Cancel
-    create: Create
-    update: Update
-    delete: Erase
-    delete_selected: Remove selected
-    save: Save
-    saving: Saving
-    clone: Clone
-    search_by_name: Filter by name
-    are_you_sure: "Sure?"
-    login: Login
-    or: or
-    yes_: Yes
-    no_: No
-    true_: True
-    false_: False
-    publish: Publish
-    publish_again: Publish again
-    publish_again_warning: Secondary publication will be able to break relationships in the repository. Be careful!
-    publish_into_testing: '[testing] Publish'
-    reject_publish: Reject
-    add: Add
-    upload: Upload
-    not_access: Access denied!
-    owner: Owner
-    confirm: Sure?
-    back: Back
-    processing: working ...
-    invalid_content_type: incorrect type
-    atom_link_tag_title: Private feed for %{nickname} | %{app_name}
-    preview: Preview
-    link: Link
-    noscript_message: You need javascript to properly use this site
-
-    settings:
-      label: Settings
-      notifier: Notifier setting
-      notifiers:
-        edit_header: Notifier setting
-        notice_header: You can receive notifies from other collaborators about changes into code of your projects. Notifies will be sent to your email %{email}.
-        change_email_link: Change email address
-        code_header: Code
-        tracker_header: Tracker
-        build_list_header: Build List
-
-    devise:
-      shared_links:
-        sign_in: Sign in
-        sign_up: Sign up
-        forgot_password: Forgot your password?
-        confirm_again: Do not receive the confirmation link?
-        unlock: Do not receive unlock instructions?
-        sign_in_through: Sign in by %{provider}
-
-    weekdays:
-      Monday: Monday
-      Tuesday: Tuesday
-      Wednesday: Wednesday
-      Thursday: Thursday
-      Friday: Friday
-      Saturday: Saturday
-      Sunday: Sunday
-
-    time:
-      ago: ago
-
-    sessions:
-      sign_in_header: Sign in
-      sign_up_with: or sign in with
-
-    collaborators:
-      back_to_proj: Back to project
-      edit: Edit list
-      add: Add/Remove
-      list: List
-      edit_roles: Edit roles
-      roles_header: Roles to
-      add_role: Add/Remove a role
-      input_username: Enter an username
-      input_groupname: Enter a groupname
-      members: Members
-      roles: Roles
-      role_names:
-        reader: Reader
-        writer: Writer
-        admin: Admin
-
-    git:
-      repositories:
-        empty: "Repository is empty. You need to wait some time if you have forked project or imported package"
-        source: Source
-        commits: Commits
-        commit_diff_too_big: Sorry, diff too big!
-        tags: Tags
-        branches: Branches
-        project_versions: Versions
-
-  flash:
-    settings:
-      saved: Settings saved success
-      save_error: Setting update error
-
-    subscribe:
-      saved: Subscription on notifications for this task is created
-      saved_error: Subscription create error
-      destroyed: Subscription on notifications for this task is cleaned
-      commit:
-        saved: Subscription on notifications for this commit is created
-        destroyed: Subscription on notifications for this commit is cleaned
-
-    exception_message: Access violation to this page!
-
-    500_message: Error 500. Something went wrong.  We've been notified about this issue and we'll take a look at it shortly.
-    404_message: Error 404. Resource not found!
-
-    collaborators:
-      successfully_added: Member %{uname} successfully added
-      error_in_adding: Error adding member
-      successfully_removed: Member %{uname} successfully removed
-      error_in_removing: Error removing %{uname} member
-      successfully_updated: Member %{uname} role has been updated
-      error_in_updating: Error updating role
-
-      successfully_changed: Members list successfully changed
-      error_in_changing: Members list changing error
-      member_already_added: Member %s already added
-      group_already_added: Group already added
-      wrong_user: "User with nickname '%{uname}' not found!"
-
-    blob:
-      successfully_updated: "File '%{name}' successfully updated"
-      updating_error: "Error updating file '%{name}'"
-
-  attributes:
-    password: Password
-    password_confirmation: Confirmation
-    remember_me: Remember
-    name: Name
-    parent_platform_id: Parent platform
-
   activerecord:
-
-    errors:
-      models:
-        project:
-          attributes:
-            base:
-              can_have_less_or_equal: You cannot have more than %{count} projects.
-
     models:
       product_build_list: Product build list
-
-    attributes:
-      arch:
-        name: Name
-        created_at: Created
-        updated_at: Updated
-
-  into: into
-  from: from
-  by: by
+  datatables:
+    empty_label: No data accessible
+    filtered_label: "(filtered from _MAX_)"
+    info_empty_label: Records displayed from 0 to 0 total 0
+    info_label: Records displayed from _START_ to _END_ total _TOTAL_
+    next_label: Next ›
+    previous_label: "‹ Prev."
   diff: Diff
+  flash:
+    collaborators:
+      wrong_user: User with nickname '%{uname}' not found!
+    exception_message: Access violation to this page!
+    settings:
+      save_error: Setting update error
+      saved: Settings saved success
+  layout:
+    add: Add
+    atom_link_tag_title: Private feed for %{nickname} | %{app_name}
+    cancel: Cancel
+    clone: Clone
+    collaborators:
+      members: Members
+      role_names:
+        admin: Admin
+        reader: Reader
+        writer: Writer
+      roles: Roles
+    confirm: Sure?
+    create: Create
+    delete: Erase
+    devise:
+      shared_links:
+        confirm_again: Do not receive the confirmation link?
+        forgot_password: Forgot your password?
+        sign_in: Sign in
+        sign_up: Sign up
+        unlock: Do not receive unlock instructions?
+    edit: Edit
+    false_: false
+    git:
+      repositories:
+        branches: Branches
+        tags: Tags
+    logout: Logout
+    no_: false
+    noscript_message: You need javascript to properly use this site
+    or: or
+    processing: working ...
+    publish: Publish
+    publish_again: Publish again
+    publish_again_warning: Secondary publication will be able to break relationships
+      in the repository. Be careful!
+    publish_into_testing: "[testing] Publish"
+    reject_publish: Reject
+    save: Save
+    settings:
+      label: Settings
+      notifiers:
+        build_list_header: Build List
+        change_email_link: Change email address
+        notice_header: You can receive notifies from other collaborators about changes
+          into code of your projects. Notifies will be sent to your email %{email}.
+    show: View
+    true_: true
+  none: None
   number_rows: Number rows
   reset: Reset
-  _on: 'On'
-  until: Until
-  none: None
-  close: Close
-
-  new_feature: '(new!)'

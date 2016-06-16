@@ -1,5 +1,5 @@
 - set_meta_tags title: t('layout.platforms.list_header')
-.row.top-space ng-controller='PlatformsController'
+.row.top-space
   .col-md-6.col-md-offset-3
     rd-widget
       rd-widget-header title=(t('layout.platforms.list_header'))
@@ -13,9 +13,10 @@
               th= t 'activerecord.attributes.platform.name'
               th= t 'activerecord.attributes.platform.distrib_type'
           tbody
-            tr ng-repeat='item in platforms'
-              td
-                a ng-href="{{item.link}}"
-                  | {{item.name}}
-              td
-                | {{item.distrib_type}}
+            - @platforms.each do |platform|
+              tr
+                td
+                  a href=platform_path(platform.name)
+                    = platform.name
+                td
+                  = platform.distrib_type

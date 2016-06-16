@@ -168,7 +168,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :repositories do
+      resources :repositories, only: [:create, :new, :show, :edit] do
         member do
           get     :manage_projects
           put     :add_project
@@ -274,7 +274,6 @@ Rails.application.routes.draw do
       end
 
       # Resource
-      get '/project_info.:format' => 'projects#project_info', as: :project_info, format: /json/
       get '/autocomplete_maintainers' => 'projects#autocomplete_maintainers', as: :autocomplete_maintainers
       get '/modify' => 'projects#edit', as: :edit_project
       patch '/' => 'projects#update', as: :project

@@ -6,16 +6,12 @@ class Platforms::PlatformsController < Platforms::BaseController
 
   def index
     authorize :platform
-    respond_to do |format|
-      format.html {}
-
-      format.json {
-        @platforms = PlatformPolicy::Scope.new(current_user, Platform).related
-      }
-    end
+    @platforms = PlatformPolicy::Scope.new(current_user, Platform).related.select(:name, :distrib_type)
   end
 
   def show
+    @repositories = @platform.repositories
+    @repositories = Repository.custom_sort(@repositories).paginate(page: current_page)
   end
 
   def new
@@ -161,9 +157,9 @@ class Platforms::PlatformsController < Platforms::BaseController
     subject_params(Platform)
   end
 
-  # Private: before_action hook which loads Platform.
   def load_platform
-    authorize @platform = Platform.find_cached(params[:id]), :show? if params[:id]
+    return unless params[:id]
+    authorize @platform = Platform.find_cached(params[:id]), :show?
   end
 
 end

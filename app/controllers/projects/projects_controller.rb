@@ -1,5 +1,4 @@
 class Projects::ProjectsController < Projects::BaseController
-  include DatatableHelper
   include ProjectsHelper
 
   before_action :authenticate_user!
@@ -15,35 +14,6 @@ class Projects::ProjectsController < Projects::BaseController
           @projects = Project.find(current_user.build_lists.group(:project_id).limit(10).pluck(:project_id))
         else
           @projects = ProjectPolicy::Scope.new(current_user, Project).membered.search(params[:search]).limit(20)
-        end
-      }
-    end
-  end
-
-  def project_info
-    authorize @project
-    respond_to do |format|
-      format.json {
-        @github_basic_info = @project.github_data
-        @commits = []
-        @project.github_branches.each do |branch|
-          last_commit_info = @project.github_last_commit(branch.name)[0]
-          if last_commit_info
-            last_commit = {
-                          branch: branch.name,
-                          url: last_commit_info['html_url'],
-                          sha: last_commit_info['sha'],
-                          message: last_commit_info['commit']['message']
-                        }
-            if last_commit_info['committer']
-              last_commit[:committer_login] = last_commit_info['committer']['login']
-              last_commit[:committer_url] = last_commit_info['committer']['html_url']
-            else
-              last_commit[:committer_login] = last_commit_info['commit']['author']['name']
-              last_commit[:committer_url] = ''
-            end
-            @commits << last_commit
-          end
         end
       }
     end
