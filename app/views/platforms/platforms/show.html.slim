@@ -53,27 +53,27 @@
         = render 'platforms/repositories/list', object: @repositories
         = will_paginate @repositories
 
-  - if @platform.platform_type == 'personal' and @platform.visibility == 'open'
-    .row
-      .col-md-6 ng-controller='PlatformSysReposController' ng-init="init(#{@platform.id})"
-        rd-widget
-          rd-widget-header title=t('layout.platforms.sys_repos_header')
-          rd-widget-body
-            .row
-              .col-md-4
-                b= t('layout.platforms.target_platform')
-              .col-md-8
-                select ng-model='platform' ng-change='updateCommand()'
-                  option ng-repeat='platform in platforms' ng-value='platform'
-                    | {{ platform }}
+- if @platform.platform_type == 'personal' and @platform.visibility == 'open'
+  .row.top-space
+    .col-md-6 ng-controller='PlatformSysReposController' ng-init="init(#{@platform.id})"
+      rd-widget
+        rd-widget-header title=t('layout.platforms.sys_repos_header')
+        rd-widget-body
+          .row
+            .col-md-4
+              b= t('layout.platforms.target_platform')
+            .col-md-8
+              select ng-model='platform' ng-change='updateCommand()'
+                option ng-repeat='platform in platforms' ng-value='platform'
+                  | {{ platform }}
 
-            .row
-              .col-md-4
-                b= t('layout.platforms.target_architecture')
-              .col-md-8
-                select ng-model='arch' ng-change='updateCommand()'
-                  option ng-repeat='arch in arches' ng-value='arch'
-                    | {{ arch }}
-            .row
-              br
-              textarea.form-control readonly='readonly' ng-model='command' rows=3 ng-click='selectAll($event)'
+          .row
+            .col-md-4
+              b= t('layout.platforms.target_architecture')
+            .col-md-8
+              select ng-model='arch' ng-change='updateCommand()'
+                option ng-repeat='arch in arches' ng-value='arch'
+                  | {{ arch }}
+          .row
+            br
+            textarea.form-control readonly='readonly' ng-model='command' rows=3 ng-click='selectAll($event)'
