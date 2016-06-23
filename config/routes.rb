@@ -168,7 +168,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :repositories, only: [:create, :new, :show, :edit] do
+      resources :repositories, only: [:create, :new, :show, :edit, :update] do
         member do
           get     :manage_projects
           put     :add_project
