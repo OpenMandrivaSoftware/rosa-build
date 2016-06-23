@@ -18,16 +18,23 @@ RosaABF.controller('RosaABFController', ['$scope', 'LocalesHelper', 'SoundNotifi
     toggle = false;
   }
 
-  if(typeof $cookies.get('toggle') == 'undefined') {
-    $scope.toggle = toggle;
+  if(toggle) {
+    if(typeof $cookies.get('toggle') == 'undefined') {
+      $scope.toggle = toggle;
+    }
+    else {
+      $scope.toggle = $cookies.get('toggle') == 'true' ? true : false;
+    }
   }
   else {
-    $scope.toggle = $cookies.get('toggle') == 'true' ? true : false;
+    $scope.toggle = false;
   }
 
   $scope.toggleSidebar = function() {
     $scope.toggle = !$scope.toggle;
-    $cookies.put("toggle", $scope.toggle);
+    if(toggle) {
+      $cookies.put("toggle", $scope.toggle);
+    }
   };
 
 }]);

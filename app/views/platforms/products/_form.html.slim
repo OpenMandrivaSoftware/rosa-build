@@ -1,7 +1,7 @@
 = f.input :name
 = f.input :description, as: :text
 
-div ng-controller="ProjectsVersionsTypeaheadController" ng-init=('init("'+@platform.name+'","'+@product.project.try(:name_with_owner).to_s+'","'+@product.project_id.to_s+'","'+@product.project_version+'")')
+div ng-controller="ProjectsVersionsTypeaheadController" ng-init=('init("'+@platform.name+'","'+@product.project.try(:name_with_owner).to_s+'","'+@product.project_id.to_s+'","'+@product.project_version.to_s+'")')
   = f.input :project_id, as: :string,
     input_html: { uib_typeahead:       'project.name for project in getProjects($viewValue)',
                   typeahead_wait_ms:   200,
