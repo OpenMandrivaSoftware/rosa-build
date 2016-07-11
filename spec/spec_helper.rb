@@ -57,14 +57,14 @@ def http_login(user=nil, password = '123456')
 end
 
 def stub_symlink_methods
-  allow_any_instance_of(Platform).to receive(:symlink_directory).and_return(true)
-  allow_any_instance_of(Platform).to receive(:remove_symlink_directory).and_return(true)
+  #allow_any_instance_of(Platform).to receive(:symlink_directory).and_return(true)
+  #allow_any_instance_of(Platform).to receive(:remove_symlink_directory).and_return(true)
 
   allow_any_instance_of(Platform).to    receive(:create_empty_metadata).and_return(true)
   allow_any_instance_of(Repository).to  receive(:create_empty_metadata).and_return(true)
 end
 
-Resque.inline = true
+#Resque.inline = true
 APP_CONFIG['root_path']   = "#{Rails.root}/tmp/test_root"
 APP_CONFIG['git_path']    = "#{Rails.root}/tmp/test_root"
 APP_CONFIG['tmpfs_path']  = "#{Rails.root}/tmp/test_root"
@@ -83,7 +83,7 @@ def stub_redis
   allow(Redis).to receive(:new).and_return(@redis_instance)
   allow(Redis).to receive(:current).and_return(@redis_instance)
   allow(Redis::Store).to receive(:new).and_return(@redis_instance)
-  Resque.redis = @redis_instance
+  #Resque.redis = @redis_instance
 end
 
 def fill_project project
