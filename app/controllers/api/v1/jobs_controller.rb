@@ -62,8 +62,7 @@ class Api::V1::JobsController < Api::V1::BaseController
         worker_count:        params[:worker_count],
         busy_workers:        params[:busy_workers],
         host:                params[:host],
-        supported_arches:    params[:supported_arches],
-        supported_platforms: params[:supported_platforms]
+        query_string:        params[:query_string].to_s
       ) rescue nil
     end
     render nothing: true

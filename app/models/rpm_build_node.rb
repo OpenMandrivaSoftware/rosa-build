@@ -13,8 +13,7 @@ class RpmBuildNode < Ohm::Model
   attribute :busy_workers
   attribute :system
   attribute :host
-  attribute :supported_arches
-  attribute :supported_platforms
+  attribute :query_string
 
   def user
     User.where(id: user_id).first
