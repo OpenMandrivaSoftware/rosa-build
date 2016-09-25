@@ -184,6 +184,7 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
+  config.omniauth :github, APP_CONFIG['keys']['github']['id'], APP_CONFIG['keys']['github']['secret'], scope: 'user:email'
 
   # require 'openid/store/filesystem'
   # config.omniauth :openid, :name => 'open_id' #, :store => OpenID::Store::Filesystem.new('./tmp')

@@ -7,6 +7,7 @@ gem 'pg'
 gem 'schema_plus'
 ########
 gem 'devise'
+gem 'omniauth-github'
 gem 'pundit'
 gem 'rbtrace'
 

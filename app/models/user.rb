@@ -13,8 +13,9 @@ class User < Avatar
   LANGUAGES = LANGUAGES_FOR_SELECT.map(&:last)
   NAME_REGEXP = /[a-z0-9_]+/
 
-  devise :database_authenticatable, :registerable, :recoverable, 
+  devise :database_authenticatable, :registerable, :recoverable,
          :rememberable, :validatable, :lockable, :confirmable
+  devise :omniauthable, omniauth_providers: %i(github)
 
   has_one :notifier,       class_name: 'SettingsNotifier',  dependent: :destroy #:notifier
   has_one :builds_setting, class_name: 'UserBuildsSetting', dependent: :destroy
