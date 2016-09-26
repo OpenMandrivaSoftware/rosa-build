@@ -12,6 +12,9 @@ ru:
         other: "%{resource}: сохранение не удалось из-за %{count} ошибки"
 
   devise:
+    shared:
+      providers:
+        sign_up_with: 'или войти с помощью'
     failure:
       already_authenticated: 'Вы уже вошли в систему.'
       unauthenticated: "Вам необходимо войти в систему или зарегистрироваться."
