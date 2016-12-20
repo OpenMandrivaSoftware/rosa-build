@@ -21,11 +21,13 @@ Rails.application.routes.draw do
   end
 
   devise_scope :user do
-    get 'users/sign_up' => 'users/registrations#new',    as: :new_user_registration
-    post 'users'        => 'users/registrations#create', as: :user_registration
+    get '/users/auth/:provider' => 'users/omniauth_callbacks#passthru'
+    get 'users/sign_up'         => 'users/registrations#new',    as: :new_user_registration
+    post 'users'                => 'users/registrations#create', as: :user_registration
   end
 
   devise_for :users, controllers: {
+    omniauth_callbacks: 'users/omniauth_callbacks',
     confirmations:      'users/confirmations'
   }, skip: [:registrations]
 
@@ -193,8 +195,8 @@ Rails.application.routes.draw do
             put :cancel
           }
         end
-        collection { 
-          get :autocomplete_project 
+        collection {
+          get :autocomplete_project
           get :project_versions
         }
       end
