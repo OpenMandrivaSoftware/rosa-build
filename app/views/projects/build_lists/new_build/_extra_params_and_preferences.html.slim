@@ -25,7 +25,7 @@ h4.offset10= t("activerecord.attributes.build_list.preferences")
 - %i(include_testing_subrepository use_cached_chroot use_extra_tests save_buildroot native_build).each do |kind|
   .checkbox
     label
-      - checked = params[:build_list].try(:[], kind)
+      - checked = params[:build_list].try(:[], kind) || kind == :use_cached_chroot
       - checked = @build_list.send(kind) if checked.nil?
       input[type=     'checkbox'
             checked=  checked
