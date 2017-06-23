@@ -63,7 +63,7 @@ GEM
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
-      concurrent-ruby (~> 1.0, => 1.0.2)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
       tzinfo (~> 1.1)
     addressable (2.4.0)
     airbrake (5.3.0)
