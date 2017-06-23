@@ -50,7 +50,7 @@ GEM
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
     activejob (5.1.1)
       activesupport (= 5.1.1)
-      globalid (>= 0.3.0)
+      globalid (>= 0.3.6)
     activemodel (5.1.1)
       activesupport (= 5.1.1)
       builder (~> 3.1)
