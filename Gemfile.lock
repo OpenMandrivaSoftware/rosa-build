@@ -502,7 +502,7 @@ GEM
     skinny (0.2.4)
       eventmachine (~> 1.0.0)
       thin (>= 1.5, < 1.7)
-    slim (3.0.7)
+    slim (3.0.8)
       temple (~> 0.7.6)
       tilt (>= 1.3.3, < 2.1)
     soundmanager-rails (1.0.1)
