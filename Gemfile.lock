@@ -45,7 +45,6 @@ GEM
     actionview (5.1.1)
       activesupport (= 5.1.1)
       builder (~> 3.1)
-      erubi (~> 1.4)
       erubis (~> 2.7.0)
       rails-dom-testing (~> 2.0)
 
