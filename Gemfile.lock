@@ -1,4 +1,4 @@
-GIT
+GIu
   remote: git://github.com/activeadmin/activeadmin.git
   revision: 1b5c9259c4cfe183039498e0e1eb2c6c146d2273
   specs:
@@ -142,6 +142,7 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     encryptor (3.0.0)
     erubis (2.7.0)
+    erubi (1.6.0)
     eventmachine (1.0.9.1)
     execjs (2.7.0)
     factory_girl (4.7.0)
