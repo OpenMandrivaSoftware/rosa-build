@@ -130,6 +130,8 @@ class Projects::BuildListsController < Projects::BaseController
   end
 
   def rerun_tests
+    @build_list.builder = nil
+    @build_list.save
     do_and_back(:rerun_tests, 'rerun_tests_')
   end
 
