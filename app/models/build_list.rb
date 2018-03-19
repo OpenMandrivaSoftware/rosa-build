@@ -525,6 +525,7 @@ class BuildList < ActiveRecord::Base
     if use_cached_chroot?
       sha1 = build_for_platform.cached_chroot(arch.name)
       cmd_params.merge!('CACHED_CHROOT_SHA1' => sha1) if sha1.present?
+      cmd_params.merge!('MOCK_CACHE' => 'True')
     end
     #cmd_params = cmd_params.map{ |k, v| "#{k}='#{v}'" }.join(' ')
 
