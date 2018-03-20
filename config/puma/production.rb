@@ -2,8 +2,8 @@ base_path  = "/app/rosa-build"
 bind 'unix:///app/rosa-build/rosa_build.sock'
 
 environment ENV['RAILS_ENV'] || 'production'
-threads *(ENV['PUMA_THREADS'] || '16,16').split(',')
-workers ENV['PUMA_WORKERS'] || 7
+threads *(ENV['PUMA_THREADS'] || '12,12').split(',')
+workers ENV['PUMA_WORKERS'] || 5
 
 
 preload_app!
