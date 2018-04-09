@@ -10,6 +10,7 @@ gem 'devise'
 gem 'omniauth-github'
 gem 'pundit'
 gem 'rbtrace'
+gem 'sentry-raven'
 
 gem 'paperclip'
 gem 'sinatra', :require => nil
