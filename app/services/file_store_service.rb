@@ -20,7 +20,8 @@ module FileStoreService
       else
         false
       end
-    rescue # Dont care about it
+    rescue => e # Dont care about it
+      Raven.capture_exception(e)
       return false
     end
 
