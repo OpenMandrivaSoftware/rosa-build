@@ -14,7 +14,7 @@ html
     link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'
     == stylesheet_link_tag 'new_application', cache: 'application'
 
-  body[ ng-app='RosaABF' ng-controller='RosaABFController' ng-strict-di='' class="hamburg"
+  body[ ng-app='RosaABF' ng-controller='RosaABFController' ng-strict-di='' class="hamburger"
         ng-init="init('#{I18n.locale}', #{!!current_user.try(:sound_notifications)})" ng-cloak="true"]
     .page-wrapper ng-class="{'open': toggle}"
       .sidebar-wrapper
