@@ -60,11 +60,18 @@ module AbfWorkerService
       end
     end
 
+    TRIES = 3
+
     def filter_build_lists_without_packages(*build_lists)
       ids = []
       build_lists = build_lists.flatten.select do |build_list|
-        sha1 = build_list.packages.pluck(:sha1).find do |sha1|
-          !FileStoreService::File.new(sha1: sha1).exist?
+        sha1 = nil
+        TRIES.times do
+          sha1 = build_list.packages.pluck(:sha1).find do |sha1|
+            !FileStoreService::File.new(sha1: sha1).exist?
+          end
+          break if sha1.present?
+          sleep 1
         end
         if sha1.present?
           ids << build_list.id
