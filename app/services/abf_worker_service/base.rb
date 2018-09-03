@@ -1,4 +1,10 @@
 module AbfWorkerService
+
+
+
+
+
+
   class Base
 
     REDIS_MAIN_KEY = 'abf-worker::build-lists-publish-task-manager::'
@@ -66,12 +72,12 @@ module AbfWorkerService
       ids = []
       build_lists = build_lists.flatten.select do |build_list|
         sha1 = nil
-        TRIES.times do
+        TRIES.times do |i|
           sha1 = build_list.packages.pluck(:sha1).find do |sha1|
             !FileStoreService::File.new(sha1: sha1).exist?
           end
-          break if sha1.present?
-          sleep 1
+          break if !sha1.present?
+          sleep 2**i
         end
         if sha1.present?
           ids << build_list.id
