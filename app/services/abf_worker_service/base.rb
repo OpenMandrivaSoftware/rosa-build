@@ -70,7 +70,7 @@ module AbfWorkerService
           sha1 = build_list.packages.pluck(:sha1).find do |sha1|
             begin
               !FileStoreService::File.new(sha1: sha1).exist?
-            rescue SystemCallError => e
+            rescue Errno::EBUSY => e
               nil
             end
           end
