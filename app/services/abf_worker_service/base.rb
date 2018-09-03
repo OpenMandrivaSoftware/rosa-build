@@ -1,10 +1,4 @@
 module AbfWorkerService
-
-
-
-
-
-
   class Base
 
     REDIS_MAIN_KEY = 'abf-worker::build-lists-publish-task-manager::'
