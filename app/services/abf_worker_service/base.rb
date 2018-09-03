@@ -68,7 +68,7 @@ module AbfWorkerService
         sha1 = nil
         TRIES.times do |i|
           sha1 = build_list.packages.pluck(:sha1).find do |sha1|
-            !FileStoreService::File.new(sha1: sha1).exist?
+            !FileStoreService::File.new(sha1: sha1).exist? rescue nil
           end
           break if !sha1.present?
           sleep 2**i
