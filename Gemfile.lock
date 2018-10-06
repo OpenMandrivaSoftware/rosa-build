@@ -158,7 +158,7 @@ GEM
     gli (2.16.0)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
-    haml (5.0.1)
+    haml (5.0.4)
       temple (>= 0.8.0)
       tilt
     haml-rails (1.0.0)
