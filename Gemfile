@@ -6,7 +6,7 @@ gem 'activeadmin',                      github: 'activeadmin'
 gem 'pg'
 gem 'schema_plus'
 ########
-gem 'devise'
+gem 'devise', git: 'https://github.com/plataformatec/devise' #, ref: '88e9a85'
 gem 'omniauth-github'
 gem 'pundit'
 gem 'rbtrace'
