@@ -221,10 +221,10 @@ class Project < ActiveRecord::Base
       return false
     end
     if file
-      decoded_content = Base64.decode64(file.content)
-      new_content = Project.replace_release_tag decoded_content
-      return if new_content == decoded_content
       begin
+        decoded_content = Base64.decode64(file.content)
+        new_content = Project.replace_release_tag decoded_content
+        return if new_content == decoded_content
         Github_blobs_api.update_contents github_get_organization + '/' + name, name + '.spec',\
                               message, file.sha, new_content, branch: project_version
       rescue => e
