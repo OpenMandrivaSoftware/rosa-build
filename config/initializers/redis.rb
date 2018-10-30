@@ -11,3 +11,4 @@ end
 
 Redis.connect!
 Redis::Semaphore.new(:job_shift_lock).delete!
+Redis::Semaphore.new(:increase_release_tag_lock).delete!
