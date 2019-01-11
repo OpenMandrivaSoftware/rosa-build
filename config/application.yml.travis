@@ -3,7 +3,7 @@ common: &common
   repo_project_name: ABF
   anonymous_access: true
   preregistration: false
-  file_store_url: 'http://file-store.rosalinux.ru'
+  file_store_url: 'https://file-store.openmandriva.org'
   distr_types: ['mdv', 'rhel', 'nau5']
   allowed_addresses:
     - 127.0.0.100
@@ -32,7 +32,7 @@ common: &common
     facebook:
       id: 'APP_ID'
       secret: 'APP_SECRET'
-  downloads_url: 'http://abf-downloads.rosalinux.ru'
+  downloads_url: 'http://abf-downloads.openmandriva.org'
   wiki_formats:
     markdown:  "Markdown"
     textile:   "Textile"
