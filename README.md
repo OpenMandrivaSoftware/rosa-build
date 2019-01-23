@@ -25,3 +25,9 @@ A ruby translation project managed on [Locale](http://www.localeapp.com/) that's
 
 Happy translating!
 test 1
+
+[20:07] <HisShadow> bero: there's 
+ABFUI container that's responsible for the web interface and API that workers use to interact with abf. 
+Sidekiq is a ruby library that is a background job executor. It uses redis to store job information. 
+Some stuff can't just run in the web interface code, stuff like mass build creation for example. You need to create a lot of build lists which takes time, so it's not practical to put it into the web interface itself. 
+Our sidekiq executes jobs like creating mass builds, or changing build list statuses. When a builder sends feedback a job gets scheduled and processed by our main sidekiq container changing status of a build list and updating files if there are any. Publisher and ISO builder are both sidekiq workers too that run 1 job: publishing and product building respectivly. Postgresql container is our main database(well that should be obvious :))
