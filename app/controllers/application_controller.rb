@@ -54,12 +54,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_500(e)
-    #check for exceptions Airbrake ignores by default and exclude them from manual Airbrake notification
-    if Rails.env.production? && !AIRBRAKE_IGNORE.include?(e.class)
-      notify_airbrake(e)
-    end
-    Rails.logger.error e.message
-    Rails.logger.error e.backtrace.inspect
+    Raven.capture_exception(e)
     render_error 500
   end
 
