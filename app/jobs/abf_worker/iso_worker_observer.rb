@@ -4,6 +4,7 @@ module AbfWorker
 
     def real_perform
       @subject_class = ProductBuildList
+      return if !subject
       subject.with_lock do
         case status
         when COMPLETED

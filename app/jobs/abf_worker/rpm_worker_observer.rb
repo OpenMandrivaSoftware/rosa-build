@@ -11,10 +11,11 @@ module AbfWorker
 
     def real_perform
       @subject_class = BuildList
+      return if !subject
       unless subject.valid? && restart_task
         if options['feedback_from_user']
           user = User.find options['feedback_from_user']
-          raise ActiveRecord::Rollback if !user.system? && subject.builder != user
+          return if !user.system? && subject.builder != user
         end
 
         fill_container_data if status != STARTED
