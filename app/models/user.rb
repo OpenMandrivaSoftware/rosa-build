@@ -20,8 +20,6 @@ class User < Avatar
   has_one :notifier,       class_name: 'SettingsNotifier',  dependent: :destroy #:notifier
   has_one :builds_setting, class_name: 'UserBuildsSetting', dependent: :destroy
 
-  has_many :activity_feeds, dependent: :destroy
-
   has_many :authentications, dependent: :destroy
   has_many :build_lists, dependent: :destroy
 

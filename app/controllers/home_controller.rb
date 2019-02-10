@@ -6,39 +6,6 @@ class HomeController < ApplicationController
     redirect_to projects_path
   end
 
-  def activity(is_my_activity = false)
-    @activity_feeds = current_user.activity_feeds
-                                  .by_project_name(params[:project_name_filter])
-                                  .by_owner_uname(params[:owner_filter])
-
-    @activity_feeds = if is_my_activity
-                        @activity_feeds.where(creator_id: current_user)
-                      else
-                        @activity_feeds.where.not(creator_id: current_user)
-                      end
-
-    @activity_feeds = @activity_feeds.paginate page: current_page
-
-    if @activity_feeds.next_page
-      if is_my_activity
-        method = :own_activity_path
-      else
-        method = :activity_feeds_path
-      end
-      @next_page_link = method.to_proc.call(self, page: @activity_feeds.next_page, owner_filter: params[:owner_filter],
-                                                  project_name_filter: params[:project_name_filter], format: :json)
-    end
-
-    respond_to do |format|
-      format.json { render 'activity' }
-      format.atom
-    end
-  end
-
-  def own_activity
-    activity(true)
-  end
-
   def get_owners_list
     if params[:term].present?
       users   =  User.opened.search(params[:term]).first(5)

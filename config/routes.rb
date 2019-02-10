@@ -124,10 +124,6 @@ Rails.application.routes.draw do
   get  '/forbidden'        => 'pages#forbidden',      as: 'forbidden'
   get  '/terms-of-service' => 'pages#tos',            as: 'tos'
 
-  get '/activity.:format'       => 'home#activity',     as: 'activity_feeds', format: /json/
-  get '/activity_feeds.:format' => 'home#activity',     as: 'atom_activity_feeds', format: /atom/
-  get '/own_activity.:format'   => 'home#own_activity', as: 'own_activity', format: /json/
-
   if APP_CONFIG['anonymous_access']
     authenticated do
       root to: 'home#index'
