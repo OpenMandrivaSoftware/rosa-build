@@ -51,6 +51,7 @@ en:
       change_visibility_from_open: Change status to "Private"
       confirm_change_visibility: Are you sure you want to change visibility of this platform?
       metadata: Metadata for Software Center
+      publish_lists: Publishing black/white project lists
 
   flash:
     platform:
@@ -94,6 +95,9 @@ en:
         visibility_types:
           open: Public
           hidden: Private
+        project_list_types:
+          blacklist: Blacklist
+          whitelist: Whitelist
 
   simple_form:
     labels:

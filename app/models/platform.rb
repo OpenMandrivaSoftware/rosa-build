@@ -25,6 +25,11 @@ class Platform < ActiveRecord::Base
     TYPE_MAIN     = 'main'
   ]
 
+  PROJECT_LIST_TYPES = [
+    PROJECT_LIST_TYPE_BLACKLIST = 0,
+    PROJECT_LIST_TYPE_WHITELIST = 1
+  ]
+
   belongs_to :parent, class_name: 'Platform', foreign_key: 'parent_platform_id'
   belongs_to :owner, polymorphic: true
 
@@ -74,6 +79,10 @@ class Platform < ActiveRecord::Base
     presence:   true,
     inclusion:  { in: APP_CONFIG['distr_types'] }
 
+  validates :project_list_type,
+    presence:   true,
+    inclusion:  { in: PROJECT_LIST_TYPES }
+
   validate -> {
     if released_was && !released
       errors.add(:released, I18n.t('flash.platform.released_status_can_not_be_changed'))
@@ -89,6 +98,7 @@ class Platform < ActiveRecord::Base
   before_create :create_directory
   before_destroy :detele_directory
 
+  before_save :fix_project_list
   after_update :freeze_platform_and_update_repos
   after_update :update_owner_relation
 
@@ -280,6 +290,11 @@ class Platform < ActiveRecord::Base
   end
 
   protected
+
+    def fix_project_list
+      existing = projects.where(name: self.project_list.split("\r\n")).pluck(:name)
+      self.project_list = existing.join("\n")
+    end
 
     def create_directory
       system("mkdir -p -m 0777 #{build_path([name, 'repository'])}")

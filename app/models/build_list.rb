@@ -336,6 +336,16 @@ class BuildList < ActiveRecord::Base
     [SUCCESS, BUILD_PUBLISH, FAILED_PUBLISH, BUILD_PUBLISHED, TESTS_FAILED, BUILD_PUBLISHED_INTO_TESTING, FAILED_PUBLISH_INTO_TESTING].include?(status) && [WAITING_FOR_RESPONSE, FAILED_PUBLISH].include?(container_status)
   end
 
+  def can_publish_into_platform?
+    return true unless save_to_platform.project_list_active
+    if save_to_platform.project_list_type == Platform::PROJECT_LIST_TYPE_BLACKLIST
+      return false if save_to_platform.project_list.split("\n").include?(project.name)
+    else
+      return false unless save_to_platform.project_list.split("\n").include?(project.name)
+    end
+    return true
+  end
+
   def can_publish_into_repository?
     return true if !save_to_repository.synchronizing_publications? || save_to_platform.personal? || project.architecture_dependent?
     arch_ids = save_to_platform.platform_arch_settings.by_default.pluck(:arch_id)
@@ -381,6 +391,7 @@ class BuildList < ActiveRecord::Base
 
   def can_publish?
     super &&
+      can_publish_into_platform? &&
       valid_branch_for_publish? &&
       extra_build_lists_published? &&
       save_to_repository.projects.exists?(id: project_id)

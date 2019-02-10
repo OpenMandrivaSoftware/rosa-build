@@ -78,6 +78,9 @@ class PlatformPolicy < ApplicationPolicy
       released
       term
       visibility
+      project_list
+      project_list_type
+      project_list_active
     ) + [
       platform_arch_settings_attributes: %i(id arch_id platform_id default time_living)
     ]

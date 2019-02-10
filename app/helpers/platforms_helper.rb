@@ -12,6 +12,12 @@ module PlatformsHelper
     end
   end
 
+  def platform_project_list_type_options
+    %w(blacklist whitelist).map do |v|
+      [ I18n.t("activerecord.attributes.platform.project_list_types.#{v}"), Platform.const_get("PROJECT_LIST_TYPE_#{v.upcase}")]
+    end
+  end
+
   def repository_name_postfix(platform)
      return "" unless platform
      return platform.released ? '/update' : '/release'

@@ -52,7 +52,7 @@ ru:
       change_visibility_from_open: Сменить статус на "Приватный"
       confirm_change_visibility: Вы уверены, что хотите сменить статус этой платформы?
       metadata: Метаданные для Software Center
-
+      publish_lists: Чёрные/белые списки публикации проектов
   flash:
     platform:
       released_status_can_not_be_changed: Released статус платформы не может быть изменен, если платформа уже выпущена

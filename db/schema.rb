@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190210140249) do
+ActiveRecord::Schema.define(version: 20190210143409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -218,6 +218,9 @@ ActiveRecord::Schema.define(version: 20190210140249) do
     t.string   "last_regenerated_log_sha1"
     t.string   "automatic_metadata_regeneration"
     t.string   "default_branch",                  :null=>false
+    t.string   "project_list",                    :default=>""
+    t.integer  "project_list_type",               :default=>0
+    t.boolean  "project_list_active",             :default=>false
   end
 
   create_table "product_build_lists", force: :cascade do |t|

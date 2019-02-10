@@ -24,6 +24,13 @@
 
 = f.input :default_branch
 
+h3
+  = t('layout.platforms.publish_lists')
+
+= f.input :project_list_active, as: :boolean
+= f.input :project_list_type, collection: platform_project_list_type_options, include_blank: false
+= f.input :project_list, as: :text, input_html: {rows: 10}
+
 - if %w(edit update).include? controller.action_name
 
   - unless @platform.personal?
