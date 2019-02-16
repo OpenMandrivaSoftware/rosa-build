@@ -54,6 +54,7 @@ module AbfWorker
       build_lists = BuildList.where(id: options['build_list_ids'])
       build_lists.each do |build_list|
         update_results build_list
+        puts "PUBLISH STATUS: #{status}"
         case status
         when COMPLETED
           if build_list.build_publish?
