@@ -4,7 +4,6 @@ module AbfWorker
 
     def real_perform
       @subject_class = BuildList
-      return if !subject
       return if status == STARTED # do nothing when publication started
       extra = options['extra']
       repository_status = RepositoryStatus.where(id: extra['repository_status_id']).first
