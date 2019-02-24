@@ -8,6 +8,7 @@ production:
   password: <%= ENV["DATABASE_PASSWORD"] %>
   pool: <%= ENV["DATABASE_POOL"] %>
   timeout: <%= ENV["DATABASE_TIMEOUT"] %>
+  prepared_statements: false
 
 test:
   adapter: postgresql
