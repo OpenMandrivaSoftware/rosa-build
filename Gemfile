@@ -16,7 +16,7 @@ gem 'paperclip'
 gem 'sinatra', :require => nil
 gem 'sidekiq'
 gem 'kiqit', :git => 'https://github.com/DuratarskeyK/kiqit.git'
-gem 'sidekiq-scheduler', '~> 2.0'
+gem 'sidekiq-scheduler', '~> 3.0'
 gem 'sidekiq-failures'
 gem 'russian'
 gem 'state_machines-activerecord'
