@@ -513,9 +513,9 @@ GEM
       rufus-scheduler (~> 3.2)
       sidekiq (>= 3)
       tilt (>= 1.4.0)
-    simple_form (3.1.0.rc2)
-      actionpack (~> 4.0)
-      activemodel (~> 4.0)
+    simple_form (4.0.0)
+      actionpack (> 4)
+      activemodel (> 4)
     sinatra (1.4.8)
       rack (~> 1.5)
       rack-protection (~> 1.4)
@@ -642,7 +642,7 @@ DEPENDENCIES
   sidekiq
   sidekiq-failures
   sidekiq-scheduler (~> 2.0)
-  simple_form (= 3.1.0.rc2)
+  simple_form (= 4.0.0)
   sinatra
   slim
   soundmanager-rails
