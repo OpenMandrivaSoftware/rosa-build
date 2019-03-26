@@ -21,8 +21,7 @@ module AbfWorker
         fill_container_data if status != STARTED
 
         unless subject.valid?
-          subject.build_error(false)
-          subject.save(validate: false)
+          subject.update_attribute(:status, BuildList::BUILD_ERROR)
           return
         end
 
@@ -80,6 +79,7 @@ module AbfWorker
       else
         Redis.current.lpush RESTARTED_BUILD_LISTS, subject.id
         subject.update_column(:status, BuildList::BUILD_PENDING)
+        subject.update_column(:builder_id, nil)
         return true
       end
     end
