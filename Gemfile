@@ -69,7 +69,7 @@ gem 'rack-utf8_sanitizer'
 gem 'redis-semaphore'
 
 #github api
-gem "octokit", "~> 4.0"
+gem "octokit", "~> 4.13"
 gem 'faraday-http-cache'
 
 group :production do
