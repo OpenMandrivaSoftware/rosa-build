@@ -12,16 +12,8 @@ on_worker_boot do
   if defined?(ActiveRecord::Base)
     ActiveSupport.on_load(:active_record) do
       ActiveRecord::Base.connection.disconnect! rescue ActiveRecord::ConnectionNotEstablished
-
-      config = Rails.application.config.database_configuration[Rails.env]
-      # config['reaping_frequency'] = ENV['DB_REAP_FREQ'] || 10 # seconds
-      # config['pool']              = ENV['DB_POOL']      || 3
-
-      ActiveRecord::Base.establish_connection(config)
-
-      Rails.logger.info "Connected to PG. Connection pool size #{config['pool']}, reaping frequency #{config['reaping_frequency']}"
+      ActiveRecord::Base.establish_connection
     end
-    # QC::Conn.connect
     Rails.logger.info('Connected to PG')
   end
 
