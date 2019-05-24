@@ -8,7 +8,6 @@ class Api::V1::JobsController < Api::V1::BaseController
   skip_after_action :verify_authorized
 
   def shift
-    clear_stale_builders
     job_shift_sem = Redis::Semaphore.new(:job_shift_lock)
     job_shift_sem.lock
     uid = BuildList.scoped_to_arch(arch_ids).
@@ -99,14 +98,6 @@ class Api::V1::JobsController < Api::V1::BaseController
   end
 
   protected
-
-  def clear_stale_builders
-    BuildList.transaction do
-      BuildList.where(["updated_at < ?", 900.seconds.ago]).where(status: BuildList::BUILD_PENDING).where.not(builder: nil).find_each(batch_size: 50) do |bl|
-        bl.update_column(:builder_id, nil)
-      end
-    end
-  end
 
   def platform_ids
     @platform_ids ||= begin
