@@ -94,8 +94,7 @@ module AbfWorkerService
       options   = {
         id:                (bl ? bl.id : Time.now.to_i),
         cmd_params:        cmd_params,
-        main_script:       'build.sh',
-        rollback_script:   'rollback.sh',
+        main_script:       'publisher.py',
         platform:        {
           platform_path:   platform_path,
           type:            distrib_type,

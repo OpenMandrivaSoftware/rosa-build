@@ -24,8 +24,7 @@ module AbfWorkerService
         'args' => [{
           id:              Time.now.to_i,
           cmd_params:      cmd_params,
-          main_script:     'build.sh',
-          rollback_script: 'rollback.sh',
+          main_script:     'publisher.py',
           platform:        {
             platform_path:   platform_path,
             type:            build_for_platform.distrib_type,

@@ -21,8 +21,7 @@ module AbfWorkerService
         'args' => [{
           id:                   build_list.id,
           cmd_params:           cmd_params,
-          main_script:          'build.sh',
-          rollback_script:      'rollback.sh',
+          main_script:          'publisher.py',
           platform:             {
             platform_path:        platform_path,
             type:                 distrib_type,
