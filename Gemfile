@@ -61,7 +61,7 @@ gem 'uglifier'
 gem 'therubyracer', platforms: [:mri, :rbx]
 gem 'therubyrhino', platforms: :jruby
 
-source 'https://rails-assets.org' do
+source 'http://insecure.rails-assets.org' do
   gem 'rails-assets-notifyjs'
 end
 
