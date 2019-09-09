@@ -659,8 +659,8 @@ class BuildList < ActiveRecord::Base
     if external_nodes.present?
       self.auto_publish_status = AUTO_PUBLISH_STATUS_NONE
     end
-    if auto_publish? && save_to_repository && !save_to_repository.publish_without_qa?
-      self.auto_publish_status = AUTO_PUBLISH_STATUS_NONE
+    if save_to_repository && !save_to_repository.publish_without_qa?
+      self.auto_publish_status = AUTO_PUBLISH_STATUS_TESTING
     end
     if auto_publish? || auto_publish_into_testing?
       self.auto_create_container = false
