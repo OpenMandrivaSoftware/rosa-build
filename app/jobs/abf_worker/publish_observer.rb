@@ -60,6 +60,12 @@ module AbfWorker
           if build_list.build_publish?
             # 'update_column' - when project of build_list has been removed from repository
             build_list.published || build_list.update_column(:status, BuildList::BUILD_PUBLISHED)
+            if build_list.save_to_platform.id == 28
+              Redis.current.rpush('cooker_published', {
+                id: build_list.id,
+                arch: build_list.arch.name
+              }.to_json)
+            end
           elsif build_list.build_publish_into_testing?
             build_list.published_into_testing || build_list.update_column(:status, BuildList::BUILD_PUBLISHED_INTO_TESTING)
           end
