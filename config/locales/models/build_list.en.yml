@@ -51,8 +51,8 @@ en:
           label: Extra params
           cfg_options: "'urpmi_options' for *.cfg file"
           cfg_urpm_options: "'urpm_options' for *.cfg file"
-          build_src_rpm: Build src.rpm
-          build_rpm: Build rpm
+          build_src_rpm: Build src.rpm, e.g. --with=foo
+          build_rpm: Build rpm e.g. --without=foo
 
       build_list/item:
         name: Name
