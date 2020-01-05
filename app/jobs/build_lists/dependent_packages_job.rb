@@ -19,7 +19,7 @@ module BuildLists
         next unless save_to_repository
 
         project_version = project.project_version_for(save_to_platform, build_for_platform)
-        project.increase_release_tag(project_version, user, "BuildList##{build_list.id}: Increase release tag")
+        project.increase_release_tag(project_version, "BuildList##{build_list.id}: Increase release tag, by #{user.uname}")
 
         arches.each do |arch|
           bl                      = project.build_lists.build
