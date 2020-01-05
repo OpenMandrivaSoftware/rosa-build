@@ -1,6 +1,6 @@
 module BuildLists
   class DependentPackagesJob
-    #sidekiq_options :queue => :middle
+    sidekiq_options :queue => :middle
 
     def perform(build_list_id, user_id, project_ids, arch_ids, options)
       build_list  = BuildList.find(build_list_id)
@@ -10,7 +10,7 @@ module BuildLists
       return unless BuildListPolicy.new(user, build_list).show?
 
       arches = Arch.where(id: arch_ids).to_a
-      Project.where(id: project_ids).to_a.each do |project|
+      Project.where(id: project_ids).find_each do |project|
         next unless ProjectPolicy.new(user, project).write?
 
         build_for_platform  = save_to_platform = build_list.build_for_platform
