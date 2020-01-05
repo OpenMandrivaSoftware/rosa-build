@@ -1,5 +1,6 @@
 module BuildLists
-  class DependentPackagesJob
+  class DependentPackagesJob < BaseActiveRecordJob
+    include Sidekiq::Worker
     sidekiq_options :queue => :middle
 
     def perform(build_list_id, user_id, project_ids, arch_ids, options)
