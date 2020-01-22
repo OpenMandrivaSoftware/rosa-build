@@ -9,7 +9,7 @@ rd-widget ng-show='subject.results'
       tbody
         tr ng-repeat='item in subject.results'
           td
-            a ng-href='{{item.url}}'
-              | {{item.file_name}}
+            a ng-href='{{::item.url}}'
+              | {{::item.file_name}}
           td
-            | {{item.size}}
+            | {{::item.size}}
