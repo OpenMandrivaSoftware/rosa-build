@@ -7,6 +7,7 @@ rd-widget ng-show='build_list.packages'
           th
           th= t('activerecord.attributes.build_list/package.fullname')
           th= t('activerecord.attributes.build_list/package.name')
+          th= t('activerecord.attributes.build_list/package.size')
           th= t('activerecord.attributes.build_list/package.epoch')
           th= t('activerecord.attributes.build_list/package.version')
           th= t('activerecord.attributes.build_list/package.release')
@@ -27,6 +28,8 @@ rd-widget ng-show='build_list.packages'
               | {{::package.fullname}}
           td
             | {{::package.name}}
+          td
+            | {{::package.size}}
           td
             | {{::package.epoch}}
           td
