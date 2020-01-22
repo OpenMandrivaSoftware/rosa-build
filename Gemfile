@@ -61,9 +61,7 @@ gem 'uglifier'
 gem 'therubyracer', platforms: [:mri, :rbx]
 gem 'therubyrhino', platforms: :jruby
 
-source 'http://insecure.rails-assets.org' do
-  gem 'rails-assets-notifyjs'
-end
+gem 'rails-assets-notifyjs', '0.4.2', path: 'vendor/gems/rails-assets-notifyjs-0.4.2'
 
 gem 'rack-utf8_sanitizer'
 gem 'redis-semaphore'
