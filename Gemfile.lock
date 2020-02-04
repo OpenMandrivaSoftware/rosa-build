@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/DuratarskeyK/kiqit.git
-  revision: f6fbfc67c6535ec36ce4fea6a1f5dd79b1005573
+  revision: eebebbe0a8e3c81b38b825d7a06069b92ae10aca
   specs:
     kiqit (2.4.0)
       activerecord
