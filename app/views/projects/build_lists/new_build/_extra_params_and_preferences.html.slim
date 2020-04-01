@@ -22,12 +22,16 @@ h4.offset10= t("activerecord.attributes.build_list.preferences")
           name=     'build_list[auto_create_container]' ]
     = BuildList.human_attribute_name :auto_create_container
 
-- %i(include_testing_subrepository use_cached_chroot use_extra_tests save_buildroot native_build).each do |kind|
+- %i(include_testing_subrepository use_cached_chroot use_extra_tests save_buildroot native_build enable_32bit).each do |kind|
   .checkbox
     label
+      - puts "#{kind} #{params[:build_list].try(:[], kind)}"
       - checked = params[:build_list].try(:[], kind) || kind == :use_cached_chroot
       - checked = @build_list.send(kind) if checked.nil?
-      = f.check_box kind, {}, "true", "false"
+      - if checked
+        = f.check_box kind, { checked: true }, "true", "false"
+      - else
+        = f.check_box kind, {}, "true", "false"
       = BuildList.human_attribute_name kind
 
 - selected = params[:build_list].try(:[], :external_nodes)

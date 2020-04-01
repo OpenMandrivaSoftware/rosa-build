@@ -74,6 +74,7 @@ class BuildListPolicy < ApplicationPolicy
       save_to_repository_id
       use_cached_chroot
       use_extra_tests
+      enable_32bit
     )
     pa << {
       include_repos:      [],

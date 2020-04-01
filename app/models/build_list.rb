@@ -506,6 +506,16 @@ class BuildList < ActiveRecord::Base
         h["#{prefix}release"] = insert_token_to_path(path + 'release', repo.platform)
         h["#{prefix}updates"] = insert_token_to_path(path + 'updates', repo.platform) if repo.platform.main?
         h["#{prefix}testing"] = insert_token_to_path(path + 'testing', repo.platform) if include_testing_subrepository?
+        if enable_32bit? && arch.name == 'x86_64'
+          path, prefix = repo.platform.public_downloads_url(
+            repo.platform.main? ? nil : build_for_platform.name,
+            'i686',
+            repo.name
+          ), "#{repo.platform.name}_#{repo.name}32_"
+          h["#{prefix}release"] = insert_token_to_path(path + 'release', repo.platform)
+          h["#{prefix}updates"] = insert_token_to_path(path + 'updates', repo.platform) if repo.platform.main?
+          h["#{prefix}testing"] = insert_token_to_path(path + 'testing', repo.platform) if include_testing_subrepository?
+        end
       end
     end
     host = EventLog.current_controller.request.host_with_port rescue ::Rosa::Application.config.action_mailer.default_url_options[:host]

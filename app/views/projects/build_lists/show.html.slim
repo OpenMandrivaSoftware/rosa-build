@@ -103,6 +103,10 @@ div[ ng-controller='BuildListController'
               td= t("layout.#{@build_list.save_buildroot?}_")
 
             tr
+              td= 'Enable 32bit'
+              td= @build_list.enable_32bit
+
+            tr
               td= t('activerecord.attributes.build_list.project_version')
               td= @build_list.project_version
 

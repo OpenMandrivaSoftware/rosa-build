@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200121215842) do
+ActiveRecord::Schema.define(version: 20200401170442) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(version: 20200121215842) do
     t.string   "hostname"
     t.string   "fail_reason"
     t.boolean  "native_build",                  :default=>false
+    t.boolean  "enable_32bit",                  :default=>false
   end
   add_index "build_lists", ["project_id", "save_to_repository_id", "build_for_platform_id", "arch_id"], :name=>"maintainer_search_index"
 
