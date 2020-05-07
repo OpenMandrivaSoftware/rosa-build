@@ -506,7 +506,7 @@ class BuildList < ActiveRecord::Base
         h["#{prefix}release"] = insert_token_to_path(path + 'release', repo.platform)
         h["#{prefix}updates"] = insert_token_to_path(path + 'updates', repo.platform) if repo.platform.main?
         h["#{prefix}testing"] = insert_token_to_path(path + 'testing', repo.platform) if include_testing_subrepository?
-        if enable_32bit? && arch.name == 'x86_64'
+        if enable_32bit? && (arch.name == 'x86_64' || arch.name == 'znver1')
           path, prefix = repo.platform.public_downloads_url(
             repo.platform.main? ? nil : build_for_platform.name,
             'i686',
