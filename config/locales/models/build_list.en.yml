@@ -166,10 +166,10 @@ en:
         rerun_tests: Rerun tests
         rerunning_tests: Build is being rerun tests
         build_error: Build error
-        build_published: Build has been published
+        build_published: Published
         tests_failed: Tests failed
         rejected_publish: Publishing rejected
-        build_publish: Build is being published
+        build_publish: Publishing
         failed_publish: Publishing error
         dependencies_fail: Dependences not found
         packages_fail: Packages not found
@@ -180,8 +180,8 @@ en:
         success: Build complete
         build_started: Build started
         platform_pending: Platform pending
-        build_published_into_testing: '[testing] Build has been published'
-        build_publish_into_testing: '[testing] Build is being published'
+        build_published_into_testing: '[testing] Published'
+        build_publish_into_testing: '[testing] Publishing'
         failed_publish_into_testing: '[testing] Publishing error'
         unpermitted_arch: Unpermitted architecture
 
