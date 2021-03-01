@@ -56,8 +56,6 @@ gem 'coffee-rails'
 
 gem 'compass-rails'
 gem 'uglifier'
-gem 'therubyracer', platforms: [:mri, :rbx]
-gem 'therubyrhino', platforms: :jruby
 
 gem 'rails-assets-notifyjs', '0.4.2', path: 'vendor/gems/rails-assets-notifyjs-0.4.2'
 
