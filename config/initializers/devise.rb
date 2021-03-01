@@ -66,7 +66,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
-  config.pepper = APP_CONFIG['keys']['devise']['pepper']
+  config.pepper = ENV["DEVISE_PEPPER"]
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -184,7 +184,6 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
-  config.omniauth :github, APP_CONFIG['keys']['github']['id'], APP_CONFIG['keys']['github']['secret'], scope: 'user:email'
 
   # require 'openid/store/filesystem'
   # config.omniauth :openid, :name => 'open_id' #, :store => OpenID::Store::Filesystem.new('./tmp')
@@ -199,7 +198,7 @@ Devise.setup do |config|
   #   manager.default_strategies(:scope => :user).unshift :some_external_strategy
   # end
 
-  config.secret_key = APP_CONFIG['keys']['devise']['secret']
+  config.secret_key = ENV["DEVISE_SECRET"]
 
   config.reconfirmable = false
 end

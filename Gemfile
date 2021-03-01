@@ -22,8 +22,6 @@ gem 'russian'
 gem 'state_machines-activerecord'
 gem 'redis-rails'
 
-#gem 'newrelic_rpm'
-
 gem 'jbuilder'
 gem 'sprockets'
 gem 'will_paginate'
