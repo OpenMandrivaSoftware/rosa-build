@@ -1,0 +1,37 @@
+common: &common
+  project_name: Openmandriva ABF
+  repo_project_name: Openmandriva ABF
+  anonymous_access: true
+  preregistration: false
+  file_store_url: 'http://file-store.openmandriva.org'
+  distr_types: ['mdv']
+  github_organization: 'OpenMandrivaAssociation'
+  allowed_addresses:
+    - 127.0.0.1
+  abf_worker:
+    publish_workers_count: 1
+  downloads_url: 'http://abf-downloads.openmandriva.org/'
+
+development:
+  <<: *common
+  root_path: /share
+  git_path: /share
+  tmpfs_path: /dev/shm
+  do-not-reply-email: do-not-reply@localhost
+  github_services:
+    ip: 127.0.0.1
+    port: 1234
+
+production:
+  <<: *common
+  root_path: <%= ENV["ROOT_PATH"] %>
+  tmpfs_path: <%= ENV["TMPFS_PATH"] %>
+  do-not-reply-email: <%= ENV["DO_NOT_REPLY_EMAIL"] %>
+  mailer_https_url: <%= ENV["MAILER_HTTPS_URL"] %>
+
+test:
+  <<: *common
+  tmpfs_path: "use Rails.root/tmp/test_root in spec"
+  root_path: "use Rails.root/tmp/test_root in spec"
+  git_path: "use Rails.root/tmp/test_root in spec"
+  do-not-reply-email: do-not-reply@localhost
