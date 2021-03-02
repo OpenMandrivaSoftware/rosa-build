@@ -22,8 +22,7 @@ ENV GEM_HOME /usr/local/bundle
 ENV BUNDLE_APP_CONFIG /usr/local/bundle
 ENV DATABASE_URL postgresql://postgres@postgres/rosa-build?pool=100&prepared_statements=false
 
-WORKDIR /rosa-build
-RUN mkdir -p /app/rosa-build
+WORKDIR /app/rosa-build
 COPY bin ./bin
 COPY lib ./lib
 COPY config ./config
