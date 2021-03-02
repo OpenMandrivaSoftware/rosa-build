@@ -30,7 +30,7 @@ COPY db ./db
 COPY app/ ./app
 COPY script ./script
 COPY vendor ./vendor
-COPY Rakefile config.ru entrypoint.sh entrypoint_sidekiq.sh ./
+COPY Gemfile Gemfile.lock Rakefile config.ru entrypoint.sh entrypoint_sidekiq.sh ./
 RUN git config --global user.email "abf@openmandriva.org"
 RUN git config --global user.name "ABF"
 ENTRYPOINT ["/app/rosa-build/entrypoint.sh"]
