@@ -1,9 +1,0 @@
-- set_meta_tags title: [title_object(@platform), t('layout.key_pairs.header')]
-= render 'platforms/base/submenu'
-
-.container.col-md-offset-2.col-md-8
-  .row
-    - if policy(@platform).edit?
-      = render 'new'
-      hr
-    = render 'list'

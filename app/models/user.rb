@@ -35,8 +35,6 @@ class User < Avatar
   has_many :own_groups,   foreign_key: :owner_id, class_name: 'Group', dependent: :destroy
   has_many :own_platforms, as: :owner, class_name: 'Platform', dependent: :destroy
 
-  has_many :key_pairs
-
   validates :uname, presence: true,
             uniqueness: { case_sensitive: false },
             format: { with: /\A#{NAME_REGEXP.source}\z/ },

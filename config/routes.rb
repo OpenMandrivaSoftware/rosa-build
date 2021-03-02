@@ -174,7 +174,6 @@ Rails.application.routes.draw do
           put     :sync_lock_file
         end
       end
-      resources :key_pairs, only: [:create, :index, :destroy]
       resources :tokens, only: [:create, :index, :show, :new] do
         member do
           post :withdraw

@@ -34,7 +34,6 @@ class Platform < ActiveRecord::Base
   belongs_to :owner, polymorphic: true
 
   has_many :repositories, dependent: :destroy
-  has_many :key_pairs, through: :repositories
   has_many :projects,  through: :repositories
 
   has_many :products, dependent: :destroy
