@@ -1,6 +1,8 @@
 #!/bin/sh
 set -ex
 
+cd /app/rosa-build
+
 if [ -f /MIGRATE ]
 then
         bundle exec rake db:migrate
