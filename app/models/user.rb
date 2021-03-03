@@ -15,7 +15,6 @@ class User < Avatar
 
   devise :database_authenticatable, :registerable, :recoverable,
          :rememberable, :validatable, :lockable, :confirmable
-  devise :omniauthable, omniauth_providers: %i(github)
 
   has_one :notifier,       class_name: 'SettingsNotifier',  dependent: :destroy #:notifier
   has_one :builds_setting, class_name: 'UserBuildsSetting', dependent: :destroy
