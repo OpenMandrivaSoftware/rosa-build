@@ -17,13 +17,11 @@ Rails.application.routes.draw do
   resources :statistics, only: [:index]
 
   devise_scope :user do
-    get '/users/auth/:provider' => 'users/omniauth_callbacks#passthru'
     get 'users/sign_up'         => 'users/registrations#new',    as: :new_user_registration
     post 'users'                => 'users/registrations#create', as: :user_registration
   end
 
   devise_for :users, controllers: {
-    omniauth_callbacks: 'users/omniauth_callbacks',
     confirmations:      'users/confirmations'
   }, skip: [:registrations]
 
