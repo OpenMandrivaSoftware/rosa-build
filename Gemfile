@@ -29,7 +29,7 @@ gem 'meta-tags', require: 'meta_tags'
 gem 'haml-rails'
 gem 'ruby-haml-js'
 gem 'slim'
-gem 'simple_form', '3.1.0.rc2'
+gem 'simple_form', '4.0.0'
 gem 'friendly_id'
 
 gem 'rack-throttle', '~> 0.3.0'
