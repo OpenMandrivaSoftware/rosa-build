@@ -34,7 +34,7 @@ gem 'friendly_id'
 
 gem 'rack-throttle', '~> 0.3.0'
 gem 'rest-client'
-gem 'ohm', '~> 1.3.2' # Ohm 2 breaks the compatibility with previous versions.
+gem 'ohm', '~> 3.1.1' # Ohm 2 breaks the compatibility with previous versions.
 gem 'ohm-expire', '~> 0.1.3'
 
 gem 'pygments.rb'
